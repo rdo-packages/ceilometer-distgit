@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.1
-Release:          0.4.g3%{?dist}
+Release:          0.5.g3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -58,6 +58,8 @@ Requires:         python-sqlalchemy
 Requires:         python-migrate
 
 Requires:         python-webob
+Requires:         python-oslo-config
+Requires:         PyYAML
 
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
@@ -218,6 +220,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/sources.json %{buildroot}%{_sysconfdir}/ceilometer/sources.json
+install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
 
 # Install initscripts for services
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
@@ -343,6 +346,7 @@ fi
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/ceilometer.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/policy.json
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/sources.json
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/pipeline.yaml
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
@@ -387,5 +391,5 @@ fi
 
 
 %changelog
-* Mon Mar 25 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-0.4.g3
+* Tue Mar 26 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-0.5.g3
 - Initial package
