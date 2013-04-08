@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2013.1
-Release:          0.5.g3%{?dist}
+Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-2013.1.g3.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-2013.1.tar.gz
 Source1:          %{pypi_name}.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -20,10 +20,9 @@ Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
 
 #
-# patches_base=grizzly-3
+# patches_base=2013.1
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
-Patch0002: 0002-add-LICENSE.patch
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -179,10 +178,9 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.g3
+%setup -q -n ceilometer-%{version}
 
 %patch0001 -p1
-%patch0002 -p1
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -391,5 +389,8 @@ fi
 
 
 %changelog
+* Mon Apr  8 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-1
+- Grizzly release
+
 * Tue Mar 26 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-0.5.g3
 - Initial package
