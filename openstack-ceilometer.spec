@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.2.b1%{?dist}
+Release:          0.3.b1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -392,6 +392,9 @@ fi
 
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2013.2-0.3.b1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Thu Jun  6 2013 Pádraig Brady <P@draigBrady.com> - 2013.2-0.2.b1
 - Fix uninstall for openstack-ceilometer-central
 
