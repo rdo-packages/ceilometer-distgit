@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.3.b1%{?dist}
+Release:          0.4.b1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -191,6 +191,10 @@ find ceilometer -name \*.py -exec sed -i '/\/usr\/bin\/env python/{d;q}' {} +
 
 # TODO: Have the following handle multi line entries
 sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
+
+# Remove the requirements file so that pbr hooks don't add it
+# to distutils requires_dist config
+rm -rf {test-,}requirements.txt tools/{pip,test}-requires
 
 %build
 %{__python} setup.py build
@@ -392,6 +396,9 @@ fi
 
 
 %changelog
+* Tue Aug 27 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.4.b1
+- Avoid python runtime dependency management
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2013.2-0.3.b1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
