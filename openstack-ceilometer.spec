@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.4.b1%{?dist}
+Release:          0.5.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b1.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
 Source1:          %{pypi_name}.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -20,7 +20,7 @@ Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
 
 #
-# patches_base=2013.2.b1
+# patches_base=2013.2.b3
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 
@@ -55,6 +55,8 @@ Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-stevedore
 Requires:         python-msgpack
+Requires:         python-netaddr
+Requires:         python-six
 
 Requires:         python-sqlalchemy
 Requires:         python-migrate
@@ -181,7 +183,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.b1
+%setup -q -n ceilometer-%{version}.b3
 
 %patch0001 -p1
 
@@ -396,6 +398,9 @@ fi
 
 
 %changelog
+* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.5.b3
+- Update to Havana milestone 3
+
 * Tue Aug 27 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.4.b1
 - Avoid python runtime dependency management
 

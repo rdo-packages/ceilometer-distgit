@@ -1,4 +1,4 @@
-From 15a43f43bfa62f58706d62b7d1b792bddff0b2d0 Mon Sep 17 00:00:00 2001
+From 405a372272ff73c21bf91aedebfe2afb74b83e9d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?P=C3=A1draig=20Brady?= <pbrady@redhat.com>
 Date: Fri, 6 Jan 2012 12:16:34 +0000
 Subject: [PATCH] Ensure we don't access the net when building docs
@@ -7,18 +7,26 @@ Subject: [PATCH] Ensure we don't access the net when building docs
 
 Change-Id: I9d02fb4053a8106672aded1614a2850e21603eb2
 ---
- doc/source/conf.py | 1 -
- 1 file changed, 1 deletion(-)
+ doc/source/conf.py |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
 
 diff --git a/doc/source/conf.py b/doc/source/conf.py
-index 9af5f54..2c8bdf9 100644
+index 9d01807..c89b701 100644
 --- a/doc/source/conf.py
 +++ b/doc/source/conf.py
-@@ -139,7 +139,6 @@ write_autodoc_index()
- # They can be extensions coming with Sphinx (named 'sphinx.ext.*')
+@@ -141,7 +141,6 @@ write_autodoc_index()
  # or your custom ones.
- extensions = ['sphinx.ext.autodoc',
--              'sphinx.ext.intersphinx',
-               'sphinx.ext.todo',
-               'sphinxcontrib.autohttp.flask',
-               'wsmeext.sphinxext',
+ extensions = [
+     'sphinx.ext.autodoc',
+-    'sphinx.ext.intersphinx',
+     'sphinx.ext.todo',
+     'sphinxcontrib.autohttp.flask',
+     'wsmeext.sphinxext',
+@@ -151,7 +150,6 @@ extensions = [
+     'sphinxcontrib.pecanwsme.rest',
+     'oslo.sphinx',
+ ]
+-
+ wsme_protocols = ['restjson', 'restxml']
+ 
+ todo_include_todos = True
