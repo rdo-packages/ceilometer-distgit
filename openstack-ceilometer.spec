@@ -4,14 +4,14 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.5.b3%{?dist}
+Release:          0.6.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
-Source1:          %{pypi_name}.conf
+Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 
 Source10:         %{name}-api.service
@@ -198,6 +198,16 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 # to distutils requires_dist config
 rm -rf {test-,}requirements.txt tools/{pip,test}-requires
 
+# Programmatically update defaults in sample config
+# which is installed at /etc/ceilometer/ceilometer.conf
+# TODO: Make this more robust
+# Note it only edits the first occurance, so assumes a section ordering in sample
+# and also doesn't support multi-valued variables.
+while read name eq value; do
+  test "$name" && test "$value" || continue
+  sed -i "0,/^# *$name=/{s!^# *$name=.*!#$name=$value!}" etc/ceilometer/ceilometer.conf.sample
+done < %{SOURCE1}
+
 %build
 %{__python} setup.py build
 
@@ -224,7 +234,8 @@ install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
 
 # Install config files
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
-install -p -D -m 640 %{SOURCE1} %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
+install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
+install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/sources.json %{buildroot}%{_sysconfdir}/ceilometer/sources.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
@@ -350,6 +361,7 @@ fi
 %files common
 %doc LICENSE
 %dir %{_sysconfdir}/ceilometer
+%attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/ceilometer.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/policy.json
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/sources.json
@@ -398,6 +410,9 @@ fi
 
 
 %changelog
+* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.6.b3
+- Distribute dist defaults in ceilometer-dist.conf separate to user ceilometer.conf
+
 * Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.5.b3
 - Update to Havana milestone 3
 

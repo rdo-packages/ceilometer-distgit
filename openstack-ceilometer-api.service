@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 User=ceilometer
-ExecStart=/usr/bin/ceilometer-api --config-file /etc/ceilometer/ceilometer.conf --logfile /var/log/ceilometer/api.log
+ExecStart=/usr/bin/ceilometer-api --logfile /var/log/ceilometer/api.log
 
 [Install]
 WantedBy=multi-user.target
