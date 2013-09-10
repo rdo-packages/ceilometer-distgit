@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.7.b3%{?dist}
+Release:          0.8.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -137,7 +137,7 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{version}-%{release}
 
-Requires:         pymongo
+Requires:         python-pymongo
 
 %description collector
 OpenStack ceilometer provides services to measure and
@@ -152,7 +152,7 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{version}-%{release}
 
-Requires:         pymongo
+Requires:         python-pymongo
 Requires:         python-flask
 Requires:         python-pecan
 Requires:         python-wsme
@@ -411,6 +411,9 @@ fi
 
 
 %changelog
+* Mon Sep 10 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b3
+- Depend on python-pymongo rather than pymongo to avoid a puppet bug
+
 * Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.7.b3
 - Depend on python-alembic
 
