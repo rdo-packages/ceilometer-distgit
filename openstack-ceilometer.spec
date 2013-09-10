@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.6.b3%{?dist}
+Release:          0.7.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -59,6 +59,7 @@ Requires:         python-netaddr
 Requires:         python-six
 
 Requires:         python-sqlalchemy
+Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
@@ -410,6 +411,9 @@ fi
 
 
 %changelog
+* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.7.b3
+- Depend on python-alembic
+
 * Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.6.b3
 - Distribute dist defaults in ceilometer-dist.conf separate to user ceilometer.conf
 
