@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.8.b3%{?dist}
+Release:          0.9.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -63,7 +63,7 @@ Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
-Requires:         python-oslo-config
+Requires:         python-oslo-config >= 1.2
 Requires:         PyYAML
 
 %description -n   python-ceilometer
@@ -411,6 +411,9 @@ fi
 
 
 %changelog
+* Fri Sep 13 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.9.b3
+- Depend on python-oslo-config >= 1.2 so it upgraded automatically
+
 * Mon Sep 10 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b3
 - Depend on python-pymongo rather than pymongo to avoid a puppet bug
 
