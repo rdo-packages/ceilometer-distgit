@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.10.b3%{?dist}
+Release:          0.11.rc1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.rc1.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -20,7 +20,7 @@ Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
 
 #
-# patches_base=2013.2.b3
+# patches_base=2013.2.rc1
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 
@@ -184,7 +184,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.b3
+%setup -q -n ceilometer-%{version}.rc1
 
 %patch0001 -p1
 
@@ -411,6 +411,9 @@ fi
 
 
 %changelog
+* Thu Oct 03 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.11.rc1
+- Update to Havana rc1
+
 * Fri Sep 13 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.10.b3
 - Depend on python-oslo-config >= 1:1.2.0 so it upgraded automatically
 
