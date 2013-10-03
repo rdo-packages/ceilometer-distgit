@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2013.2
-Release:          0.11.rc1%{?dist}
+Release:          0.12.rc1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -18,6 +18,8 @@ Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
 Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
+Source14:         %{name}-alarm-notifier.service
+Source15:         %{name}-alarm-evaluator.service
 
 #
 # patches_base=2013.2.rc1
@@ -164,6 +166,20 @@ collect metrics from OpenStack components.
 This package contains the ceilometer API service.
 
 
+%package alarm
+Summary:          OpenStack ceilometer alarm services
+Group:            Applications/System
+
+Requires:         %{name}-common = %{version}-%{release}
+
+%description alarm
+OpenStack ceilometer provides services to measure and
+collect metrics from OpenStack components.
+
+This package contains the ceilometer alarm notification
+and evaluation services.
+
+
 %if 0%{?with_doc}
 %package doc
 Summary:          Documentation for OpenStack ceilometer
@@ -246,6 +262,8 @@ install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-compute.service
 install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
+install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
+install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -290,6 +308,12 @@ if [ $1 -eq 1 ] ; then
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
+%post alarm
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+
 %preun compute
 if [ $1 -eq 0 ] ; then
     for svc in compute; do
@@ -317,6 +341,14 @@ fi
 %preun central
 if [ $1 -eq 0 ] ; then
     for svc in central; do
+        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
+        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+    done
+fi
+
+%preun alarm
+if [ $1 -eq 0 ] ; then
+    for svc in alarm-notifier alarm-evaluator; do
         /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
         /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
     done
@@ -354,6 +386,15 @@ fi
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in central; do
+        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+    done
+fi
+
+%postun alarm
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    for svc in alarm-notifier alarm-evaluator; do
         /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
     done
 fi
@@ -412,9 +453,17 @@ fi
 %{_unitdir}/%{name}-central.service
 
 
+%files alarm
+%{_bindir}/ceilometer-alarm-notifier
+%{_bindir}/ceilometer-alarm-evaluator
+%{_unitdir}/%{name}-alarm-notifier.service
+%{_unitdir}/%{name}-alarm-evaluator.service
+
+
 %changelog
-* Thu Oct 03 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.11.rc1
+* Thu Oct 03 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.12.rc1
 - Update to Havana rc1
+- Separate out the new alarm services to the 'alarm' subpackage
 
 * Fri Sep 13 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.10.b3
 - Depend on python-oslo-config >= 1:1.2.0 so it upgraded automatically
