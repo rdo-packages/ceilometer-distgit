@@ -371,7 +371,9 @@ fi
 
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
 
-%{_bindir}/ceilometer-*
+%{_bindir}/ceilometer-dbsync
+%{_bindir}/ceilometer-expirer
+
 
 %defattr(-, ceilometer, ceilometer, -)
 %dir %{_sharedstatedir}/ceilometer
@@ -395,7 +397,7 @@ fi
 
 
 %files collector
-%{_bindir}/ceilometer-collector
+%{_bindir}/ceilometer-collector*
 %{_unitdir}/%{name}-collector.service
 
 
