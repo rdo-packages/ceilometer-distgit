@@ -3,14 +3,14 @@
 %global pypi_name ceilometer
 
 Name:             openstack-ceilometer
-Version:          2013.2
-Release:          1%{?dist}
+Version:          2014.1
+Release:          0.1.b1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b1.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -20,9 +20,10 @@ Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
 Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
+Source16:         %{name}-agent-notification.service
 
 #
-# patches_base=2013.2
+# patches_base=2014.1.b1
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 
@@ -55,6 +56,7 @@ Requires:         python-greenlet
 Requires:         python-iso8601
 Requires:         python-lxml
 Requires:         python-anyjson
+Requires:         python-jsonpath-rw
 Requires:         python-stevedore
 Requires:         python-msgpack
 Requires:         python-netaddr
@@ -157,7 +159,7 @@ Requires:         %{name}-common = %{version}-%{release}
 Requires:         python-pymongo
 Requires:         python-flask
 Requires:         python-pecan
-Requires:         python-wsme
+Requires:         python-wsme >= 0.5b6
 
 %description api
 OpenStack ceilometer provides services to measure and
@@ -201,7 +203,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}
+%setup -q -n ceilometer-%{version}.b1
 
 %patch0001 -p1
 
@@ -265,6 +267,7 @@ install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-compute.service
 install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
+install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-agent-notification.service
 
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -325,7 +328,7 @@ fi
 
 %preun collector
 if [ $1 -eq 0 ] ; then
-    for svc in collector; do
+    for svc in collector agent-notification; do
         /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
         /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
     done
@@ -368,7 +371,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
-    for svc in collector; do
+    for svc in collector agent-notification; do
         /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
     done
 fi
@@ -440,6 +443,8 @@ fi
 
 %files collector
 %{_bindir}/ceilometer-collector*
+%{_bindir}/ceilometer-agent-notification
+%{_unitdir}/%{name}-agent-notification.service
 %{_unitdir}/%{name}-collector.service
 
 
@@ -462,6 +467,9 @@ fi
 
 
 %changelog
+* Mon Dec 16 2013 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.1.b1
+- Update to Icehouse milestone 1
+
 * Thu Oct 17 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-1
 - Update to Havana release
 
