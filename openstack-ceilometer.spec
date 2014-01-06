@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          0.1.b1%{?dist}
+Release:          0.2.b1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -60,7 +60,7 @@ Requires:         python-jsonpath-rw
 Requires:         python-stevedore
 Requires:         python-msgpack
 Requires:         python-netaddr
-Requires:         python-six
+Requires:         python-six >= 1.4.1
 
 Requires:         python-sqlalchemy
 Requires:         python-alembic
@@ -467,6 +467,9 @@ fi
 
 
 %changelog
+* Mon Jan 06 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.2.b1
+- Set python-six min version to ensure updated
+
 * Mon Dec 16 2013 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.1.b1
 - Update to Icehouse milestone 1
 
