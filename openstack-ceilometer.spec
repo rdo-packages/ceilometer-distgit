@@ -443,7 +443,7 @@ fi
 %files collector
 %{_bindir}/ceilometer-collector*
 %{_bindir}/ceilometer-agent-notification
-%{_unitdir}/%{name}-agent-notification.service
+%{_unitdir}/%{name}-notification.service
 %{_unitdir}/%{name}-collector.service
 
 
