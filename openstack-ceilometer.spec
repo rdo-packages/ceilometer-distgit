@@ -35,8 +35,6 @@ BuildRequires:    python-pbr
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
 
-BuildRequires:    openstack-utils
-
 
 %description
 OpenStack ceilometer provides services to measure and
