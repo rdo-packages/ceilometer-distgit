@@ -1,5 +1,5 @@
 [Unit]
-Description=OpenStack ceilometer agent notification service
+Description=OpenStack ceilometer notification agent
 After=syslog.target network.target
 
 [Service]

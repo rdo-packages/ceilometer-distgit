@@ -20,7 +20,7 @@ Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
 Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
-Source16:         %{name}-agent-notification.service
+Source16:         %{name}-notification.service
 
 #
 # patches_base=2014.1.b2
@@ -266,7 +266,7 @@ install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-compute.service
 install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
-install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-agent-notification.service
+install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
 
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -327,7 +327,7 @@ fi
 
 %preun collector
 if [ $1 -eq 0 ] ; then
-    for svc in collector agent-notification; do
+    for svc in collector notification; do
         /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
         /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
     done
@@ -370,7 +370,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
-    for svc in collector agent-notification; do
+    for svc in collector notification; do
         /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
     done
 fi
