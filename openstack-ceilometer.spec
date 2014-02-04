@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          0.3.b2%{?dist}
+Release:          0.4.b2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -49,6 +49,7 @@ Requires:         python-qpid
 Requires:         python-kombu
 Requires:         python-amqplib
 
+Requires:         python-babel
 Requires:         python-eventlet
 Requires:         python-greenlet
 Requires:         python-iso8601
@@ -464,6 +465,9 @@ fi
 
 
 %changelog
+* Tue Feb 04 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.4.b2
+- Fix missing dependency on python-babel
+
 * Mon Jan 27 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.3.b2
 - Update to Icehouse milestone 2
 
