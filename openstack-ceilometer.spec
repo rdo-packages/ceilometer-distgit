@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          0.4.b2%{?dist}
+Release:          0.5.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b2.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -23,7 +23,7 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=2014.1.b2
+# patches_base=2014.1.b3
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 
@@ -56,7 +56,7 @@ Requires:         python-iso8601
 Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
-Requires:         python-stevedore
+Requires:         python-stevedore >= 0.14
 Requires:         python-msgpack
 Requires:         python-six >= 1.4.1
 
@@ -67,6 +67,10 @@ Requires:         python-migrate
 Requires:         python-webob
 Requires:         python-oslo-config >= 1:1.2.0
 Requires:         PyYAML
+
+Requires:         pysnmp
+Requires:         pytz
+Requires:         python-croniter
 
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
@@ -156,8 +160,8 @@ Requires:         %{name}-common = %{version}-%{release}
 
 Requires:         python-pymongo
 Requires:         python-flask
-Requires:         python-pecan
-Requires:         python-wsme >= 0.5b6
+Requires:         python-pecan >= 0.4.5
+Requires:         python-wsme >= 0.6
 
 %description api
 OpenStack ceilometer provides services to measure and
@@ -201,7 +205,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.b2
+%setup -q -n ceilometer-%{version}.b3
 
 %patch0001 -p1
 
@@ -416,6 +420,7 @@ fi
 
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
+%{_bindir}/ceilometer-send-sample
 
 
 %defattr(-, ceilometer, ceilometer, -)
@@ -465,6 +470,9 @@ fi
 
 
 %changelog
+* Fri Mar 14 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.5.b3
+- Update to Icehouse milestone 3
+
 * Tue Feb 04 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.4.b2
 - Fix missing dependency on python-babel
 

@@ -1,4 +1,4 @@
-From 2ddfe8fe640169da89991ff551ed8b1f72422bdb Mon Sep 17 00:00:00 2001
+From e859a02496a1b30492fbb1dda6f7991e06155a7e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
 Date: Mon, 27 Jan 2014 12:24:35 +0000
 Subject: [PATCH] Ensure we don't access the net when building docs
@@ -9,7 +9,7 @@ Subject: [PATCH] Ensure we don't access the net when building docs
  1 files changed, 0 insertions(+), 1 deletions(-)
 
 diff --git a/doc/source/conf.py b/doc/source/conf.py
-index 8dc2d75..d51cc97 100644
+index 02e97e1..4db8a9a 100644
 --- a/doc/source/conf.py
 +++ b/doc/source/conf.py
 @@ -142,7 +142,6 @@ write_autodoc_index()
