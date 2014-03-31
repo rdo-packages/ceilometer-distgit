@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          0.5.b3%{?dist}
+Release:          0.6.rc1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.rc1.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -23,7 +23,7 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=2014.1.b3
+# patches_base=2014.1.rc1
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 
@@ -205,7 +205,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.b3
+%setup -q -n ceilometer-%{version}.rc1
 
 %patch0001 -p1
 
@@ -470,6 +470,9 @@ fi
 
 
 %changelog
+* Mon Mar 31 2014 Pádraig Brady <P@draigBrady.com> 2014.1-0.6.rc1
+- Update to upstream 2014.1.rc1
+
 * Fri Mar 14 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.5.b3
 - Update to Icehouse milestone 3
 
