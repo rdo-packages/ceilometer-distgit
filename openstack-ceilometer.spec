@@ -47,7 +47,6 @@ Group:            Applications/System
 
 Requires:         python-qpid
 Requires:         python-kombu
-Requires:         python-amqplib
 
 Requires:         python-babel
 Requires:         python-eventlet
