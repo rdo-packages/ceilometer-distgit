@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          0.6.rc1%{?dist}
+Release:          0.7.rc1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -470,6 +470,9 @@ fi
 
 
 %changelog
+* Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.7.rc1
+- Remove qpid as default rpc backend
+
 * Mon Mar 31 2014 Pádraig Brady <P@draigBrady.com> 2014.1-0.6.rc1
 - Update to upstream 2014.1.rc1
 
