@@ -138,10 +138,14 @@ This package contains the central ceilometer agent.
 
 
 %package collector
-Summary:          OpenStack ceilometer collector agent
+Summary:          OpenStack ceilometer collector
 Group:            Applications/System
 
 Requires:         %{name}-common = %{version}-%{release}
+
+# For compat with older provisioning tools.
+# Remove when all reference the notification package explicitly
+Requires:         %{name}-notification
 
 Requires:         python-pymongo
 
@@ -149,7 +153,23 @@ Requires:         python-pymongo
 OpenStack ceilometer provides services to measure and
 collect metrics from OpenStack components.
 
-This package contains the ceilometer collector agent.
+This package contains the ceilometer collector service
+which collects metrics from the various agents.
+
+
+%package notification
+Summary:          OpenStack ceilometer notification agent
+Group:            Applications/System
+
+Requires:         %{name}-common = %{version}-%{release}
+
+%description notification
+OpenStack ceilometer provides services to measure and
+collect metrics from OpenStack components.
+
+This package contains the ceilometer notification agent
+which pushes metrics to the collector service from the
+various OpenStack services.
 
 
 %package api
@@ -302,6 +322,12 @@ if [ $1 -eq 1 ] ; then
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
+%post notification
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+
 %post api
 if [ $1 -eq 1 ] ; then
     # Initial installation
@@ -330,7 +356,15 @@ fi
 
 %preun collector
 if [ $1 -eq 0 ] ; then
-    for svc in collector notification; do
+    for svc in collector; do
+        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
+        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+    done
+fi
+
+%preun notification
+if [ $1 -eq 0 ] ; then
+    for svc in notification; do
         /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
         /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
     done
@@ -373,7 +407,16 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
-    for svc in collector notification; do
+    for svc in collector; do
+        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+    done
+fi
+
+%postun notification
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    for svc in notification; do
         /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
     done
 fi
@@ -446,10 +489,11 @@ fi
 
 %files collector
 %{_bindir}/ceilometer-collector*
-%{_bindir}/ceilometer-agent-notification
-%{_unitdir}/%{name}-notification.service
 %{_unitdir}/%{name}-collector.service
 
+%files notification
+%{_bindir}/ceilometer-agent-notification
+%{_unitdir}/%{name}-notification.service
 
 %files api
 %doc ceilometer/api/v1/static/LICENSE.*
@@ -472,6 +516,7 @@ fi
 %changelog
 * Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.7.rc1
 - Remove qpid as default rpc backend
+- Split out openstack-ceilometer-notification subpackage from collector
 
 * Mon Mar 31 2014 Pádraig Brady <P@draigBrady.com> 2014.1-0.6.rc1
 - Update to upstream 2014.1.rc1
