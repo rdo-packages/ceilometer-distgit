@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          0.7.rc2%{?dist}
+Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.rc2.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 
@@ -23,7 +23,7 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=2014.1.rc2
+# patches_base=2014.1
 #
 Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
 
@@ -224,7 +224,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.rc2
+%setup -q -n ceilometer-%{version}
 
 %patch0001 -p1
 
@@ -513,6 +513,9 @@ fi
 
 
 %changelog
+* Thu Apr 17 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-1
+- Update to Icehouse release
+
 * Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.7.rc2
 - Update to upstream 2014.1.rc2
 - Remove qpid as default rpc backend
