@@ -57,7 +57,7 @@ Requires:         python-anyjson
 Requires:         python-jsonpath-rw
 Requires:         python-stevedore >= 0.14
 Requires:         python-msgpack
-Requires:         python-six >= 1.4.1
+Requires:         python-six >= 1.6
 
 Requires:         python-sqlalchemy
 Requires:         python-alembic
