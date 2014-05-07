@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -70,6 +70,20 @@ Requires:         PyYAML
 Requires:         pysnmp
 Requires:         pytz
 Requires:         python-croniter
+
+# These were only added as global dependencies
+# at the end of the Icehouse cycle with the change
+# to cli.py referenced from in http://pad.lv/1317210
+Requires:         python-pymongo
+Requires:         python-flask
+Requires:         python-pecan >= 0.4.5
+Requires:         python-wsme >= 0.6
+Requires:         python-novaclient
+Requires:         python-keystoneclient
+Requires:         python-glanceclient
+Requires:         python-swiftclient
+Requires:         python-ceilometerclient
+Requires:         libvirt-python
 
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
@@ -513,6 +527,9 @@ fi
 
 
 %changelog
+* Wed May 07 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-2
+- Avoid dependency issues with distributed installs (#1095414)
+
 * Thu Apr 17 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-1
 - Update to Icehouse release
 
