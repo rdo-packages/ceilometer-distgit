@@ -3,8 +3,8 @@
 %global pypi_name ceilometer
 
 Name:             openstack-ceilometer
-Version:          2014.1
-Release:          3%{?dist}
+Version:          2014.1.1
+Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -23,9 +23,9 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=2014.1
+# patches_base=2014.1.1
 #
-Patch0001: 0001-Ensure-we-don-t-access-the-net-when-building-docs.patch
+Patch0001: 0001-Ensure-routing-key-is-specified-in-the-address-for-a.patch
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -527,6 +527,9 @@ fi
 
 
 %changelog
+* Wed Jun 11 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-1
+- Update to upstream 2014.1.1
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2014.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
