@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -527,8 +527,9 @@ fi
 
 
 %changelog
-* Wed Jun 11 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-1
+* Wed Jun 11 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-2
 - Update to upstream 2014.1.1
+- fix message routing with newer QPID (rhbz#1103800)
 
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2014.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
