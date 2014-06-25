@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.1.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -23,9 +23,10 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=2014.1.1
+# patches_base=d3899f186fee9ad4f050ec41a779814eed87258c
 #
 Patch0001: 0001-Ensure-routing-key-is-specified-in-the-address-for-a.patch
+Patch0002: 0002-remove-token-from-notifier-middleware.patch
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -241,6 +242,7 @@ This package contains documentation files for ceilometer.
 %setup -q -n ceilometer-%{version}
 
 %patch0001 -p1
+%patch0002 -p1
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -527,6 +529,9 @@ fi
 
 
 %changelog
+* Wed Jun 25 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-3
+- remove token from notifier middleware bz#1112949
+
 * Wed Jun 11 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-2
 - Update to upstream 2014.1.1
 - fix message routing with newer QPID (rhbz#1103800)

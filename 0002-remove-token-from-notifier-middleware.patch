@@ -1,0 +1,27 @@
+From 5dfc60336bc670fd0c1d1830958499e960b49933 Mon Sep 17 00:00:00 2001
+From: gordon chung <chungg@ca.ibm.com>
+Date: Fri, 30 May 2014 17:11:18 -0400
+Subject: [PATCH] remove token from notifier middleware
+
+notifier middleware is capturing token and sending it to MQ. this
+is not advisable so we should filter it out.
+
+Change-Id: Ia1bfa1bd24989681db1d2f385defc12e69a01f8d
+Closes-Bug: #1321080
+---
+ ceilometer/openstack/common/middleware/notifier.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ceilometer/openstack/common/middleware/notifier.py b/ceilometer/openstack/common/middleware/notifier.py
+index 00aafe3..e46e208 100644
+--- a/ceilometer/openstack/common/middleware/notifier.py
++++ b/ceilometer/openstack/common/middleware/notifier.py
+@@ -68,7 +68,7 @@ class RequestNotifier(base.Middleware):
+ 
+         """
+         return dict((k, v) for k, v in six.iteritems(environ)
+-                    if k.isupper())
++                    if k.isupper() and k != 'HTTP_X_AUTH_TOKEN')
+ 
+     @log_and_ignore_error
+     def process_request(self, request):

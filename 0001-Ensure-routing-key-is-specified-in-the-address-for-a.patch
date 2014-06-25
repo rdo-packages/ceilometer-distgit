@@ -1,4 +1,4 @@
-From 81d2cd61980f39ef952bc715d4dec4d3a1d7efd1 Mon Sep 17 00:00:00 2001
+From e420f26fa20b25328be88eb3ab3cf5d4413b9e50 Mon Sep 17 00:00:00 2001
 From: Russell Bryant <rbryant@redhat.com>
 Date: Mon, 9 Jun 2014 17:02:12 -0400
 Subject: [PATCH] Ensure routing key is specified in the address for a direct
