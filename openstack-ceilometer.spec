@@ -23,7 +23,7 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=d3899f186fee9ad4f050ec41a779814eed87258c
+# patches_base=2014.1.1
 #
 Patch0001: 0001-Ensure-routing-key-is-specified-in-the-address-for-a.patch
 Patch0002: 0002-remove-token-from-notifier-middleware.patch
