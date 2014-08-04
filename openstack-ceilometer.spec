@@ -3,16 +3,17 @@
 %global pypi_name ceilometer
 
 Name:             openstack-ceilometer
-Version:          2014.1.1
-Release:          3%{?dist}
+Version:          2014.2
+Release:          0.1.b2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b2.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
+Source3:	  %{pypi_name}.conf.sample
 
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
@@ -23,10 +24,8 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 
 #
-# patches_base=2014.1.1
+# patches_base=2014.2.b2
 #
-Patch0001: 0001-Ensure-routing-key-is-specified-in-the-address-for-a.patch
-Patch0002: 0002-remove-token-from-notifier-middleware.patch
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -45,9 +44,6 @@ collect metrics from OpenStack components.
 %package -n       python-ceilometer
 Summary:          OpenStack ceilometer python libraries
 Group:            Applications/System
-
-Requires:         python-qpid
-Requires:         python-kombu
 
 Requires:         python-babel
 Requires:         python-eventlet
@@ -72,20 +68,6 @@ Requires:         pysnmp
 Requires:         pytz
 Requires:         python-croniter
 
-# These were only added as global dependencies
-# at the end of the Icehouse cycle with the change
-# to cli.py referenced from in http://pad.lv/1317210
-Requires:         python-pymongo
-Requires:         python-flask
-Requires:         python-pecan >= 0.4.5
-Requires:         python-wsme >= 0.6
-Requires:         python-novaclient
-Requires:         python-keystoneclient
-Requires:         python-glanceclient
-Requires:         python-swiftclient
-Requires:         python-ceilometerclient
-Requires:         libvirt-python
-
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
 collect metrics from OpenStack components.
@@ -99,6 +81,8 @@ Group:            Applications/System
 
 Requires:         python-ceilometer = %{version}-%{release}
 Requires:         openstack-utils
+Requires:         python-oslo-messaging
+Requires:         python-posix_ipc
 
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
@@ -143,6 +127,7 @@ Requires:         python-novaclient
 Requires:         python-keystoneclient
 Requires:         python-glanceclient
 Requires:         python-swiftclient
+Requires:         python-neutronclient
 
 %description central
 OpenStack ceilometer provides services to measure and
@@ -193,9 +178,9 @@ Group:            Applications/System
 Requires:         %{name}-common = %{version}-%{release}
 
 Requires:         python-pymongo
-Requires:         python-flask
 Requires:         python-pecan >= 0.4.5
 Requires:         python-wsme >= 0.6
+Requires:         python-paste-deploy
 
 %description api
 OpenStack ceilometer provides services to measure and
@@ -239,10 +224,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}
-
-%patch0001 -p1
-%patch0002 -p1
+%setup -q -n ceilometer-%{version}.b2
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -255,6 +237,11 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 # to distutils requires_dist config
 rm -rf {test-,}requirements.txt tools/{pip,test}-requires
 
+%build
+%{__python} setup.py build
+
+install -p -D -m 640 %{SOURCE3} etc/ceilometer/ceilometer.conf.sample
+
 # Programmatically update defaults in sample config
 # which is installed at /etc/ceilometer/ceilometer.conf
 # TODO: Make this more robust
@@ -264,9 +251,6 @@ while read name eq value; do
   test "$name" && test "$value" || continue
   sed -i "0,/^# *$name=/{s!^# *$name=.*!#$name=$value!}" etc/ceilometer/ceilometer.conf.sample
 done < %{SOURCE1}
-
-%build
-%{__python} setup.py build
 
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
@@ -294,8 +278,8 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
-install -p -D -m 640 etc/ceilometer/sources.json %{buildroot}%{_sysconfdir}/ceilometer/sources.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
+install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
 
 # Install initscripts for services
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
@@ -314,7 +298,6 @@ rm -f %{buildroot}%{_bindir}/ceilometer-debug
 rm -fr %{buildroot}%{python_sitelib}/tests/
 rm -fr %{buildroot}%{python_sitelib}/run_tests.*
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
-rm -f %{buildroot}/%{python_sitelib}/ceilometer/api/v1/static/LICENSE.*
 
 
 %pre common
@@ -470,8 +453,8 @@ fi
 %attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/ceilometer.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/policy.json
-%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/sources.json
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/pipeline.yaml
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/api_paste.ini
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
@@ -511,7 +494,6 @@ fi
 %{_unitdir}/%{name}-notification.service
 
 %files api
-%doc ceilometer/api/v1/static/LICENSE.*
 %{_bindir}/ceilometer-api
 %{_unitdir}/%{name}-api.service
 
@@ -529,6 +511,9 @@ fi
 
 
 %changelog
+* Fri Aug 01 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.1.b2
+- Update to upstream 2014.2.b2
+
 * Wed Jun 25 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-3
 - remove token from notifier middleware bz#1112949
 
