@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.1.b2%{?dist}
+Release:          0.2.b2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -15,6 +15,22 @@ Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source3:	  %{pypi_name}.conf.sample
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Source10:         %{name}-api.init
+Source100:        %{name}-api.upstart
+Source11:         %{name}-collector.init
+Source110:        %{name}-collector.upstart
+Source12:         %{name}-compute.init
+Source120:        %{name}-compute.upstart
+Source13:         %{name}-central.init
+Source130:        %{name}-central.upstart
+Source14:         %{name}-alarm-notifier.init
+Source140:        %{name}-alarm-notifier.upstart
+Source15:         %{name}-alarm-evaluator.init
+Source150:        %{name}-alarm-evaluator.upstart
+Source16:         %{name}-notification.init
+Source160:        %{name}-notification.upstart
+%else
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
 Source12:         %{name}-compute.service
@@ -22,6 +38,7 @@ Source13:         %{name}-central.service
 Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
+%endif
 
 #
 # patches_base=2014.2.b2
@@ -35,6 +52,9 @@ BuildRequires:    python-pbr
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
 
+%if ! (0%{?rhel} && 0%{?rhel} <= 6)
+BuildRequires: systemd-units
+%endif
 
 %description
 OpenStack ceilometer provides services to measure and
@@ -84,9 +104,15 @@ Requires:         openstack-utils
 Requires:         python-oslo-messaging
 Requires:         python-posix_ipc
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires(post):   chkconfig
+Requires(postun): initscripts
+Requires(preun):  chkconfig
+%else
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
 Requires(postun): systemd-units
+%endif
 Requires(pre):    shadow-utils
 
 
@@ -282,6 +308,25 @@ install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/cei
 install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
 
 # Install initscripts for services
+%if 0%{?rhel} && 0%{?rhel} <= 6
+install -p -D -m 755 %{SOURCE10} %{buildroot}%{_initrddir}/%{name}-api
+install -p -D -m 755 %{SOURCE11} %{buildroot}%{_initrddir}/%{name}-collector
+install -p -D -m 755 %{SOURCE12} %{buildroot}%{_initrddir}/%{name}-compute
+install -p -D -m 755 %{SOURCE13} %{buildroot}%{_initrddir}/%{name}-central
+install -p -D -m 755 %{SOURCE14} %{buildroot}%{_initrddir}/%{name}-alarm-notifier
+install -p -D -m 755 %{SOURCE15} %{buildroot}%{_initrddir}/%{name}-alarm-evaluator
+install -p -D -m 755 %{SOURCE16} %{buildroot}%{_initrddir}/%{name}-notification
+
+# Install upstart jobs examples
+install -d -m 755 %{buildroot}%{_datadir}/ceilometer
+install -p -m 644 %{SOURCE100} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE110} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE120} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE130} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE140} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE150} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE160} %{buildroot}%{_datadir}/ceilometer/
+%else
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-compute.service
@@ -289,9 +334,15 @@ install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
+%endif
 
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# Install pid directory
+install -d -m 755 %{buildroot}%{_localstatedir}/run/ceilometer
+%endif
 
 # Remove unneeded in production stuff
 rm -f %{buildroot}%{_bindir}/ceilometer-debug
@@ -309,142 +360,212 @@ fi
 exit 0
 
 %post compute
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 1 ] ; then
     # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    /sbin/chkconfig --add %{name}-compute
 fi
+%else
+%systemd_post
+%endif
 
 %post collector
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 1 ] ; then
     # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    /sbin/chkconfig --add %{name}-collector
 fi
+%else
+%systemd_post
+%endif
 
 %post notification
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 1 ] ; then
     # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    /sbin/chkconfig --add %{name}-notification
 fi
+%else
+%systemd_post
+%endif
 
 %post api
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 1 ] ; then
     # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    /sbin/chkconfig --add %{name}-api
 fi
+%else
+%systemd_post
+%endif
 
 %post central
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 1 ] ; then
     # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    /sbin/chkconfig --add %{name}-central
 fi
+%else
+%systemd_post
+%endif
 
 %post alarm
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 1 ] ; then
     # Initial installation
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    for svc in alarm-notifier alarm-evaluator; do
+        /sbin/chkconfig --add %{name}-${svc}
+    done
 fi
+%else
+%systemd_post
+%endif
 
 %preun compute
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
     for svc in compute; do
-        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
-        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
     done
 fi
+%else
+%systemd_preun {name}-compute.service
+%endif
 
 %preun collector
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
     for svc in collector; do
-        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
-        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
     done
 fi
+%else
+%systemd_preun {name}-collector.service
+%endif
 
 %preun notification
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
     for svc in notification; do
-        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
-        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
     done
 fi
+%else
+%systemd_preun {name}-notification.service
+%endif
 
 %preun api
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
     for svc in api; do
-        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
-        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
     done
 fi
+%else
+%systemd_preun {name}-api.service
+%endif
 
 %preun central
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
     for svc in central; do
-        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
-        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
     done
 fi
+%else
+%systemd_preun {name}-central.service
+%endif
 
 %preun alarm
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
     for svc in alarm-notifier alarm-evaluator; do
-        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
-        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
     done
 fi
+%else
+%systemd_preun {name}-alarm-notifier.service
+%systemd_preun {name}-alarm-evaluator.service
+%endif
 
 %postun compute
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in compute; do
-        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
     done
 fi
+%else
+%systemd_postun_with_restart %{name}-compute.service
+%endif
 
 %postun collector
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in collector; do
-        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
     done
 fi
+%else
+%systemd_postun_with_restart %{name}-collector.service
+%endif
 
 %postun notification
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in notification; do
-        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
     done
 fi
+%else
+%systemd_postun_with_restart %{name}-notification.service
+%endif
 
 %postun api
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in api; do
-        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
     done
 fi
+%else
+%systemd_postun_with_restart %{name}-api.service
+%endif
 
 %postun central
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in central; do
-        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
     done
 fi
+%else
+%systemd_postun_with_restart %{name}-central.service
+%endif
 
 %postun alarm
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
     for svc in alarm-notifier alarm-evaluator; do
-        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
     done
 fi
+%else
+%systemd_postun_with_restart %{name}-alarm-notifier.service
+%systemd_postun_with_restart %{name}-alarm-evaluator.service
+%endif
 
 
 %files common
@@ -458,6 +579,9 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%dir %attr(0755, ceilometer, root) %{_localstatedir}/run/ceilometer
+%endif
 
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
@@ -482,35 +606,72 @@ fi
 
 %files compute
 %{_bindir}/ceilometer-agent-compute
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-compute
+%{_datarootdir}/ceilometer/%{name}-compute.upstart
+%else
 %{_unitdir}/%{name}-compute.service
+%endif
 
 
 %files collector
 %{_bindir}/ceilometer-collector*
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-collector
+%{_datarootdir}/ceilometer/%{name}-collector.upstart
+%else
 %{_unitdir}/%{name}-collector.service
+%endif
+
 
 %files notification
 %{_bindir}/ceilometer-agent-notification
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-notification
+%{_datarootdir}/ceilometer/%{name}-notification.upstart
+%else
 %{_unitdir}/%{name}-notification.service
+%endif
+
 
 %files api
 %{_bindir}/ceilometer-api
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-api
+%{_datarootdir}/ceilometer/%{name}-api.upstart
+%else
 %{_unitdir}/%{name}-api.service
+%endif
 
 
 %files central
 %{_bindir}/ceilometer-agent-central
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-central
+%{_datarootdir}/ceilometer/%{name}-central.upstart
+%else
 %{_unitdir}/%{name}-central.service
+%endif
 
 
 %files alarm
 %{_bindir}/ceilometer-alarm-notifier
 %{_bindir}/ceilometer-alarm-evaluator
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-alarm-notifier
+%{_datarootdir}/ceilometer/%{name}-alarm-notifier.upstart
+%{_initrddir}/%{name}-alarm-evaluator
+%{_datarootdir}/ceilometer/%{name}-alarm-evaluator.upstart
+%else
 %{_unitdir}/%{name}-alarm-notifier.service
 %{_unitdir}/%{name}-alarm-evaluator.service
+%endif
 
 
 %changelog
+* Mon Aug 18 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.2.b2
+- Merge epel6 and Fedora specfiles
+
 * Fri Aug 01 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.1.b2
 - Update to upstream 2014.2.b2
 
