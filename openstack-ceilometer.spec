@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.2.b2%{?dist}
+Release:          0.3.b2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -430,7 +430,7 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun {name}-compute.service
+%systemd_preun %{name}-compute.service
 %endif
 
 %preun collector
@@ -442,7 +442,7 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun {name}-collector.service
+%systemd_preun %{name}-collector.service
 %endif
 
 %preun notification
@@ -454,7 +454,7 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun {name}-notification.service
+%systemd_preun %{name}-notification.service
 %endif
 
 %preun api
@@ -466,7 +466,7 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun {name}-api.service
+%systemd_preun %{name}-api.service
 %endif
 
 %preun central
@@ -478,7 +478,7 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun {name}-central.service
+%systemd_preun %{name}-central.service
 %endif
 
 %preun alarm
@@ -490,8 +490,8 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun {name}-alarm-notifier.service
-%systemd_preun {name}-alarm-evaluator.service
+%systemd_preun %{name}-alarm-notifier.service
+%systemd_preun %{name}-alarm-evaluator.service
 %endif
 
 %postun compute
@@ -669,6 +669,9 @@ fi
 
 
 %changelog
+* Thu Aug 21 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.3.b2
+- Fix pre-uninstall scripts
+
 * Mon Aug 18 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.2.b2
 - Merge epel6 and Fedora specfiles
 
