@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.3.b2%{?dist}
+Release:          0.4.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b2.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source3:	  %{pypi_name}.conf.sample
@@ -41,7 +41,7 @@ Source16:         %{name}-notification.service
 %endif
 
 #
-# patches_base=2014.2.b2
+# patches_base=2014.2.b3
 #
 
 BuildArch:        noarch
@@ -102,6 +102,8 @@ Group:            Applications/System
 Requires:         python-ceilometer = %{version}-%{release}
 Requires:         openstack-utils
 Requires:         python-oslo-messaging
+Requires:         python-oslo-serialization
+Requires:         python-oslo-utils
 Requires:         python-posix_ipc
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -154,6 +156,7 @@ Requires:         python-keystoneclient
 Requires:         python-glanceclient
 Requires:         python-swiftclient
 Requires:         python-neutronclient
+Requires:         python-tooz
 
 %description central
 OpenStack ceilometer provides services to measure and
@@ -172,6 +175,7 @@ Requires:         %{name}-common = %{version}-%{release}
 # Remove when all reference the notification package explicitly
 Requires:         %{name}-notification
 
+Requires:         python-oslo-db
 Requires:         python-pymongo
 
 %description collector
@@ -203,6 +207,8 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{version}-%{release}
 
+Requires:         python-keystonemiddleware
+Requires:         python-oslo-db
 Requires:         python-pymongo
 Requires:         python-pecan >= 0.4.5
 Requires:         python-wsme >= 0.6
@@ -250,7 +256,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.b2
+%setup -q -n ceilometer-%{version}.b3
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -669,6 +675,9 @@ fi
 
 
 %changelog
+* Wed Sep 17 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.4.b3
+- Update to upstream 2014.2.b3
+
 * Thu Aug 21 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.3.b2
 - Fix pre-uninstall scripts
 
