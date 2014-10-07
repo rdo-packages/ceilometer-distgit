@@ -226,6 +226,11 @@ Requires:         %{name}-common = %{version}-%{release}
 
 Requires:         ipmitool
 
+%description ipmi
+OpenStack ceilometer provides services to measure and
+collect metrics from OpenStack components.
+
+This package contains the ceilometer ipmi agent services.
 
 %if 0%{?with_doc}
 %package doc
