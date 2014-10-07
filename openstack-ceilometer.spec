@@ -21,7 +21,8 @@ Source13:         %{name}-central.service
 Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
-Source17:         %{pypi_name}.conf
+Source17:         %{name}-ipmi.service
+Source18:         %{pypi_name}.conf
 
 #
 # patches_base=2014.1.1
@@ -217,6 +218,14 @@ collect metrics from OpenStack components.
 This package contains the ceilometer alarm notification
 and evaluation services.
 
+%package ipmi
+Summary:          OpenStack ceilometer ipmi agent
+Group:            Applications/System
+
+Requires:         %{name}-common = %{version}-%{release}
+
+Requires:         ipmitool
+
 
 %if 0%{?with_doc}
 %package doc
@@ -279,7 +288,7 @@ install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
 # Install config files
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
-install -p -D -m 640 %{SOURCE17} %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
+install -p -D -m 640 %{SOURCE18} %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
 
@@ -291,6 +300,7 @@ install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
+install -p -D -m 644 %{SOURCE17} %{buildroot}%{_unitdir}/%{name}-ipmi.service
 
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -346,6 +356,12 @@ if [ $1 -eq 1 ] ; then
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
+%post ipmi
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+
 %preun compute
 if [ $1 -eq 0 ] ; then
     for svc in compute; do
@@ -389,6 +405,14 @@ fi
 %preun alarm
 if [ $1 -eq 0 ] ; then
     for svc in alarm-notifier alarm-evaluator; do
+        /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
+        /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
+    done
+fi
+
+%preun ipmi
+if [ $1 -eq 0 ] ; then
+    for svc in ipmi; do
         /bin/systemctl --no-reload disable %{name}-${svc}.service > /dev/null 2>&1 || :
         /bin/systemctl stop %{name}-${svc}.service > /dev/null 2>&1 || :
     done
@@ -448,6 +472,14 @@ if [ $1 -ge 1 ] ; then
     done
 fi
 
+%postun ipmi
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    for svc in ipmi; do
+        /bin/systemctl try-restart %{name}-${svc}.service >/dev/null 2>&1 || :
+    done
+fi
 
 %files common
 %doc LICENSE
@@ -463,6 +495,7 @@ fi
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
+%{_bindir}/ceilometer-rootwrap
 
 
 %defattr(-, ceilometer, ceilometer, -)
@@ -510,8 +543,16 @@ fi
 %{_unitdir}/%{name}-alarm-notifier.service
 %{_unitdir}/%{name}-alarm-evaluator.service
 
+%files ipmi
+%{_bindir}/ceilometer-agent-ipmi
+%{_unitdir}/%{name}-ipmi.service
+
 
 %changelog
+* Tue Oct 07 2014 Dan Prince <dprince@redhat.com> - XXX
+- add new ipmi package
+- add ceilometer-rootwrap to common
+
 * Wed Jun 25 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-3
 - remove token from notifier middleware bz#1112949
 
