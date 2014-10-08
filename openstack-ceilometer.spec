@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.4.b3%{?dist}
+Release:          0.5.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -135,6 +135,7 @@ Requires:         %{name}-common = %{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
+Requires:         python-tooz
 Requires:         libvirt-python
 
 %description compute
@@ -675,6 +676,9 @@ fi
 
 
 %changelog
+* Thu Oct 02 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.5.b3
+- Added python-tooz dependency for compute agent
+
 * Wed Sep 17 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.4.b3
 - Update to upstream 2014.2.b3
 
