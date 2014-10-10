@@ -497,8 +497,7 @@ if [ $1 -eq 0 ] ; then
     done
 fi
 %else
-%systemd_preun %{name}-alarm-notifier.service
-%systemd_preun %{name}-alarm-evaluator.service
+%systemd_preun %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
 %endif
 
 %postun compute
@@ -570,8 +569,7 @@ if [ $1 -ge 1 ] ; then
     done
 fi
 %else
-%systemd_postun_with_restart %{name}-alarm-notifier.service
-%systemd_postun_with_restart %{name}-alarm-evaluator.service
+%systemd_postun_with_restart %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
 %endif
 
 
