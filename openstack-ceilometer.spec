@@ -4,16 +4,16 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.6.b3%{?dist}
+Release:          0.8.rc2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.b3.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.rc2.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
-Source3:	  %{pypi_name}.conf.sample
+Source3:          %{pypi_name}.conf.sample
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Source10:         %{name}-api.init
@@ -41,7 +41,7 @@ Source16:         %{name}-notification.service
 %endif
 
 #
-# patches_base=2014.2.b3
+# patches_base=2014.2.rc2
 #
 
 BuildArch:        noarch
@@ -72,7 +72,7 @@ Requires:         python-iso8601
 Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
-Requires:         python-stevedore >= 0.14
+Requires:         python-stevedore >= 1.0.0
 Requires:         python-msgpack
 Requires:         python-six >= 1.6
 
@@ -81,8 +81,13 @@ Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
-Requires:         python-oslo-config >= 1:1.2.0
+Requires:         python-oslo-config >= 2:1.4.0
 Requires:         PyYAML
+Requires:         python-netaddr
+Requires:         python-oslo-config >= 2:1.4.0
+Requires:         python-oslo-rootwrap
+Requires:         python-oslo-vmware >= 0.6.0
+Requires:         python-requests >= 1.2.1
 
 Requires:         pysnmp
 Requires:         pytz
@@ -257,7 +262,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.b3
+%setup -q -n ceilometer-%{version}.rc2
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -591,6 +596,9 @@ fi
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
+%{_bindir}/ceilometer-rootwrap
+# ipmi subpackage?
+%{_bindir}/ceilometer-agent-ipmi
 
 
 %defattr(-, ceilometer, ceilometer, -)
@@ -674,6 +682,9 @@ fi
 
 
 %changelog
+* Sat Oct 11 2014 Alan Pevec <alan.pevec@redhat.com> 2014.2-0.8.rc2
+- Update to upstream 2014.2.rc2
+
 * Fri Oct 10 2014 Pádraig Brady <pbrady@redhat.com> - 2014.2-0.6.b3
 - Ensure service files are registered with systemd at install time
 
@@ -745,7 +756,7 @@ fi
 * Fri Sep 13 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.10.b3
 - Depend on python-oslo-config >= 1:1.2.0 so it upgraded automatically
 
-* Mon Sep 10 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b3
+* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b3
 - Depend on python-pymongo rather than pymongo to avoid a puppet bug
 
 * Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.7.b3
