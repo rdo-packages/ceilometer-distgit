@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.5.b3%{?dist}
+Release:          0.6.b3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -373,7 +373,7 @@ if [ $1 -eq 1 ] ; then
     /sbin/chkconfig --add %{name}-compute
 fi
 %else
-%systemd_post
+%systemd_post %{name}-compute.service
 %endif
 
 %post collector
@@ -383,7 +383,7 @@ if [ $1 -eq 1 ] ; then
     /sbin/chkconfig --add %{name}-collector
 fi
 %else
-%systemd_post
+%systemd_post %{name}-collector.service
 %endif
 
 %post notification
@@ -393,7 +393,7 @@ if [ $1 -eq 1 ] ; then
     /sbin/chkconfig --add %{name}-notification
 fi
 %else
-%systemd_post
+%systemd_post %{name}-notification.service
 %endif
 
 %post api
@@ -403,7 +403,7 @@ if [ $1 -eq 1 ] ; then
     /sbin/chkconfig --add %{name}-api
 fi
 %else
-%systemd_post
+%systemd_post %{name}-api.service
 %endif
 
 %post central
@@ -413,7 +413,7 @@ if [ $1 -eq 1 ] ; then
     /sbin/chkconfig --add %{name}-central
 fi
 %else
-%systemd_post
+%systemd_post %{name}-central.service
 %endif
 
 %post alarm
@@ -425,7 +425,7 @@ if [ $1 -eq 1 ] ; then
     done
 fi
 %else
-%systemd_post
+%systemd_post %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
 %endif
 
 %preun compute
@@ -676,6 +676,9 @@ fi
 
 
 %changelog
+* Fri Oct 10 2014 Pádraig Brady <pbrady@redhat.com> - 2014.2-0.6.b3
+- Ensure service files are registered with systemd at install time
+
 * Thu Oct 02 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.5.b3
 - Added python-tooz dependency for compute agent
 
