@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.8.rc2%{?dist}
+Release:          0.9.rc2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -14,6 +14,7 @@ Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{vers
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source3:          %{pypi_name}.conf.sample
+Source4:          ceilometer-rootwrap-sudoers
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Source10:         %{name}-api.init
@@ -30,6 +31,8 @@ Source15:         %{name}-alarm-evaluator.init
 Source150:        %{name}-alarm-evaluator.upstart
 Source16:         %{name}-notification.init
 Source160:        %{name}-notification.upstart
+Source17:         %{name}-ipmi.init
+Source170:        %{name}-ipmi.upstart
 %else
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
@@ -38,6 +41,7 @@ Source13:         %{name}-central.service
 Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
+Source17:         %{name}-ipmi.service
 %endif
 
 #
@@ -242,6 +246,28 @@ This package contains the ceilometer alarm notification
 and evaluation services.
 
 
+%package ipmi
+Summary:          OpenStack ceilometer ipmi agent
+Group:            Applications/System
+
+Requires:         %{name}-common = %{version}-%{release}
+
+Requires:         python-novaclient
+Requires:         python-keystoneclient
+Requires:         python-neutronclient
+Requires:         python-tooz
+Requires:         python-oslo-rootwrap
+Requires:         ipmitool
+
+%description ipmi
+OpenStack ceilometer provides services to measure and
+collect metrics from OpenStack components.
+
+This package contains the ipmi agent to be run on OpenStack
+nodes from which IPMI sensor data is to be collected directly,
+by-passing Ironic's management of baremetal.
+
+
 %if 0%{?with_doc}
 %package doc
 Summary:          Documentation for OpenStack ceilometer
@@ -313,11 +339,16 @@ install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
 
 # Install config files
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
+install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.d
+install -d -m 755 %{buildroot}%{_sysconfdir}/sudoers.d
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
+install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
 install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
 install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
+install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
+install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
 
 # Install initscripts for services
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -328,6 +359,7 @@ install -p -D -m 755 %{SOURCE13} %{buildroot}%{_initrddir}/%{name}-central
 install -p -D -m 755 %{SOURCE14} %{buildroot}%{_initrddir}/%{name}-alarm-notifier
 install -p -D -m 755 %{SOURCE15} %{buildroot}%{_initrddir}/%{name}-alarm-evaluator
 install -p -D -m 755 %{SOURCE16} %{buildroot}%{_initrddir}/%{name}-notification
+install -p -D -m 755 %{SOURCE17} %{buildroot}%{_initrddir}/%{name}-ipmi
 
 # Install upstart jobs examples
 install -d -m 755 %{buildroot}%{_datadir}/ceilometer
@@ -338,6 +370,7 @@ install -p -m 644 %{SOURCE130} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE140} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE150} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE160} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE170} %{buildroot}%{_datadir}/ceilometer/
 %else
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
@@ -346,6 +379,7 @@ install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
 install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
+install -p -D -m 644 %{SOURCE17} %{buildroot}%{_unitdir}/%{name}-ipmi.service
 %endif
 
 # Install logrotate
@@ -433,6 +467,16 @@ fi
 %systemd_post %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
 %endif
 
+%post ipmi
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /sbin/chkconfig --add %{name}-ipmi
+fi
+%else
+%systemd_post %{name}-alarm-ipmi.service
+%endif
+
 %preun compute
 %if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
@@ -503,6 +547,18 @@ if [ $1 -eq 0 ] ; then
 fi
 %else
 %systemd_preun %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
+%endif
+
+%preun ipmi
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -eq 0 ] ; then
+    for svc in ipmi; do
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
+    done
+fi
+%else
+%systemd_preun %{name}-ipmi.service
 %endif
 
 %postun compute
@@ -577,6 +633,18 @@ fi
 %systemd_postun_with_restart %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
 %endif
 
+%postun ipmi
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    for svc in ipmi; do
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
+    done
+fi
+%else
+%systemd_postun_with_restart %{name}-ipmi.service
+%endif
+
 
 %files common
 %doc LICENSE
@@ -596,9 +664,6 @@ fi
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
-%{_bindir}/ceilometer-rootwrap
-# ipmi subpackage?
-%{_bindir}/ceilometer-agent-ipmi
 
 
 %defattr(-, ceilometer, ceilometer, -)
@@ -681,7 +746,24 @@ fi
 %endif
 
 
+%files ipmi
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/rootwrap.conf
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
+%{_bindir}/ceilometer-rootwrap
+%{_bindir}/ceilometer-agent-ipmi
+%{_sysconfdir}/sudoers.d/ceilometer
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-ipmi
+%{_datarootdir}/ceilometer/%{name}-ipmi.upstart
+%else
+%{_unitdir}/%{name}-ipmi.service
+%endif
+
+
 %changelog
+* Tue Oct 14 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.9.rc2
+- Added new openstack-ceilometer-ipmi new subpackage
+
 * Sat Oct 11 2014 Alan Pevec <alan.pevec@redhat.com> 2014.2-0.8.rc2
 - Update to upstream 2014.2.rc2
 
