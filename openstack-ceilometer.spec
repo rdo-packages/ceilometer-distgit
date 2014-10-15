@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.9.rc2%{?dist}
+Release:          0.10.rc2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -45,7 +45,7 @@ Source17:         %{name}-ipmi.service
 %endif
 
 #
-# patches_base=2014.2.rc2
+# patches_base=2014.2.rc3
 #
 
 BuildArch:        noarch
@@ -761,6 +761,9 @@ fi
 
 
 %changelog
+* Wed Oct 15 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.10.rc2
+- Update to upstream 2014.2.rc3
+
 * Tue Oct 14 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.9.rc2
 - Added new openstack-ceilometer-ipmi new subpackage
 
