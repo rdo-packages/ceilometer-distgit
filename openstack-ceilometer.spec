@@ -4,13 +4,13 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          0.10.rc3%{?dist}
+Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.rc3.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source3:          %{pypi_name}.conf.sample
@@ -43,10 +43,6 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
 %endif
-
-#
-# patches_base=2014.2.rc3
-#
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -288,7 +284,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}.rc3
+%setup -q -n ceilometer-%{version}
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -761,6 +757,9 @@ fi
 
 
 %changelog
+* Mon Oct 20 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-1
+- Update to upstream 2014.2 (Juno release)
+
 * Wed Oct 15 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.10.rc3
 - Update to upstream 2014.2.rc3
 
