@@ -4,7 +4,7 @@
 
 Name:             openstack-ceilometer
 Version:          2014.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -15,6 +15,8 @@ Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source3:          %{pypi_name}.conf.sample
 Source4:          ceilometer-rootwrap-sudoers
+
+Patch0001: 0001-Handle-poorly-formed-individual-sensor-readings.patch
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Source10:         %{name}-api.init
@@ -285,6 +287,8 @@ This package contains documentation files for ceilometer.
 
 %prep
 %setup -q -n ceilometer-%{version}
+
+%patch0001 -p1
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -757,6 +761,9 @@ fi
 
 
 %changelog
+* Thu Oct 23 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-2
+- Handle poorly formed individual sensor readings
+
 * Mon Oct 20 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-1
 - Update to upstream 2014.2 (Juno release)
 

@@ -1,0 +1,160 @@
+From 5b826ea1dc33b58009b16e3663298589d6978f81 Mon Sep 17 00:00:00 2001
+From: Chris Dent <chdent@redhat.com>
+Date: Wed, 15 Oct 2014 17:18:17 +0100
+Subject: [PATCH] Handle poorly formed individual sensor readings
+
+ipmitool returns a series of multiple readings per run. Some of
+these readings may be of a form that parser code cannot handle. The
+desired behavior in this case is for the single reading to be
+dropped and for parsing to continue. This change ensures that
+behavior by continuing through the loop instead of allowing
+exceptions to cause the loop to exit.
+
+Tests have been added which verify the correct behavior.
+
+Note that though there was an opportunity to log each skipped
+reading this would lead to a very large number of log messages as
+many or even most samples from ipmitool are not parsed.
+
+Change-Id: I6a3193d5a6e12c69ca5c548e5fb58d8bc9646348
+Closes-Bug: #1381600
+(cherry picked from commit 8323cfe92af2ad27f6611be0a6887cac12b2c630)
+(cherry picked from commit b1fca33e5f4c5443389d131a212a058d2306ac23)
+---
+ ceilometer/ipmi/pollsters/sensor.py            | 11 +++--
+ ceilometer/tests/ipmi/pollsters/base.py        | 10 +++--
+ ceilometer/tests/ipmi/pollsters/test_sensor.py | 58 ++++++++++++++++++++++++++
+ 3 files changed, 72 insertions(+), 7 deletions(-)
+
+diff --git a/ceilometer/ipmi/pollsters/sensor.py b/ceilometer/ipmi/pollsters/sensor.py
+index a23e088..a1a4e54 100644
+--- a/ceilometer/ipmi/pollsters/sensor.py
++++ b/ceilometer/ipmi/pollsters/sensor.py
+@@ -54,19 +54,24 @@ class SensorPollster(plugin.PollsterBase):
+         sensor_type_data = self._get_sensor_types(stats, self.METRIC)
+ 
+         for sensor_data in sensor_type_data:
++            # Continue if sensor_data is not parseable.
+             try:
+                 sensor_reading = sensor_data['Sensor Reading']
++                sensor_id = sensor_data['Sensor ID']
+             except KeyError:
+-                raise InvalidSensorData("missing 'Sensor Reading'")
++                continue
+ 
+             if not parser.validate_reading(sensor_reading):
+                 continue
+ 
+-            volume, unit = parser.parse_reading(sensor_reading)
++            try:
++                volume, unit = parser.parse_reading(sensor_reading)
++            except parser.InvalidSensorData:
++                continue
+ 
+             resource_id = '%(host)s-%(sensor-id)s' % {
+                 'host': CONF.host,
+-                'sensor-id': parser.transform_id(sensor_data['Sensor ID'])
++                'sensor-id': parser.transform_id(sensor_id)
+             }
+ 
+             metadata = {
+diff --git a/ceilometer/tests/ipmi/pollsters/base.py b/ceilometer/tests/ipmi/pollsters/base.py
+index 575c54d..5b72edf 100644
+--- a/ceilometer/tests/ipmi/pollsters/base.py
++++ b/ceilometer/tests/ipmi/pollsters/base.py
+@@ -57,13 +57,15 @@ class TestPollsterBase(base.BaseTestCase):
+ 
+         self.pollster = self.make_pollster()
+ 
+-    def _verify_metering(self, length, expected_vol, node):
++    def _verify_metering(self, length, expected_vol=None, node=None):
+         cache = {}
+         resources = {}
+ 
+         samples = list(self.pollster.get_samples(self.mgr, cache, resources))
+         self.assertEqual(length, len(samples))
+ 
+-        self.assertTrue(any(s.volume == expected_vol for s in samples))
+-        self.assertTrue(any(s.resource_metadata['node'] == node
+-                            for s in samples))
++        if expected_vol:
++            self.assertTrue(any(s.volume == expected_vol for s in samples))
++        if node:
++            self.assertTrue(any(s.resource_metadata['node'] == node
++                                for s in samples))
+diff --git a/ceilometer/tests/ipmi/pollsters/test_sensor.py b/ceilometer/tests/ipmi/pollsters/test_sensor.py
+index ad83391..3b4ab31 100644
+--- a/ceilometer/tests/ipmi/pollsters/test_sensor.py
++++ b/ceilometer/tests/ipmi/pollsters/test_sensor.py
+@@ -41,6 +41,10 @@ VOLTAGE_SENSOR_DATA = {
+     'Voltage': ipmi_test_data.VOLTAGE_DATA
+ }
+ 
++MISSING_SENSOR_DATA = ipmi_test_data.MISSING_SENSOR['payload']['payload']
++MALFORMED_SENSOR_DATA = ipmi_test_data.BAD_SENSOR['payload']['payload']
++MISSING_ID_SENSOR_DATA = ipmi_test_data.NO_SENSOR_ID['payload']['payload']
++
+ 
+ class TestTemperatureSensorPollster(base.TestPollsterBase):
+ 
+@@ -61,6 +65,60 @@ class TestTemperatureSensorPollster(base.TestPollsterBase):
+         self._verify_metering(10, float(32), CONF.host)
+ 
+ 
++class TestMissingSensorData(base.TestPollsterBase):
++
++    def fake_sensor_data(self, sensor_type):
++        return MISSING_SENSOR_DATA
++
++    def fake_data(self):
++        # No use for Sensor test
++        return None
++
++    def make_pollster(self):
++        return sensor.TemperatureSensorPollster()
++
++    @mock.patch('ceilometer.pipeline.setup_pipeline', mock.MagicMock())
++    def test_get_samples(self):
++        self._test_get_samples()
++        self._verify_metering(0)
++
++
++class TestMalformedSensorData(base.TestPollsterBase):
++
++    def fake_sensor_data(self, sensor_type):
++        return MALFORMED_SENSOR_DATA
++
++    def fake_data(self):
++        # No use for Sensor test
++        return None
++
++    def make_pollster(self):
++        return sensor.TemperatureSensorPollster()
++
++    @mock.patch('ceilometer.pipeline.setup_pipeline', mock.MagicMock())
++    def test_get_samples(self):
++        self._test_get_samples()
++        self._verify_metering(0)
++
++
++class TestMissingSensorId(base.TestPollsterBase):
++
++    def fake_sensor_data(self, sensor_type):
++        return MISSING_ID_SENSOR_DATA
++
++    def fake_data(self):
++        # No use for Sensor test
++        return None
++
++    def make_pollster(self):
++        return sensor.TemperatureSensorPollster()
++
++    @mock.patch('ceilometer.pipeline.setup_pipeline', mock.MagicMock())
++    def test_get_samples(self):
++        self._test_get_samples()
++        self._verify_metering(0)
++
++
+ class TestFanSensorPollster(base.TestPollsterBase):
+ 
+     def fake_sensor_data(self, sensor_type):
