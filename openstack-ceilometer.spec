@@ -660,6 +660,7 @@ fi
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
+%{_bindir}/ceilometer-polling
 
 
 %defattr(-, ceilometer, ceilometer, -)
