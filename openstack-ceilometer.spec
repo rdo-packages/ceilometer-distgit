@@ -219,6 +219,8 @@ Requires:         python-pymongo
 Requires:         python-pecan >= 0.4.5
 Requires:         python-wsme >= 0.6
 Requires:         python-paste-deploy
+Requires:         python-ceilometerclient
+Requires:         python-tooz
 
 %description api
 OpenStack ceilometer provides services to measure and
