@@ -33,6 +33,8 @@ Source16:         %{name}-notification.init
 Source160:        %{name}-notification.upstart
 Source17:         %{name}-ipmi.init
 Source170:        %{name}-ipmi.upstart
+Source18:         %{name}-polling.init
+Source180:        %{name}-polling.upstart
 %else
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
@@ -42,6 +44,7 @@ Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
+Source18:         %{name}-polling.service
 %endif
 
 BuildArch:        noarch
@@ -276,6 +279,29 @@ nodes from which IPMI sensor data is to be collected directly,
 by-passing Ironic's management of baremetal.
 
 
+%package polling
+Summary:          OpenStack ceilometer polling agent
+Group:            Applications/System
+
+Requires:         %{name}-common = %{version}-%{release}
+
+Requires:         python-novaclient >= 2.18.0
+Requires:         python-keystoneclient >= 0.11.1
+Requires:         python-glanceclient >= 0.14.0
+Requires:         python-swiftclient >= 2.2.0
+Requires:         libvirt-python
+
+%description polling
+Ceilometer aims to deliver a unique point of contact for billing systems to
+aquire all counters they need to establish customer billing, across all
+current and future OpenStack components. The delivery of counters must
+be tracable and auditable, the counters must be easily extensible to support
+new projects, and agents doing data collections should be
+independent of the overall system.
+
+This package contains the polling service.
+
+
 %if 0%{?with_doc}
 %package doc
 Summary:          Documentation for OpenStack ceilometer
@@ -368,6 +394,7 @@ install -p -D -m 755 %{SOURCE14} %{buildroot}%{_initrddir}/%{name}-alarm-notifie
 install -p -D -m 755 %{SOURCE15} %{buildroot}%{_initrddir}/%{name}-alarm-evaluator
 install -p -D -m 755 %{SOURCE16} %{buildroot}%{_initrddir}/%{name}-notification
 install -p -D -m 755 %{SOURCE17} %{buildroot}%{_initrddir}/%{name}-ipmi
+install -p -D -m 755 %{SOURCE18} %{buildroot}%{_initrddir}/%{name}-polling
 
 # Install upstart jobs examples
 install -d -m 755 %{buildroot}%{_datadir}/ceilometer
@@ -379,6 +406,7 @@ install -p -m 644 %{SOURCE140} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE150} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE160} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE170} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE180} %{buildroot}%{_datadir}/ceilometer/
 %else
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
@@ -388,6 +416,7 @@ install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
 install -p -D -m 644 %{SOURCE17} %{buildroot}%{_unitdir}/%{name}-ipmi.service
+install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
 %endif
 
 # Install logrotate
@@ -485,6 +514,16 @@ fi
 %systemd_post %{name}-alarm-ipmi.service
 %endif
 
+%post polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /sbin/chkconfig --add %{name}-polling
+fi
+%else
+%systemd_post %{name}-polling.service
+%endif
+
 %preun compute
 %if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
@@ -567,6 +606,18 @@ if [ $1 -eq 0 ] ; then
 fi
 %else
 %systemd_preun %{name}-ipmi.service
+%endif
+
+%preun polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -eq 0 ] ; then
+    for svc in polling; do
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
+    done
+fi
+%else
+%systemd_preun %{name}-polling.service
 %endif
 
 %postun compute
@@ -654,6 +705,19 @@ fi
 %endif
 
 
+%postun polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    for svc in polling; do
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
+    done
+fi
+%else
+%systemd_postun_with_restart %{name}-polling.service
+%endif
+
+
 %files common
 %doc LICENSE
 %dir %{_sysconfdir}/ceilometer
@@ -672,7 +736,6 @@ fi
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
-%{_bindir}/ceilometer-polling
 
 
 %defattr(-, ceilometer, ceilometer, -)
@@ -768,8 +831,20 @@ fi
 %{_unitdir}/%{name}-ipmi.service
 %endif
 
+%files polling
+%{_bindir}/ceilometer-polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-polling
+%{_datarootdir}/ceilometer/%{name}-polling.upstart
+%else
+%{_unitdir}/%{name}-polling.service
+%endif
+
 
 %changelog
+* Mon Jan 26 2015 Ivan Berezovskiy <iberezovskiy@mirantis.com> 2015.1-0.1.b1
+- Added new openstack-ceilometer-polling subpackage
+
 * Thu Oct 23 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-2
 - Handle poorly formed individual sensor readings
 
