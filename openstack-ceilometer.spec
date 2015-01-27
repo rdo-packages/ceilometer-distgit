@@ -333,7 +333,7 @@ popd
 # Setup directories
 install -d -m 755 %{buildroot}%{_sharedstatedir}/ceilometer
 install -d -m 755 %{buildroot}%{_sharedstatedir}/ceilometer/tmp
-install -d -m 775 %{buildroot}%{_localstatedir}/log/ceilometer
+install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
 
 # Install config files
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
@@ -654,7 +654,7 @@ fi
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/api_paste.ini
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
-%dir %attr(0775, ceilometer, ceilometer) %{_localstatedir}/log/ceilometer
+%dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/run/ceilometer
 %endif
