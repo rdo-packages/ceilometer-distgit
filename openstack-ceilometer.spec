@@ -3,7 +3,7 @@
 %global pypi_name ceilometer
 
 Name:             openstack-ceilometer
-Version:          2014.2.1
+Version:          2014.2.2
 Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
@@ -757,6 +757,9 @@ fi
 
 
 %changelog
+* Thu Feb 12 2015 Alan Pevec <alan.pevec@redhat.com> 2014.2.2-1
+- Update to upstream 2014.2.2
+
 * Wed Dec 10 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2.1-1
 - Update to upstream 2014.2.1
 
