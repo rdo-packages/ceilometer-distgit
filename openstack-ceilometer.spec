@@ -93,6 +93,16 @@ Requires:         pysnmp
 Requires:         pytz
 Requires:         python-croniter
 
+Requires:         python-retrying
+Requires:         python-jsonschema
+Requires:         python-werkzeug
+
+Requires:         python-oslo-context
+Requires:         python-oslo-concurrency
+Requires:         python-oslo-i18n
+Requires:         python-oslo-middleware
+
+
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
 collect metrics from OpenStack components.
