@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack ceilometer polling agent
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=ceilometer
+EnvironmentFile=/etc/sysconfig/openstack-ceilometer-polling
+ExecStart=/usr/bin/ceilometer-polling --logfile /var/log/ceilometer/polling.log $OPTIONS
+
+[Install]
+WantedBy=multi-user.target
+

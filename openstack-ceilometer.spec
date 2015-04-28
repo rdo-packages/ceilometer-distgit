@@ -1,19 +1,24 @@
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
-%global pypi_name ceilometer
+
+%global release_name kilo
+%global milestone .0rc2
+%global service ceilometer
+
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:             openstack-ceilometer
-Version:          2014.2.3
-Release:          1%{?dist}
+Version:          2015.1
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
-Source1:          %{pypi_name}-dist.conf
-Source2:          %{pypi_name}.logrotate
-Source3:          %{pypi_name}.conf.sample
+Source0:          http://launchpad.net/%{service}/%{release_name}/%{release_name}-rc2/+download/%{service}-%{upstream_version}.tar.gz
+Source1:          %{service}-dist.conf
+Source2:          %{service}.logrotate
+Source3:          %{service}.conf.sample
 Source4:          ceilometer-rootwrap-sudoers
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -33,6 +38,8 @@ Source16:         %{name}-notification.init
 Source160:        %{name}-notification.upstart
 Source17:         %{name}-ipmi.init
 Source170:        %{name}-ipmi.upstart
+Source18:         %{name}-polling.init
+Source180:        %{name}-polling.upstart
 %else
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
@@ -42,6 +49,7 @@ Source14:         %{name}-alarm-notifier.service
 Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
+Source18:         %{name}-polling.service
 %endif
 
 BuildArch:        noarch
@@ -92,6 +100,16 @@ Requires:         python-requests >= 1.2.1
 Requires:         pysnmp
 Requires:         pytz
 Requires:         python-croniter
+
+Requires:         python-retrying
+Requires:         python-jsonschema
+Requires:         python-werkzeug
+
+Requires:         python-oslo-context
+Requires:         python-oslo-concurrency
+Requires:         python-oslo-i18n
+Requires:         python-oslo-middleware
+
 
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
@@ -219,6 +237,8 @@ Requires:         python-pymongo
 Requires:         python-pecan >= 0.4.5
 Requires:         python-wsme >= 0.6
 Requires:         python-paste-deploy
+Requires:         python-ceilometerclient
+Requires:         python-tooz
 
 %description api
 OpenStack ceilometer provides services to measure and
@@ -264,6 +284,29 @@ nodes from which IPMI sensor data is to be collected directly,
 by-passing Ironic's management of baremetal.
 
 
+%package polling
+Summary:          OpenStack ceilometer polling agent
+Group:            Applications/System
+
+Requires:         %{name}-common = %{version}-%{release}
+
+Requires:         python-novaclient >= 2.18.0
+Requires:         python-keystoneclient >= 0.11.1
+Requires:         python-glanceclient >= 0.14.0
+Requires:         python-swiftclient >= 2.2.0
+Requires:         libvirt-python
+
+%description polling
+Ceilometer aims to deliver a unique point of contact for billing systems to
+aquire all counters they need to establish customer billing, across all
+current and future OpenStack components. The delivery of counters must
+be tracable and auditable, the counters must be easily extensible to support
+new projects, and agents doing data collections should be
+independent of the overall system.
+
+This package contains the polling service.
+
+
 %if 0%{?with_doc}
 %package doc
 Summary:          Documentation for OpenStack ceilometer
@@ -284,7 +327,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{version}
+%setup -q -n ceilometer-%{upstream_version}
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -356,6 +399,7 @@ install -p -D -m 755 %{SOURCE14} %{buildroot}%{_initrddir}/%{name}-alarm-notifie
 install -p -D -m 755 %{SOURCE15} %{buildroot}%{_initrddir}/%{name}-alarm-evaluator
 install -p -D -m 755 %{SOURCE16} %{buildroot}%{_initrddir}/%{name}-notification
 install -p -D -m 755 %{SOURCE17} %{buildroot}%{_initrddir}/%{name}-ipmi
+install -p -D -m 755 %{SOURCE18} %{buildroot}%{_initrddir}/%{name}-polling
 
 # Install upstart jobs examples
 install -d -m 755 %{buildroot}%{_datadir}/ceilometer
@@ -367,6 +411,7 @@ install -p -m 644 %{SOURCE140} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE150} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE160} %{buildroot}%{_datadir}/ceilometer/
 install -p -m 644 %{SOURCE170} %{buildroot}%{_datadir}/ceilometer/
+install -p -m 644 %{SOURCE180} %{buildroot}%{_datadir}/ceilometer/
 %else
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
@@ -376,6 +421,7 @@ install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.
 install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
 install -p -D -m 644 %{SOURCE17} %{buildroot}%{_unitdir}/%{name}-ipmi.service
+install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
 %endif
 
 # Install logrotate
@@ -473,6 +519,16 @@ fi
 %systemd_post %{name}-alarm-ipmi.service
 %endif
 
+%post polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -eq 1 ] ; then
+    # Initial installation
+    /sbin/chkconfig --add %{name}-polling
+fi
+%else
+%systemd_post %{name}-polling.service
+%endif
+
 %preun compute
 %if 0%{?rhel} && 0%{?rhel} <= 6
 if [ $1 -eq 0 ] ; then
@@ -555,6 +611,18 @@ if [ $1 -eq 0 ] ; then
 fi
 %else
 %systemd_preun %{name}-ipmi.service
+%endif
+
+%preun polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -eq 0 ] ; then
+    for svc in polling; do
+        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
+        /sbin/chkconfig --del %{name}-${svc}
+    done
+fi
+%else
+%systemd_preun %{name}-polling.service
 %endif
 
 %postun compute
@@ -642,6 +710,19 @@ fi
 %endif
 
 
+%postun polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    for svc in polling; do
+        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
+    done
+fi
+%else
+%systemd_postun_with_restart %{name}-polling.service
+%endif
+
+
 %files common
 %doc LICENSE
 %dir %{_sysconfdir}/ceilometer
@@ -669,7 +750,7 @@ fi
 
 %files -n python-ceilometer
 %{python_sitelib}/ceilometer
-%{python_sitelib}/ceilometer-%{version}*.egg-info
+%{python_sitelib}/ceilometer-*.egg-info
 
 
 %if 0%{?with_doc}
@@ -753,6 +834,16 @@ fi
 %{_datarootdir}/ceilometer/%{name}-ipmi.upstart
 %else
 %{_unitdir}/%{name}-ipmi.service
+%endif
+
+
+%files polling
+%{_bindir}/ceilometer-polling
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{_initrddir}/%{name}-polling
+%{_datarootdir}/ceilometer/%{name}-polling.upstart
+%else
+%{_unitdir}/%{name}-polling.service
 %endif
 
 
