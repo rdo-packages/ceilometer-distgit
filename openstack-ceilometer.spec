@@ -2,20 +2,20 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 
 %global release_name kilo
-%global milestone .0rc2
 %global service ceilometer
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:             openstack-ceilometer
-Version:          2015.1
-Release:          0.1%{?milestone}%{?dist}
+Version:          2015.1.0
+Release:          1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://launchpad.net/%{service}/%{release_name}/%{release_name}-rc2/+download/%{service}-%{upstream_version}.tar.gz
+Source0:          http://launchpad.net/%{service}/%{release_name}/%{version}/+download/%{service}-%{upstream_version}.tar.gz
+
 Source1:          %{service}-dist.conf
 Source2:          %{service}.logrotate
 Source3:          %{service}.conf.sample
@@ -848,127 +848,5 @@ fi
 
 
 %changelog
-* Tue Apr 28 2015 Alan Pevec <alan.pevec@redhat.com> 2014.2.3-1
-- Update to upstream 2014.2.3
-
-* Thu Feb 12 2015 Alan Pevec <alan.pevec@redhat.com> 2014.2.2-1
-- Update to upstream 2014.2.2
-
-* Wed Dec 10 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2.1-1
-- Update to upstream 2014.2.1
-
-* Thu Oct 23 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-2
-- Handle poorly formed individual sensor readings
-
-* Mon Oct 20 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-1
-- Update to upstream 2014.2 (Juno release)
-
-* Wed Oct 15 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.10.rc3
-- Update to upstream 2014.2.rc3
-
-* Tue Oct 14 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.9.rc2
-- Added new openstack-ceilometer-ipmi new subpackage
-
-* Sat Oct 11 2014 Alan Pevec <alan.pevec@redhat.com> 2014.2-0.8.rc2
-- Update to upstream 2014.2.rc2
-
-* Fri Oct 10 2014 Pádraig Brady <pbrady@redhat.com> - 2014.2-0.6.b3
-- Ensure service files are registered with systemd at install time
-
-* Thu Oct 02 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.5.b3
-- Added python-tooz dependency for compute agent
-
-* Wed Sep 17 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.4.b3
-- Update to upstream 2014.2.b3
-
-* Thu Aug 21 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.3.b2
-- Fix pre-uninstall scripts
-
-* Mon Aug 18 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.2.b2
-- Merge epel6 and Fedora specfiles
-
-* Fri Aug 01 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.1.b2
-- Update to upstream 2014.2.b2
-
-* Wed Jun 25 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-3
-- remove token from notifier middleware bz#1112949
-
-* Wed Jun 11 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-2
-- Update to upstream 2014.1.1
-- fix message routing with newer QPID (rhbz#1103800)
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2014.1-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Wed May 07 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-2
-- Avoid dependency issues with distributed installs (#1095414)
-
-* Thu Apr 17 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-1
-- Update to Icehouse release
-
-* Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.7.rc2
-- Update to upstream 2014.1.rc2
-- Remove qpid as default rpc backend
-- Split out openstack-ceilometer-notification subpackage from collector
-
-* Mon Mar 31 2014 Pádraig Brady <P@draigBrady.com> 2014.1-0.6.rc1
-- Update to upstream 2014.1.rc1
-
-* Fri Mar 14 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.5.b3
-- Update to Icehouse milestone 3
-
-* Tue Feb 04 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.4.b2
-- Fix missing dependency on python-babel
-
-* Mon Jan 27 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.3.b2
-- Update to Icehouse milestone 2
-
-* Mon Jan 06 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.2.b1
-- Set python-six min version to ensure updated
-
-* Mon Dec 16 2013 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.1.b1
-- Update to Icehouse milestone 1
-
-* Thu Oct 17 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-1
-- Update to Havana release
-
-* Tue Oct 15 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.12.rc2
-- Update to Havana rc2
-- openstack-ceilometer-alarm now depends on python-ceilometerclient
-
-* Thu Oct 03 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.12.rc1
-- Update to Havana rc1
-- Separate out the new alarm services to the 'alarm' subpackage
-
-* Fri Sep 13 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.10.b3
-- Depend on python-oslo-config >= 1:1.2.0 so it upgraded automatically
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b3
-- Depend on python-pymongo rather than pymongo to avoid a puppet bug
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.7.b3
-- Depend on python-alembic
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.6.b3
-- Distribute dist defaults in ceilometer-dist.conf separate to user ceilometer.conf
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.5.b3
-- Update to Havana milestone 3
-
-* Tue Aug 27 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.4.b1
-- Avoid python runtime dependency management
-
-* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2013.2-0.3.b1
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
-
-* Thu Jun  6 2013 Pádraig Brady <P@draigBrady.com> - 2013.2-0.2.b1
-- Fix uninstall for openstack-ceilometer-central
-
-* Fri May 31 2013 Pádraig Brady <P@draigBrady.com> - 2013.2-0.1.b1
-- Havana milestone 1
-
-* Mon Apr  8 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-1
-- Grizzly release
-
-* Tue Mar 26 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-0.5.g3
-- Initial package
+* Thu Apr 30 2015 Alan Pevec <alan.pevec@redhat.com> 2015.1.0-1
+- OpenStack Kilo release
