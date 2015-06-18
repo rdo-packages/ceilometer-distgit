@@ -8,7 +8,7 @@
 
 Name:             openstack-ceilometer
 Version:          2015.1.0
-Release:          2%{?milestone}%{?dist}
+Release:          3%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -850,6 +850,9 @@ fi
 
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2015.1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Fri May 08 2015 Alan Pevec <alan.pevec@redhat.com> 2015.1.0-2
 - include event_pipeline.yaml in notification sub-package rhbz#1219381
 
