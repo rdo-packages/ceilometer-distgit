@@ -3,8 +3,11 @@
 %global pypi_name ceilometer
 
 Name:             openstack-ceilometer
-Version: XXX
-Release: XXX{?dist}
+# Liberty semver reset
+# https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
+Epoch:            1
+Version:          XXX
+Release:          XXX
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -117,7 +120,7 @@ This package contains the ceilometer python library.
 Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
-Requires:         python-ceilometer = %{version}-%{release}
+Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
 Requires:         openstack-utils
 Requires:         python-oslo-messaging
 Requires:         python-oslo-serialization
@@ -149,7 +152,7 @@ ceilometer services.
 Summary:          OpenStack ceilometer compute agent
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
@@ -168,7 +171,7 @@ running on OpenStack compute nodes.
 Summary:          OpenStack ceilometer central agent
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
@@ -188,7 +191,7 @@ This package contains the central ceilometer agent.
 Summary:          OpenStack ceilometer collector
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 # For compat with older provisioning tools.
 # Remove when all reference the notification package explicitly
@@ -209,7 +212,7 @@ which collects metrics from the various agents.
 Summary:          OpenStack ceilometer notification agent
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 %description notification
 OpenStack ceilometer provides services to measure and
@@ -224,7 +227,7 @@ various OpenStack services.
 Summary:          OpenStack ceilometer API service
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-keystonemiddleware
 Requires:         python-oslo-db
@@ -246,7 +249,7 @@ This package contains the ceilometer API service.
 Summary:          OpenStack ceilometer alarm services
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         python-ceilometerclient
 
 %description alarm
@@ -261,7 +264,7 @@ and evaluation services.
 Summary:          OpenStack ceilometer ipmi agent
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
@@ -283,7 +286,7 @@ by-passing Ironic's management of baremetal.
 Summary:          OpenStack ceilometer polling agent
 Group:            Applications/System
 
-Requires:         %{name}-common = %{version}-%{release}
+Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient >= 2.18.0
 Requires:         python-keystoneclient >= 0.11.1
