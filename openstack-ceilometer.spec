@@ -8,7 +8,7 @@
 
 Name:             openstack-ceilometer
 Version:          2015.1.0
-Release:          3%{?milestone}%{?dist}
+Release:          4%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -386,6 +386,7 @@ install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_syscon
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
 install -p -D -m 640 etc/ceilometer/event_pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/event_pipeline.yaml
+install -p -D -m 640 etc/ceilometer/event_definitions.yaml %{buildroot}%{_sysconfdir}/ceilometer/event_definitions.yaml
 install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
 install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
 install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
@@ -782,6 +783,7 @@ fi
 
 %files notification
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/event_pipeline.yaml
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/event_definitions.yaml
 %{_bindir}/ceilometer-agent-notification
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{_initrddir}/%{name}-notification
@@ -850,6 +852,9 @@ fi
 
 
 %changelog
+* Wed Jun 24 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-4
+- include event_definitions.yaml in notification sub-package rhbz#1221924
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2015.1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
