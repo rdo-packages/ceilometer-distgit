@@ -107,6 +107,7 @@ Requires:         python-oslo-context
 Requires:         python-oslo-concurrency
 Requires:         python-oslo-i18n
 Requires:         python-oslo-middleware
+Requires:         python-oslo-service
 
 
 %description -n   python-ceilometer
