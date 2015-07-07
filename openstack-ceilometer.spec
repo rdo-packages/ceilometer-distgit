@@ -8,7 +8,7 @@
 
 Name:             openstack-ceilometer
 Version:          2015.1.0
-Release:          4%{?milestone}%{?dist}
+Release:          5%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -852,6 +852,9 @@ fi
 
 
 %changelog
+* Tue Jul 07 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-5
+- fix env file missing error in openstack-ceilometer-polling.service rhbz#1240740
+
 * Wed Jun 24 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-4
 - include event_definitions.yaml in notification sub-package rhbz#1221924
 
