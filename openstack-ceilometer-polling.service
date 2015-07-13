@@ -5,6 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 User=ceilometer
+EnvironmentFile=/etc/sysconfig/openstack-ceilometer-polling
 ExecStart=/usr/bin/ceilometer-polling --logfile /var/log/ceilometer/polling.log $OPTIONS
 
 [Install]

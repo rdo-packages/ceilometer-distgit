@@ -8,7 +8,7 @@
 
 Name:             openstack-ceilometer
 Version:          2015.1.0
-Release:          5%{?milestone}%{?dist}
+Release:          6%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -20,6 +20,7 @@ Source1:          %{service}-dist.conf
 Source2:          %{service}.logrotate
 Source3:          %{service}.conf.sample
 Source4:          ceilometer-rootwrap-sudoers
+Source5:          openstack-ceilometer-polling
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Source10:         %{name}-api.init
@@ -380,8 +381,10 @@ install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.d
 install -d -m 755 %{buildroot}%{_sysconfdir}/sudoers.d
+install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig/ceilometer
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
+install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/ceilometer/openstack-ceilometer-polling
 install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
@@ -843,6 +846,7 @@ fi
 
 %files polling
 %{_bindir}/ceilometer-polling
+%attr(-, root, ceilometer) %{_sysconfdir}/sysconfig/ceilometer/openstack-ceilometer-polling
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{_initrddir}/%{name}-polling
 %{_datarootdir}/ceilometer/%{name}-polling.upstart
@@ -852,6 +856,9 @@ fi
 
 
 %changelog
+* Mon Jul 13 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-6
+- fix env file missing error in openstack-ceilometer-polling.service rhbz#1240740
+
 * Tue Jul 07 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-5
 - fix env file missing error in openstack-ceilometer-polling.service rhbz#1240740
 
