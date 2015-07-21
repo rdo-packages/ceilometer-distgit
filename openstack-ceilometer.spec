@@ -8,7 +8,7 @@
 
 Name:             openstack-ceilometer
 Version:          2015.1.0
-Release:          6%{?milestone}%{?dist}
+Release:          7%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -381,10 +381,10 @@ install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.d
 install -d -m 755 %{buildroot}%{_sysconfdir}/sudoers.d
-install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig/ceilometer
+install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig/
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
-install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/ceilometer/openstack-ceilometer-polling
+install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/openstack-ceilometer-polling
 install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
@@ -846,7 +846,7 @@ fi
 
 %files polling
 %{_bindir}/ceilometer-polling
-%attr(-, root, ceilometer) %{_sysconfdir}/sysconfig/ceilometer/openstack-ceilometer-polling
+%attr(-, root, ceilometer) %{_sysconfdir}/sysconfig/openstack-ceilometer-polling
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{_initrddir}/%{name}-polling
 %{_datarootdir}/ceilometer/%{name}-polling.upstart
@@ -856,6 +856,9 @@ fi
 
 
 %changelog
+* Tue Jul 21 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-7
+- Point the spec to correct env file path rhbz#1240740
+
 * Mon Jul 13 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-6
 - fix env file missing error in openstack-ceilometer-polling.service rhbz#1240740
 
