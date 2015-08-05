@@ -20,26 +20,6 @@ Source3:          %{pypi_name}.conf.sample
 Source4:          ceilometer-rootwrap-sudoers
 Source5:          openstack-ceilometer-polling
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Source10:         %{name}-api.init
-Source100:        %{name}-api.upstart
-Source11:         %{name}-collector.init
-Source110:        %{name}-collector.upstart
-Source12:         %{name}-compute.init
-Source120:        %{name}-compute.upstart
-Source13:         %{name}-central.init
-Source130:        %{name}-central.upstart
-Source14:         %{name}-alarm-notifier.init
-Source140:        %{name}-alarm-notifier.upstart
-Source15:         %{name}-alarm-evaluator.init
-Source150:        %{name}-alarm-evaluator.upstart
-Source16:         %{name}-notification.init
-Source160:        %{name}-notification.upstart
-Source17:         %{name}-ipmi.init
-Source170:        %{name}-ipmi.upstart
-Source18:         %{name}-polling.init
-Source180:        %{name}-polling.upstart
-%else
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
 Source12:         %{name}-compute.service
@@ -49,7 +29,6 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
 Source18:         %{name}-polling.service
-%endif
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -59,9 +38,7 @@ BuildRequires:    python-pbr
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
 
-%if ! (0%{?rhel} && 0%{?rhel} <= 6)
-BuildRequires: systemd-units
-%endif
+BuildRequires:    systemd-units
 
 %description
 OpenStack ceilometer provides services to measure and
@@ -107,6 +84,7 @@ Requires:         python-werkzeug
 Requires:         python-oslo-context
 Requires:         python-oslo-concurrency
 Requires:         python-oslo-i18n
+Requires:         python-oslo-log
 Requires:         python-oslo-middleware
 Requires:         python-oslo-service
 
@@ -129,15 +107,9 @@ Requires:         python-oslo-serialization
 Requires:         python-oslo-utils
 Requires:         python-posix_ipc
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires(post):   chkconfig
-Requires(postun): initscripts
-Requires(preun):  chkconfig
-%else
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
 Requires(postun): systemd-units
-%endif
 Requires(pre):    shadow-utils
 
 
@@ -341,7 +313,7 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 rm -rf {test-,}requirements.txt tools/{pip,test}-requires
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 install -p -D -m 640 %{SOURCE3} etc/ceilometer/ceilometer.conf.sample
 
@@ -356,7 +328,7 @@ while read name eq value; do
 done < %{SOURCE1}
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
 # docs generation requires everything to be installed first
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
@@ -431,15 +403,10 @@ install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-# Install pid directory
-install -d -m 755 %{buildroot}%{_localstatedir}/run/ceilometer
-%endif
-
 # Remove unneeded in production stuff
 rm -f %{buildroot}%{_bindir}/ceilometer-debug
-rm -fr %{buildroot}%{python_sitelib}/tests/
-rm -fr %{buildroot}%{python_sitelib}/run_tests.*
+rm -fr %{buildroot}%{python2_sitelib}/tests/
+rm -fr %{buildroot}%{python2_sitelib}/run_tests.*
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
 
 
@@ -452,283 +419,81 @@ fi
 exit 0
 
 %post compute
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-compute
-fi
-%else
 %systemd_post %{name}-compute.service
-%endif
 
 %post collector
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-collector
-fi
-%else
 %systemd_post %{name}-collector.service
-%endif
 
 %post notification
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-notification
-fi
-%else
 %systemd_post %{name}-notification.service
-%endif
 
 %post api
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-api
-fi
-%else
 %systemd_post %{name}-api.service
-%endif
 
 %post central
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-central
-fi
-%else
 %systemd_post %{name}-central.service
-%endif
 
 %post alarm
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    for svc in alarm-notifier alarm-evaluator; do
-        /sbin/chkconfig --add %{name}-${svc}
-    done
-fi
-%else
 %systemd_post %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
-%endif
 
 %post ipmi
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-ipmi
-fi
-%else
 %systemd_post %{name}-alarm-ipmi.service
-%endif
 
 %post polling
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 1 ] ; then
-    # Initial installation
-    /sbin/chkconfig --add %{name}-polling
-fi
-%else
 %systemd_post %{name}-polling.service
-%endif
 
 %preun compute
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in compute; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-compute.service
-%endif
 
 %preun collector
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in collector; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-collector.service
-%endif
 
 %preun notification
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in notification; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-notification.service
-%endif
 
 %preun api
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in api; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-api.service
-%endif
 
 %preun central
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in central; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-central.service
-%endif
 
 %preun alarm
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in alarm-notifier alarm-evaluator; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
-%endif
 
 %preun ipmi
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in ipmi; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-ipmi.service
-%endif
 
 %preun polling
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -eq 0 ] ; then
-    for svc in polling; do
-        /sbin/service %{name}-${svc} stop > /dev/null 2>&1
-        /sbin/chkconfig --del %{name}-${svc}
-    done
-fi
-%else
 %systemd_preun %{name}-polling.service
-%endif
 
 %postun compute
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in compute; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-compute.service
-%endif
 
 %postun collector
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in collector; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-collector.service
-%endif
 
 %postun notification
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in notification; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-notification.service
-%endif
 
 %postun api
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in api; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-api.service
-%endif
 
 %postun central
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in central; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-central.service
-%endif
 
 %postun alarm
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in alarm-notifier alarm-evaluator; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
-%endif
 
 %postun ipmi
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in ipmi; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-ipmi.service
-%endif
 
 
 %postun polling
-%if 0%{?rhel} && 0%{?rhel} <= 6
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    for svc in polling; do
-        /sbin/service %{name}-${svc} condrestart > /dev/null 2>&1 || :
-    done
-fi
-%else
 %systemd_postun_with_restart %{name}-polling.service
-%endif
 
 
 %files common
-%doc LICENSE
+%license LICENSE
 %dir %{_sysconfdir}/ceilometer
 %attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/ceilometer.conf
@@ -738,9 +503,6 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%dir %attr(0755, ceilometer, root) %{_localstatedir}/run/ceilometer
-%endif
 
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
@@ -753,8 +515,8 @@ fi
 
 
 %files -n python-ceilometer
-%{python_sitelib}/ceilometer
-%{python_sitelib}/ceilometer-*.egg-info
+%{python2_sitelib}/ceilometer
+%{python2_sitelib}/ceilometer-*.egg-info
 
 
 %if 0%{?with_doc}
@@ -765,68 +527,36 @@ fi
 
 %files compute
 %{_bindir}/ceilometer-agent-compute
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-compute
-%{_datarootdir}/ceilometer/%{name}-compute.upstart
-%else
 %{_unitdir}/%{name}-compute.service
-%endif
 
 
 %files collector
 %{_bindir}/ceilometer-collector*
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-collector
-%{_datarootdir}/ceilometer/%{name}-collector.upstart
-%else
 %{_unitdir}/%{name}-collector.service
-%endif
 
 
 %files notification
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/event_pipeline.yaml
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/event_definitions.yaml
 %{_bindir}/ceilometer-agent-notification
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-notification
-%{_datarootdir}/ceilometer/%{name}-notification.upstart
-%else
 %{_unitdir}/%{name}-notification.service
-%endif
 
 
 %files api
 %{_bindir}/ceilometer-api
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-api
-%{_datarootdir}/ceilometer/%{name}-api.upstart
-%else
 %{_unitdir}/%{name}-api.service
-%endif
 
 
 %files central
 %{_bindir}/ceilometer-agent-central
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-central
-%{_datarootdir}/ceilometer/%{name}-central.upstart
-%else
 %{_unitdir}/%{name}-central.service
-%endif
 
 
 %files alarm
 %{_bindir}/ceilometer-alarm-notifier
 %{_bindir}/ceilometer-alarm-evaluator
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-alarm-notifier
-%{_datarootdir}/ceilometer/%{name}-alarm-notifier.upstart
-%{_initrddir}/%{name}-alarm-evaluator
-%{_datarootdir}/ceilometer/%{name}-alarm-evaluator.upstart
-%else
 %{_unitdir}/%{name}-alarm-notifier.service
 %{_unitdir}/%{name}-alarm-evaluator.service
-%endif
 
 
 %files ipmi
@@ -835,140 +565,12 @@ fi
 %{_bindir}/ceilometer-rootwrap
 %{_bindir}/ceilometer-agent-ipmi
 %{_sysconfdir}/sudoers.d/ceilometer
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-ipmi
-%{_datarootdir}/ceilometer/%{name}-ipmi.upstart
-%else
 %{_unitdir}/%{name}-ipmi.service
-%endif
 
 %files polling
 %{_bindir}/ceilometer-polling
 %attr(-, root, ceilometer) %{_sysconfdir}/sysconfig/openstack-ceilometer-polling
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_initrddir}/%{name}-polling
-%{_datarootdir}/ceilometer/%{name}-polling.upstart
-%else
 %{_unitdir}/%{name}-polling.service
-%endif
 
 
 %changelog
-* Mon Jan 26 2015 Ivan Berezovskiy <iberezovskiy@mirantis.com> 2015.1-0.1.b1
-- Added new openstack-ceilometer-polling subpackage
-
-* Thu Oct 23 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-2
-- Handle poorly formed individual sensor readings
-
-* Mon Oct 20 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-1
-- Update to upstream 2014.2 (Juno release)
-
-* Wed Oct 15 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.10.rc3
-- Update to upstream 2014.2.rc3
-
-* Tue Oct 14 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.9.rc2
-- Added new openstack-ceilometer-ipmi new subpackage
-
-* Sat Oct 11 2014 Alan Pevec <alan.pevec@redhat.com> 2014.2-0.8.rc2
-- Update to upstream 2014.2.rc2
-
-* Fri Oct 10 2014 Pádraig Brady <pbrady@redhat.com> - 2014.2-0.6.b3
-- Ensure service files are registered with systemd at install time
-
-* Thu Oct 02 2014 Eoghan Glynn <eglynn@redhat.com> 2014.2-0.5.b3
-- Added python-tooz dependency for compute agent
-
-* Wed Sep 17 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.4.b3
-- Update to upstream 2014.2.b3
-
-* Thu Aug 21 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.3.b2
-- Fix pre-uninstall scripts
-
-* Mon Aug 18 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.2.b2
-- Merge epel6 and Fedora specfiles
-
-* Fri Aug 01 2014 Nejc Saje <nsaje@redhat.com> 2014.2-0.1.b2
-- Update to upstream 2014.2.b2
-
-* Wed Jun 25 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-3
-- remove token from notifier middleware bz#1112949
-
-* Wed Jun 11 2014 Steve Linabery <slinaber@redhat.com> - 2014.1.1-2
-- Update to upstream 2014.1.1
-- fix message routing with newer QPID (rhbz#1103800)
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2014.1-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Wed May 07 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-2
-- Avoid dependency issues with distributed installs (#1095414)
-
-* Thu Apr 17 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-1
-- Update to Icehouse release
-
-* Fri Apr 11 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.7.rc2
-- Update to upstream 2014.1.rc2
-- Remove qpid as default rpc backend
-- Split out openstack-ceilometer-notification subpackage from collector
-
-* Mon Mar 31 2014 Pádraig Brady <P@draigBrady.com> 2014.1-0.6.rc1
-- Update to upstream 2014.1.rc1
-
-* Fri Mar 14 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.5.b3
-- Update to Icehouse milestone 3
-
-* Tue Feb 04 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.4.b2
-- Fix missing dependency on python-babel
-
-* Mon Jan 27 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.3.b2
-- Update to Icehouse milestone 2
-
-* Mon Jan 06 2014 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.2.b1
-- Set python-six min version to ensure updated
-
-* Mon Dec 16 2013 Pádraig Brady <pbrady@redhat.com> - 2014.1-0.1.b1
-- Update to Icehouse milestone 1
-
-* Thu Oct 17 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-1
-- Update to Havana release
-
-* Tue Oct 15 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.12.rc2
-- Update to Havana rc2
-- openstack-ceilometer-alarm now depends on python-ceilometerclient
-
-* Thu Oct 03 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.12.rc1
-- Update to Havana rc1
-- Separate out the new alarm services to the 'alarm' subpackage
-
-* Fri Sep 13 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.10.b3
-- Depend on python-oslo-config >= 1:1.2.0 so it upgraded automatically
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.8.b3
-- Depend on python-pymongo rather than pymongo to avoid a puppet bug
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.7.b3
-- Depend on python-alembic
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.6.b3
-- Distribute dist defaults in ceilometer-dist.conf separate to user ceilometer.conf
-
-* Mon Sep 9 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.5.b3
-- Update to Havana milestone 3
-
-* Tue Aug 27 2013 Pádraig Brady <pbrady@redhat.com> - 2013.2-0.4.b1
-- Avoid python runtime dependency management
-
-* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2013.2-0.3.b1
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
-
-* Thu Jun  6 2013 Pádraig Brady <P@draigBrady.com> - 2013.2-0.2.b1
-- Fix uninstall for openstack-ceilometer-central
-
-* Fri May 31 2013 Pádraig Brady <P@draigBrady.com> - 2013.2-0.1.b1
-- Havana milestone 1
-
-* Mon Apr  8 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-1
-- Grizzly release
-
-* Tue Mar 26 2013 Pádraig Brady <P@draigBrady.com> - 2013.1-0.5.g3
-- Initial package

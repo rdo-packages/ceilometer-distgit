@@ -1,8 +1,0 @@
-description "OpenStack Ceilometer compute agent"
-
-start on stopped rc RUNLEVEL=[2345]
-stop on runlevel [S016]
-
-respawn
-
-exec su -s /bin/sh -c "exec /usr/bin/ceilometer-agent-compute --logfile /var/log/ceilometer/compute.log" ceilometer
