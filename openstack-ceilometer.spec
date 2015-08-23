@@ -87,7 +87,7 @@ Requires:         python-oslo-i18n
 Requires:         python-oslo-log
 Requires:         python-oslo-middleware
 Requires:         python-oslo-service
-
+Requires:         python-oslo-reports
 
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
