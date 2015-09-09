@@ -127,6 +127,7 @@ Summary:          OpenStack ceilometer compute agent
 Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
+Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
@@ -146,6 +147,7 @@ Summary:          OpenStack ceilometer central agent
 Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
+Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
@@ -239,6 +241,7 @@ Summary:          OpenStack ceilometer ipmi agent
 Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
+Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient
 Requires:         python-keystoneclient
@@ -526,7 +529,6 @@ exit 0
 
 
 %files compute
-%{_bindir}/ceilometer-agent-compute
 %{_unitdir}/%{name}-compute.service
 
 
@@ -548,7 +550,6 @@ exit 0
 
 
 %files central
-%{_bindir}/ceilometer-agent-central
 %{_unitdir}/%{name}-central.service
 
 
@@ -563,7 +564,6 @@ exit 0
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/rootwrap.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
 %{_bindir}/ceilometer-rootwrap
-%{_bindir}/ceilometer-agent-ipmi
 %{_sysconfdir}/sudoers.d/ceilometer
 %{_unitdir}/%{name}-ipmi.service
 
