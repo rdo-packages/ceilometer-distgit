@@ -67,13 +67,12 @@ Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
-Requires:         python-oslo-config >= 2:1.4.0
+Requires:         python-oslo-config >= 2:2.3.0
 Requires:         PyYAML
 Requires:         python-netaddr
-Requires:         python-oslo-config >= 2:1.4.0
 Requires:         python-oslo-rootwrap
 Requires:         python-oslo-vmware >= 0.6.0
-Requires:         python-requests >= 1.2.1
+Requires:         python-requests >= 2.5.2
 
 Requires:         pysnmp
 Requires:         pytz
@@ -88,6 +87,7 @@ Requires:         python-oslo-concurrency
 Requires:         python-oslo-i18n
 Requires:         python-oslo-log
 Requires:         python-oslo-middleware
+Requires:         python-oslo-policy
 Requires:         python-oslo-service
 Requires:         python-oslo-reports
 
