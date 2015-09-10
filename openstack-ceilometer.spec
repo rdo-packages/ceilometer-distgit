@@ -56,9 +56,11 @@ Requires:         python-iso8601
 Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
+Requires:         python-jsonpath-rw-ext
 Requires:         python-stevedore >= 1.0.0
 Requires:         python-msgpack
-Requires:         python-six >= 1.6
+Requires:         python-pbr
+Requires:         python-six >= 1.9.0
 
 Requires:         python-sqlalchemy
 Requires:         python-alembic
