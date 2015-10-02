@@ -1,24 +1,31 @@
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
+%global milestone rc1
+
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          2015.1.0
-Release:          7%{?milestone}%{?dist}
+Version:          5.0.0.0
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source3:          %{pypi_name}.conf.sample
 Source4:          ceilometer-rootwrap-sudoers
 Source5:          openstack-ceilometer-polling
+
+#
+# patches_base=5.0.0.0rc1
+#
 
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
@@ -578,6 +585,9 @@ exit 0
 
 
 %changelog
+* Fri Oct 02 2015 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.0-0.1
+- Update to upstream 5.0.0.0rc1
+
 * Tue Jul 21 2015 Pradeep Kilambi <pkilambi@redhat.com> 2015.1.0-7
 - Point the spec to correct env file path rhbz#1240740
 
