@@ -1,7 +1,7 @@
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
-%global milestone rc1
+%global milestone .0rc1
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
@@ -9,8 +9,8 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          5.0.0.0
-Release:          0.1%{?milestone}%{?dist}
+Version:          5.0.0
+Release:          0.2%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -585,6 +585,9 @@ exit 0
 
 
 %changelog
+* Sat Oct 03 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 1:5.0.0-0.2.0rc1
+- Fix version
+
 * Fri Oct 02 2015 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.0-0.1
 - Update to upstream 5.0.0.0rc1
 
