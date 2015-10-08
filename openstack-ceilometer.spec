@@ -1,7 +1,7 @@
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
-%global milestone .0rc1
+%global milestone .0rc2
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
@@ -10,7 +10,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          5.0.0
-Release:          0.2%{?milestone}%{?dist}
+Release:          0.3%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -24,7 +24,7 @@ Source4:          ceilometer-rootwrap-sudoers
 Source5:          openstack-ceilometer-polling
 
 #
-# patches_base=5.0.0.0rc1
+# patches_base=5.0.0.0rc2
 #
 
 Source10:         %{name}-api.service
@@ -585,6 +585,9 @@ exit 0
 
 
 %changelog
+* Thu Oct 08 2015 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.0-0.3.0rc2
+- Update to upstream 5.0.0.0rc2
+
 * Sat Oct 03 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 1:5.0.0-0.2.0rc1
 - Fix version
 
