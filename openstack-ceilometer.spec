@@ -63,7 +63,7 @@ Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
 Requires:         python-jsonpath-rw-ext
-Requires:         python-stevedore >= 1.0.0
+Requires:         python-stevedore >= 1.5.0
 Requires:         python-msgpack
 Requires:         python-pbr
 Requires:         python-six >= 1.9.0
@@ -137,8 +137,8 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient
-Requires:         python-keystoneclient
+Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-tooz
 Requires:         libvirt-python
 
@@ -157,9 +157,9 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient
-Requires:         python-keystoneclient
-Requires:         python-glanceclient
+Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-keystoneclient >= 1:1.6.0
+Requires:         python-glanceclient >= 1:0.18.0
 Requires:         python-swiftclient
 Requires:         python-neutronclient
 Requires:         python-tooz
@@ -216,8 +216,8 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         python-keystonemiddleware
 Requires:         python-oslo-db
 Requires:         python-pymongo
-Requires:         python-pecan >= 0.4.5
-Requires:         python-wsme >= 0.6
+Requires:         python-pecan >= 1.0.0
+Requires:         python-wsme >= 0.7
 Requires:         python-paste-deploy
 Requires:         python-ceilometerclient
 Requires:         python-tooz
@@ -251,8 +251,8 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient
-Requires:         python-keystoneclient
+Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-neutronclient
 Requires:         python-tooz
 Requires:         python-oslo-rootwrap
@@ -273,9 +273,9 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 2.18.0
-Requires:         python-keystoneclient >= 0.11.1
-Requires:         python-glanceclient >= 0.14.0
+Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-keystoneclient >= 1:1.6.0
+Requires:         python-glanceclient >= 1:0.18.0
 Requires:         python-swiftclient >= 2.2.0
 Requires:         libvirt-python
 
