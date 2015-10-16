@@ -34,6 +34,8 @@ Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
 Source18:         %{name}-polling.service
 
+Patch0001: 0001-If-mongodb_replica_set-is-empty-do-not-pass-it-to-cl.patch
+
 BuildArch:        noarch
 BuildRequires:    intltool
 BuildRequires:    python-sphinx
@@ -309,6 +311,8 @@ This package contains documentation files for ceilometer.
 
 %prep
 %setup -q -n ceilometer-%{upstream_version}
+
+%patch0001 -p1
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
