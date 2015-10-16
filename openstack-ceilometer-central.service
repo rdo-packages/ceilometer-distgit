@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 User=ceilometer
-ExecStart=/usr/bin/ceilometer-agent-central --logfile /var/log/ceilometer/central.log
+ExecStart=/usr/bin/ceilometer-polling --polling-namespaces central --logfile /var/log/ceilometer/central.log
 
 [Install]
 WantedBy=multi-user.target
