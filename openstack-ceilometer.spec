@@ -16,7 +16,6 @@ URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
-Source3:          %{pypi_name}.conf.sample
 Source4:          ceilometer-rootwrap-sudoers
 Source5:          openstack-ceilometer-polling
 
@@ -114,7 +113,30 @@ Requires(preun):  systemd-units
 Requires(postun): systemd-units
 Requires(pre):    shadow-utils
 
-
+# Config file generation
+BuildRequires:    python-oslo-config >= 2:2.3.0
+BuildRequires:    python-oslo-concurrency
+BuildRequires:    python-oslo-db
+BuildRequires:    python-oslo-log
+BuildRequires:    python-oslo-messaging
+BuildRequires:    python-oslo-policy
+BuildRequires:    python-oslo-reports
+BuildRequires:    python-oslo-service
+BuildRequires:    python-oslo-vmware >= 0.6.0
+BuildRequires:    python-ceilometerclient
+BuildRequires:    python-glanceclient >= 1:0.18.0
+BuildRequires:    python-keystonemiddleware
+BuildRequires:    python-neutronclient
+BuildRequires:    python-novaclient  >= 1:2.28.1
+BuildRequires:    python-swiftclient
+BuildRequires:    python-croniter
+BuildRequires:    python-jsonpath-rw
+BuildRequires:    python-jsonpath-rw-ext
+BuildRequires:    python-lxml
+BuildRequires:    python-pecan >= 1.0.0
+BuildRequires:    python-tooz
+BuildRequires:    python-werkzeug
+BuildRequires:    python-wsme >= 0.7
 
 %description common
 OpenStack ceilometer provides services to measure and
@@ -318,9 +340,11 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 rm -rf {test-,}requirements.txt tools/{pip,test}-requires
 
 %build
+# Generate config file
+PYTHONPATH=. ./generate-config-file.sh
+
 %{__python2} setup.py build
 
-install -p -D -m 640 %{SOURCE3} etc/ceilometer/ceilometer.conf.sample
 
 # Programmatically update defaults in sample config
 # which is installed at /etc/ceilometer/ceilometer.conf
@@ -329,7 +353,7 @@ install -p -D -m 640 %{SOURCE3} etc/ceilometer/ceilometer.conf.sample
 # and also doesn't support multi-valued variables.
 while read name eq value; do
   test "$name" && test "$value" || continue
-  sed -i "0,/^# *$name=/{s!^# *$name=.*!#$name=$value!}" etc/ceilometer/ceilometer.conf.sample
+  sed -i "0,/^# *$name=/{s!^# *$name=.*!#$name=$value!}" etc/ceilometer/ceilometer.conf
 done < %{SOURCE1}
 
 %install
@@ -361,7 +385,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
 install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/openstack-ceilometer-polling
-install -p -D -m 640 etc/ceilometer/ceilometer.conf.sample %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
+install -p -D -m 640 etc/ceilometer/ceilometer.conf %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
 install -p -D -m 640 etc/ceilometer/event_pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/event_pipeline.yaml
