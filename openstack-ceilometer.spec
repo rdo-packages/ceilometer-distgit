@@ -370,6 +370,7 @@ install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/cei
 install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
 install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
 install -p -D -m 640 ceilometer/meter/data/meters.yaml %{buildroot}%{_sysconfdir}/ceilometer/meters.yaml
+install -p -D -m 640 etc/ceilometer/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 
 # Install initscripts for services
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -506,6 +507,7 @@ exit 0
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/policy.json
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/pipeline.yaml
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/api_paste.ini
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
