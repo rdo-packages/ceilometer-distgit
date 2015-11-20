@@ -6,6 +6,7 @@ After=syslog.target network.target
 Type=simple
 User=ceilometer
 ExecStart=/usr/bin/ceilometer-polling --polling-namespaces central --logfile /var/log/ceilometer/central.log
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

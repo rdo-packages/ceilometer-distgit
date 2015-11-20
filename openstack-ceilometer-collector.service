@@ -6,6 +6,7 @@ After=syslog.target network.target
 Type=simple
 User=ceilometer
 ExecStart=/usr/bin/ceilometer-collector --logfile /var/log/ceilometer/collector.log
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
