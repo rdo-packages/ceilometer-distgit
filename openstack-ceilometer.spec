@@ -23,8 +23,6 @@ Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
 Source12:         %{name}-compute.service
 Source13:         %{name}-central.service
-Source14:         %{name}-alarm-notifier.service
-Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
 Source18:         %{name}-polling.service
@@ -245,21 +243,6 @@ collect metrics from OpenStack components.
 This package contains the ceilometer API service.
 
 
-%package alarm
-Summary:          OpenStack ceilometer alarm services
-Group:            Applications/System
-
-Requires:         %{name}-common = %{epoch}:%{version}-%{release}
-Requires:         python-ceilometerclient
-
-%description alarm
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
-
-This package contains the ceilometer alarm notification
-and evaluation services.
-
-
 %package ipmi
 Summary:          OpenStack ceilometer ipmi agent
 Group:            Applications/System
@@ -402,8 +385,6 @@ install -p -D -m 755 %{SOURCE10} %{buildroot}%{_initrddir}/%{name}-api
 install -p -D -m 755 %{SOURCE11} %{buildroot}%{_initrddir}/%{name}-collector
 install -p -D -m 755 %{SOURCE12} %{buildroot}%{_initrddir}/%{name}-compute
 install -p -D -m 755 %{SOURCE13} %{buildroot}%{_initrddir}/%{name}-central
-install -p -D -m 755 %{SOURCE14} %{buildroot}%{_initrddir}/%{name}-alarm-notifier
-install -p -D -m 755 %{SOURCE15} %{buildroot}%{_initrddir}/%{name}-alarm-evaluator
 install -p -D -m 755 %{SOURCE16} %{buildroot}%{_initrddir}/%{name}-notification
 install -p -D -m 755 %{SOURCE17} %{buildroot}%{_initrddir}/%{name}-ipmi
 install -p -D -m 755 %{SOURCE18} %{buildroot}%{_initrddir}/%{name}-polling
@@ -424,8 +405,6 @@ install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-compute.service
 install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
-install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-alarm-notifier.service
-install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-alarm-evaluator.service
 install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
 install -p -D -m 644 %{SOURCE17} %{buildroot}%{_unitdir}/%{name}-ipmi.service
 install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
@@ -464,9 +443,6 @@ exit 0
 %post central
 %systemd_post %{name}-central.service
 
-%post alarm
-%systemd_post %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
-
 %post ipmi
 %systemd_post %{name}-alarm-ipmi.service
 
@@ -488,9 +464,6 @@ exit 0
 %preun central
 %systemd_preun %{name}-central.service
 
-%preun alarm
-%systemd_preun %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
-
 %preun ipmi
 %systemd_preun %{name}-ipmi.service
 
@@ -511,9 +484,6 @@ exit 0
 
 %postun central
 %systemd_postun_with_restart %{name}-central.service
-
-%postun alarm
-%systemd_postun_with_restart %{name}-alarm-notifier.service %{name}-alarm-evaluator.service
 
 %postun ipmi
 %systemd_postun_with_restart %{name}-ipmi.service
@@ -581,13 +551,6 @@ exit 0
 
 %files central
 %{_unitdir}/%{name}-central.service
-
-
-%files alarm
-%{_bindir}/ceilometer-alarm-notifier
-%{_bindir}/ceilometer-alarm-evaluator
-%{_unitdir}/%{name}-alarm-notifier.service
-%{_unitdir}/%{name}-alarm-evaluator.service
 
 
 %files ipmi
