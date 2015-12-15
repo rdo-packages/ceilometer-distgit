@@ -10,7 +10,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          5.0.0
-Release:          1%{?milestone}%{?dist}
+Release:          2%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -612,6 +612,9 @@ exit 0
 
 
 %changelog
+* Tue Dec 15 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 1:5.0.0-2
+- Fix perms on ceilometer sudoers file
+
 * Sat Oct 17 2015 Alan Pevec <alan.pevec@redhat.com> 1:5.0.0-1
 - Update to upstream 5.0.0
 
