@@ -358,7 +358,7 @@ popd
 # Setup directories
 install -d -m 755 %{buildroot}%{_sharedstatedir}/ceilometer
 install -d -m 755 %{buildroot}%{_sharedstatedir}/ceilometer/tmp
-install -d -m 755 %{buildroot}%{_localstatedir}/log/ceilometer
+install -d -m 750 %{buildroot}%{_localstatedir}/log/ceilometer
 
 # Install config files
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
