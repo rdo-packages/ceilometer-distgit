@@ -9,14 +9,15 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          5.0.0
-Release:          2%{?milestone}%{?dist}
+Version:          5.0.1
+Release:          1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://launchpad.net/%{service}/%{release_name}/%{version}/+download/%{service}-%{upstream_version}.tar.gz
+#Source0:          http://launchpad.net/%{service}/%{release_name}/%{version}/+download/%{service}-%{upstream_version}.tar.gz
+Source0:          https://tarballs.openstack.org/%{service}/%{service}-%{upstream_version}.tar.gz
 
 Source1:          %{service}-dist.conf
 Source2:          %{service}.logrotate
@@ -32,8 +33,6 @@ Source15:         %{name}-alarm-evaluator.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
 Source18:         %{name}-polling.service
-
-Patch0001: 0001-If-mongodb_replica_set-is-empty-do-not-pass-it-to-cl.patch
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -334,8 +333,6 @@ This package contains documentation files for ceilometer.
 %prep
 %setup -q -n ceilometer-%{upstream_version}
 
-%patch0001 -p1
-
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
 find ceilometer -name \*.py -exec sed -i '/\/usr\/bin\/env python/{d;q}' {} +
@@ -612,6 +609,9 @@ exit 0
 
 
 %changelog
+* Mon Dec 21 2015 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.1-1
+- Update to 5.0.1
+
 * Tue Dec 15 2015 Haïkel Guémar <hguemar@fedoraproject.org> - 1:5.0.0-2
 - Fix perms on ceilometer sudoers file
 
