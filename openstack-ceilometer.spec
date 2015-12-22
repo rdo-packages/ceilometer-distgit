@@ -280,7 +280,7 @@ Requires:         libvirt-python
 
 %description polling
 Ceilometer aims to deliver a unique point of contact for billing systems to
-aquire all counters they need to establish customer billing, across all
+acquire all counters they need to establish customer billing, across all
 current and future OpenStack components. The delivery of counters must
 be tracable and auditable, the counters must be easily extensible to support
 new projects, and agents doing data collections should be
@@ -332,7 +332,7 @@ PYTHONPATH=. oslo-config-generator --config-file=etc/ceilometer/ceilometer-confi
 # Programmatically update defaults in sample config
 # which is installed at /etc/ceilometer/ceilometer.conf
 # TODO: Make this more robust
-# Note it only edits the first occurance, so assumes a section ordering in sample
+# Note it only edits the first occurrence, so assumes a section ordering in sample
 # and also doesn't support multi-valued variables.
 while read name eq value; do
   test "$name" && test "$value" || continue
