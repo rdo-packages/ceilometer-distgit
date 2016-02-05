@@ -10,7 +10,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          5.0.2
-Release:          1%{?milestone}%{?dist}
+Release:          2%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -609,8 +609,12 @@ exit 0
 
 
 %changelog
-* Wed Jan 27 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.2-1
-- Update to 5.0.2
+* wed jan 27 2016 haikel guemar <hguemar@fedoraproject.org> 1:5.0.2-2
+- Test
+- update to 5.0.2
+
+* wed jan 27 2016 haikel guemar <hguemar@fedoraproject.org> 1:5.0.2-1
+- update to 5.0.2
 
 * Mon Dec 21 2015 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.1-1
 - Update to 5.0.1
