@@ -135,6 +135,8 @@ BuildRequires:    python-pecan >= 1.0.0
 BuildRequires:    python-tooz
 BuildRequires:    python-werkzeug
 BuildRequires:    python-wsme >= 0.7
+BuildRequires:    python-gnocchiclient
+
 
 %description common
 OpenStack ceilometer provides services to measure and
