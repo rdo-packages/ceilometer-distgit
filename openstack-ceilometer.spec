@@ -290,6 +290,15 @@ independent of the overall system.
 
 This package contains the polling service.
 
+%package -n python-ceilometer-tests
+Summary:        Ceilometer tests
+Requires:       python-ceilometer = %{epoch}:%{version}-%{release}
+
+%description -n python-ceilometer-tests
+OpenStack ceilometer provides services to measure and
+collect metrics from OpenStack components.
+
+This package contains the Ceilometer test files.
 
 %if 0%{?with_doc}
 %package doc
@@ -416,9 +425,6 @@ install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Remove unneeded in production stuff
-rm -f %{buildroot}%{_bindir}/ceilometer-debug
-rm -fr %{buildroot}%{python2_sitelib}/tests/
-rm -fr %{buildroot}%{python2_sitelib}/run_tests.*
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
 
 
@@ -521,7 +527,11 @@ exit 0
 %files -n python-ceilometer
 %{python2_sitelib}/ceilometer
 %{python2_sitelib}/ceilometer-*.egg-info
+%exclude %{python2_sitelib}/ceilometer/tests
 
+%files -n python-ceilometer-tests
+%license LICENSE
+%{python2_sitelib}/ceilometer/tests
 
 %if 0%{?with_doc}
 %files doc
