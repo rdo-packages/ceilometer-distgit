@@ -1,19 +1,23 @@
+%define milestone .0rc1
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
+
+
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          XXX
-Release:          XXX
+Version:          6.0.0
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}%{?milestone}.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
@@ -579,3 +583,5 @@ exit 0
 
 
 %changelog
+* Thu Mar 24 2016 RDO <rdo-list@redhat.com> 6.0.0-0.1.0rc1
+- RC1 Rebuild for Mitaka RC1 rc1
