@@ -55,7 +55,7 @@ Requires:         python-anyjson
 Requires:         python-jsonpath-rw
 Requires:         python-jsonpath-rw-ext
 Requires:         python-stevedore >= 1.5.0
-Requires:         python-msgpack
+Requires:         python-msgpack >= 0.4.0
 Requires:         python-pbr
 Requires:         python-six >= 1.9.0
 
@@ -64,7 +64,7 @@ Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
-Requires:         python-oslo-config >= 2:2.3.0
+Requires:         python-oslo-config >= 2:3.7.0
 Requires:         PyYAML
 Requires:         python-netaddr
 Requires:         python-oslo-rootwrap
@@ -80,7 +80,7 @@ Requires:         python-jsonschema
 Requires:         python-werkzeug
 
 Requires:         python-oslo-context
-Requires:         python-oslo-concurrency
+Requires:         python-oslo-concurrency >= 3.5.0
 Requires:         python-oslo-i18n
 Requires:         python-oslo-log
 Requires:         python-oslo-middleware
@@ -112,7 +112,7 @@ Requires(postun): systemd-units
 Requires(pre):    shadow-utils
 
 # Config file generation
-BuildRequires:    python-oslo-config >= 2:2.3.0
+BuildRequires:    python-oslo-config >= 2:3.7.0
 BuildRequires:    python-oslo-concurrency
 BuildRequires:    python-oslo-db
 BuildRequires:    python-oslo-log
@@ -122,10 +122,10 @@ BuildRequires:    python-oslo-reports
 BuildRequires:    python-oslo-service
 BuildRequires:    python-oslo-vmware >= 0.6.0
 BuildRequires:    python-ceilometerclient
-BuildRequires:    python-glanceclient >= 1:0.18.0
+BuildRequires:    python-glanceclient >= 1:2.0.0
 BuildRequires:    python-keystonemiddleware
 BuildRequires:    python-neutronclient
-BuildRequires:    python-novaclient  >= 1:2.28.1
+BuildRequires:    python-novaclient  >= 1:2.29.0
 BuildRequires:    python-swiftclient
 BuildRequires:    python-croniter
 BuildRequires:    python-jsonpath-rw
@@ -153,7 +153,7 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-tooz
 Requires:         libvirt-python
@@ -173,9 +173,9 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 1:0.18.0
+Requires:         python-glanceclient >= 1:2.0.0
 Requires:         python-swiftclient
 Requires:         python-neutronclient
 Requires:         python-tooz
@@ -233,7 +233,7 @@ Requires:         python-keystonemiddleware
 Requires:         python-oslo-db
 Requires:         python-pymongo
 Requires:         python-pecan >= 1.0.0
-Requires:         python-wsme >= 0.7
+Requires:         python-wsme >= 0.8
 Requires:         python-paste-deploy
 Requires:         python-ceilometerclient
 Requires:         python-tooz
@@ -252,7 +252,7 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-neutronclient
 Requires:         python-tooz
@@ -274,7 +274,7 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.28.1
+Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-glanceclient >= 1:0.18.0
 Requires:         python-swiftclient >= 2.2.0
