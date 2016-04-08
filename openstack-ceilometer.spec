@@ -10,7 +10,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          6.0.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -182,7 +182,7 @@ Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 2:2.2.0
+Requires:         python-glanceclient >= 1:2.0.0
 Requires:         python-swiftclient
 Requires:         python-neutronclient
 Requires:         python-tooz
@@ -586,6 +586,9 @@ exit 0
 
 
 %changelog
+* Fri Apr  8 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 1:6.0.0-2
+- Fix requirements lower bounds
+
 * Thu Apr  7 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 1:6.0.0-1
 - Upstream 6.0.0
 
