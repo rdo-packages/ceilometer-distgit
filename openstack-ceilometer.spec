@@ -34,6 +34,8 @@ BuildRequires:    python-setuptools
 BuildRequires:    python-pbr
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
+# Required to compile translation files
+BuildRequires:    python-babel
 
 BuildRequires:    systemd-units
 
@@ -337,6 +339,18 @@ rm -rf {test-,}requirements.txt tools/{pip,test}-requires
 # Generate config file
 PYTHONPATH=. oslo-config-generator --config-file=etc/ceilometer/ceilometer-config-generator.conf
 
+# Generate i18n files
+
+%{__python2} setup.py compile_catalog
+echo >> ceilometer.egg-info/SOURCES.txt
+ls ceilometer/locale/*/LC_*/ceilometer*mo >> ceilometer.egg-info/SOURCES.txt
+sed -i '/ceilometer\/locale\/.*\/LC_.*\/ceilometer.*.po/d' ceilometer.egg-info/SOURCES.txt
+sed -i '/ceilometer\/locale\/ceilometer.*.pot/d' ceilometer.egg-info/SOURCES.txt
+
+# I need to remove .git to avoid egg-info regeneration on build
+rm -rf .git*
+
+# Build
 %{__python2} setup.py build
 
 
@@ -424,6 +438,13 @@ install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
+# Install i18n files
+install -d -m 755 %{buildroot}%{_datadir}
+mv %{buildroot}%{python2_sitelib}/ceilometer/locale %{buildroot}%{_datadir}/locale
+
+# Find language files
+%find_lang ceilometer
+
 # Remove unneeded in production stuff
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
 
@@ -501,7 +522,7 @@ exit 0
 %systemd_postun_with_restart %{name}-polling.service
 
 
-%files common
+%files common -f ceilometer.lang
 %license LICENSE
 %dir %{_sysconfdir}/ceilometer
 %attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
