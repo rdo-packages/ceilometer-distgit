@@ -34,6 +34,8 @@ BuildRequires:    python-setuptools
 BuildRequires:    python-pbr
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
+# Required to compile translation files
+BuildRequires:    python-babel
 
 BuildRequires:    systemd-units
 
@@ -339,6 +341,8 @@ PYTHONPATH=. oslo-config-generator --config-file=etc/ceilometer/ceilometer-confi
 
 %{__python2} setup.py build
 
+# Generate i18n files
+%{__python2} setup.py compile_catalog -d build/lib/%{pypi_name}/locale
 
 # Programmatically update defaults in sample config
 # which is installed at /etc/ceilometer/ceilometer.conf
@@ -424,6 +428,15 @@ install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
+# Install i18n .mo files (.po and .pot are not required)
+install -d -m 755 %{buildroot}%{_datadir}
+rm -f %{buildroot}%{python2_sitelib}/%{pypi_name}/locale/*/LC_*/%{pypi_name}*po
+rm -f %{buildroot}%{python2_sitelib}/%{pypi_name}/locale/*pot
+mv %{buildroot}%{python2_sitelib}/%{pypi_name}/locale %{buildroot}%{_datadir}/locale
+
+# Find language files
+%find_lang %{pypi_name} --all-name
+
 # Remove unneeded in production stuff
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
 
@@ -501,7 +514,7 @@ exit 0
 %systemd_postun_with_restart %{name}-polling.service
 
 
-%files common
+%files common -f %{pypi_name}.lang
 %license LICENSE
 %dir %{_sysconfdir}/ceilometer
 %attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
