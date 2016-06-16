@@ -102,7 +102,6 @@ Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         openstack-utils
 Requires:         python-oslo-messaging
 Requires:         python-oslo-serialization
 Requires:         python-oslo-utils
