@@ -9,18 +9,14 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          6.0.0
-Release:          2%{?dist}
+Version:          6.1.0
+Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}%{?milestone}.tar.gz
-#
-# patches_base=6.0.0.0rc3
-#
-
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
@@ -586,6 +582,9 @@ exit 0
 
 
 %changelog
+* Tue Jun 21 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:6.1.0-1
+- Update to 6.1.0
+
 * Fri Apr  8 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 1:6.0.0-2
 - Fix requirements lower bounds
 
