@@ -527,6 +527,7 @@ exit 0
 %dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
 
 %{_bindir}/ceilometer-dbsync
+%{_bindir}/ceilometer-db-legacy-clean
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
 
