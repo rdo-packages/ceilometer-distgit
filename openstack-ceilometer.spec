@@ -29,6 +29,7 @@ Source18:         %{name}-polling.service
 
 BuildArch:        noarch
 BuildRequires:    intltool
+BuildRequires:    python-cotyledon
 BuildRequires:    python-sphinx
 BuildRequires:    python-setuptools
 BuildRequires:    python-pbr
@@ -50,6 +51,7 @@ Group:            Applications/System
 
 Requires:         python-babel
 Requires:         python-eventlet
+Requires:         python-cotyledon
 Requires:         python-greenlet
 Requires:         python-iso8601
 Requires:         python-lxml
