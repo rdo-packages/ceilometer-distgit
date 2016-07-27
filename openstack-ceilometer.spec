@@ -10,7 +10,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          6.1.3
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -594,6 +594,9 @@ exit 0
 
 
 %changelog
+* Wed Jul 27 2016 Haïkel Guémar <hguemar@fedoraproject.org> - 1:6.1.3-2
+- generate i18n catalogs properly
+
 * Mon Jul 25 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:6.1.3-1
 - Update to 6.1.3
 
