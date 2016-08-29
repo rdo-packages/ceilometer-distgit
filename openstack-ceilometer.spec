@@ -441,6 +441,8 @@ mv %{buildroot}%{python2_sitelib}/%{pypi_name}/locale %{buildroot}%{_datadir}/lo
 # Remove unneeded in production stuff
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
 
+# Remove unused files
+rm -fr %{buildroot}/usr/etc
 
 %pre common
 getent group ceilometer >/dev/null || groupadd -r ceilometer --gid 166
