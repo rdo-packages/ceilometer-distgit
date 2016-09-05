@@ -18,7 +18,6 @@ Source0:          https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{ups
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
-Source5:          openstack-ceilometer-polling
 
 Source10:         %{name}-api.service
 Source11:         %{name}-collector.service
@@ -384,7 +383,6 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/sudoers.d
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 440 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
-install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/openstack-ceilometer-polling
 install -p -D -m 640 etc/ceilometer/ceilometer.conf %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
 install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 etc/ceilometer/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
@@ -592,7 +590,6 @@ exit 0
 
 %files polling
 %{_bindir}/ceilometer-polling
-%attr(-, root, ceilometer) %{_sysconfdir}/sysconfig/openstack-ceilometer-polling
 %{_unitdir}/%{name}-polling.service
 
 
