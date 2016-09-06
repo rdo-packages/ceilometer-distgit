@@ -534,7 +534,7 @@ exit 0
 %{_bindir}/ceilometer-db-legacy-clean
 %{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
-
+%{_bindir}/ceilometer-upgrade
 
 %defattr(-, ceilometer, ceilometer, -)
 %dir %{_sharedstatedir}/ceilometer
