@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_579a2e15",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 74
+      },
+      "writtenOn": "2016-09-09T14:47:39Z",
+      "side": 1,
+      "message": "can we add \u003e 2.2.0",
+      "revId": "a974abde6e7fdc73eba427cd53c858f7723bdf29",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
