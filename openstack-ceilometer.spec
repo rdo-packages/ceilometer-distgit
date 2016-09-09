@@ -104,6 +104,7 @@ Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
+Requires:         python-gnocchiclient >= 2.2.0
 Requires:         python-oslo-messaging
 Requires:         python-oslo-serialization
 Requires:         python-oslo-utils
