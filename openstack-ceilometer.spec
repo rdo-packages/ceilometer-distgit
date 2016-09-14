@@ -9,7 +9,7 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          5.0.3
+Version:          5.0.5
 Release:          1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
@@ -609,6 +609,9 @@ exit 0
 
 
 %changelog
+* Wed Sep 14 2016 Mehdi Abaakouk <sileht@redhat.com> 1:5.0.5-1
+- update to 5.0.5
+
 * Wed May 25 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:5.0.3-1
 - Update to 5.0.3
 
