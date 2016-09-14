@@ -527,7 +527,7 @@ exit 0
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
-%dir %attr(0755, ceilometer, root) %{_localstatedir}/log/ceilometer
+%dir %attr(0750, ceilometer, root) %{_localstatedir}/log/ceilometer
 
 %{_bindir}/ceilometer-dbsync
 %{_bindir}/ceilometer-expirer
