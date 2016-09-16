@@ -1,6 +1,7 @@
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
+%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:             openstack-ceilometer
 # Liberty semver reset
@@ -13,7 +14,7 @@ Summary:          OpenStack measurement collection service
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
-Source0:          http://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:          https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
