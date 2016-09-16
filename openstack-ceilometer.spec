@@ -1,3 +1,4 @@
+%global milestone .0b3
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -7,14 +8,18 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          XXX
-Release:          XXX
+Version:          7.0.0
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
+#
+# patches_base=7.0.0.0b3
+#
+
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
@@ -597,3 +602,6 @@ exit 0
 
 
 %changelog
+* Fri Sep 16 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:7.0.0-0.1
+- Update to 7.0.0.0b3
+
