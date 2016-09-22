@@ -1,4 +1,4 @@
-%global milestone .0rc1
+%global milestone .0rc2
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -602,6 +602,9 @@ exit 0
 
 
 %changelog
+* Thu Sep 22 2016 Mehdi Abaakouk <sileht@redhat.com> 1:7.0.0-0.2.0rc2
+- Update to 7.0.0.0rc2
+
 * Fri Sep 16 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:7.0.0-0.2.0rc1
 - Update to 7.0.0.0rc1
 
