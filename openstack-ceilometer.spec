@@ -1,4 +1,4 @@
-%global milestone .0rc2
+%global milestone .0rc3
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -9,7 +9,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          7.0.0
-Release:          0.2%{?milestone}%{?dist}
+Release:          0.3%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -17,7 +17,7 @@ License:          ASL 2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
 #
-# patches_base=7.0.0.0rc1
+# patches_base=7.0.0.0rc3
 #
 
 Source1:          %{pypi_name}-dist.conf
@@ -602,6 +602,9 @@ exit 0
 
 
 %changelog
+* Mon Oct 03 2016 Haikel Guemar <hguemar@fedoraproject.org> 1:7.0.0-0.3.0rc3
+- Update to 7.0.0.0rc3
+
 * Thu Sep 22 2016 Mehdi Abaakouk <sileht@redhat.com> 1:7.0.0-0.2.0rc2
 - Update to 7.0.0.0rc2
 
