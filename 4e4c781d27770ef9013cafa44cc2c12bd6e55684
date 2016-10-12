@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_255e5aea",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 85
+      },
+      "writtenOn": "2016-10-12T19:49:15Z",
+      "side": 1,
+      "message": "While at it, BR d2to1 is obsolete, I guess it has been just copy/pasted around since before PBR absorbed it.\nAnyway, this can be a separate cleanup change.",
+      "revId": "4e4c781d27770ef9013cafa44cc2c12bd6e55684",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
