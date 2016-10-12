@@ -33,7 +33,7 @@ BuildRequires:    intltool
 BuildRequires:    python-cotyledon
 BuildRequires:    python-sphinx
 BuildRequires:    python-setuptools
-BuildRequires:    python-pbr
+BuildRequires:    python-pbr >= 1.10.0
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
 # Required to compile translation files
