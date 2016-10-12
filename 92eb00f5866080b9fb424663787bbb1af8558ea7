@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_e548f2ce",
+        "filename": ".gitreview",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 85
+      },
+      "writtenOn": "2016-10-12T23:25:58Z",
+      "side": 0,
+      "message": "ouch",
+      "revId": "92eb00f5866080b9fb424663787bbb1af8558ea7",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
