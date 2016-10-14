@@ -5,7 +5,8 @@ After=syslog.target network.target
 [Service]
 Type=simple
 User=ceilometer
-ExecStart=/usr/bin/ceilometer-api --port=8777 -- --logfile=/var/log/ceilometer/api.log
+EnvironmentFile=/etc/
+ExecStart=/usr/bin/ceilometer-api --port=${CEILOMETER_API_PORT} -- --logfile=/var/log/ceilometer/api.log
 Restart=on-failure
 
 [Install]
