@@ -26,6 +26,7 @@ Source13:         %{name}-central.service
 Source16:         %{name}-notification.service
 Source17:         %{name}-ipmi.service
 Source18:         %{name}-polling.service
+Source100:        %{pypi_name}.sysconfig
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -434,6 +435,9 @@ rm -f %{buildroot}%{python2_sitelib}/%{pypi_name}/locale/*/LC_*/%{pypi_name}*po
 rm -f %{buildroot}%{python2_sitelib}/%{pypi_name}/locale/*pot
 mv %{buildroot}%{python2_sitelib}/%{pypi_name}/locale %{buildroot}%{_datadir}/locale
 
+# Install configuration file for systemd services
+install -d -m 644 %{SOURCE100} %{buildroot}/%{_sysconfdir}/%{pypi_name}
+
 # Find language files
 %find_lang %{pypi_name} --all-name
 
@@ -520,6 +524,7 @@ exit 0
 %license LICENSE
 %dir %{_sysconfdir}/ceilometer
 %attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/sysconfig/ceilometer
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/ceilometer.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/policy.json
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/pipeline.yaml
