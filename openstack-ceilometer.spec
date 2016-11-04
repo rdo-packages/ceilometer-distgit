@@ -358,6 +358,22 @@ done < %{SOURCE1}
 %install
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 
+# Create fake egg-info for the tempest plugin
+# TODO switch to %{service} everywhere as in openstack-example.spec
+%global service ceilometer
+egg_path=%{buildroot}%{python_sitelib}/%{service}-*.egg-info
+tempest_egg_path=%{buildroot}%{python_sitelib}/%{service}_tests.egg-info
+mkdir $tempest_egg_path
+grep "tempest\|Tempest" %{service}.egg-info/entry_points.txt >$tempest_egg_path/entry_points.txt
+cat > $tempest_egg_path/PKG-INFO <<EOF
+Metadata-Version: 1.1
+Name: %{service}_tests
+Version: %{upstream_version}
+Summary: %{summary} Tempest Plugin
+EOF
+# Remove any reference to Tempest plugin in the main package entry point
+sed -i "/tempest\|Tempest/d" $egg_path/entry_points.txt
+
 # docs generation requires everything to be installed first
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 
@@ -548,6 +564,7 @@ exit 0
 %files -n python-ceilometer-tests
 %license LICENSE
 %{python2_sitelib}/ceilometer/tests
+%{python2_sitelib}/%{service}_tests.egg-info
 
 %if 0%{?with_doc}
 %files doc
