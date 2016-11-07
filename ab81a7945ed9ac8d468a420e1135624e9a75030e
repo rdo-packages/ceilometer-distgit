@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adbc538_52eec223",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 85
+      },
+      "writtenOn": "2016-11-07T17:08:28Z",
+      "side": 1,
+      "message": "This links to merge commit, for better context link to the actual Gerrit review: https://review.openstack.org/298089",
+      "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_72f3be0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 85
+      },
+      "writtenOn": "2016-11-07T17:08:28Z",
+      "side": 1,
+      "message": "Remove that line, it might be gone in the future.",
+      "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
