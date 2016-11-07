@@ -33,6 +33,29 @@
       "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
       "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_b2dc6676",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 85
+      },
+      "writtenOn": "2016-11-07T17:10:31Z",
+      "side": 1,
+      "message": "Will this still work now that upstream moved it to under dispatcher/data/ subfolder?",
+      "range": {
+        "startLine": 395,
+        "startChar": 87,
+        "endLine": 395,
+        "endChar": 135
+      },
+      "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
     }
   ]
 }
