@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_b2c38689",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 74
+      },
+      "writtenOn": "2016-11-07T17:19:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5adbc538_52eec223",
+      "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_72f3be0a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_d2c0127f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 74
+      },
+      "writtenOn": "2016-11-07T17:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adbc538_72f3be0a",
+      "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_b2dc6676",
         "filename": "openstack-ceilometer.spec",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2016-11-07T17:10:31Z",
       "side": 1,
       "message": "Will this still work now that upstream moved it to under dispatcher/data/ subfolder?",
+      "range": {
+        "startLine": 395,
+        "startChar": 87,
+        "endLine": 395,
+        "endChar": 135
+      },
+      "revId": "ab81a7945ed9ac8d468a420e1135624e9a75030e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_72cadea2",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 74
+      },
+      "writtenOn": "2016-11-07T17:19:15Z",
+      "side": 1,
+      "message": "yes data is just an internal directory for data files. We map them to etc locations when we install. similar to meters.yaml.",
+      "parentUuid": "5adbc538_b2dc6676",
       "range": {
         "startLine": 395,
         "startChar": 87,
