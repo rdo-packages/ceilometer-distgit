@@ -392,7 +392,7 @@ install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/cei
 install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
 install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
 install -p -D -m 640 ceilometer/meter/data/meters.yaml %{buildroot}%{_sysconfdir}/ceilometer/meters.yaml
-install -p -D -m 640 etc/ceilometer/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
+install -p -D -m 640 etc/ceilometer/dispatcher/data/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 
 # Install initscripts for services
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -593,3 +593,4 @@ exit 0
 
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack/ceilometer/commit/?id=a4490abd8f0a31f021671dd29a29d3230995c54c
