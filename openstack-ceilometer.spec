@@ -277,6 +277,7 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
+Requires:         python-cinderclient >= 1.6.0
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-glanceclient >= 1:0.18.0
