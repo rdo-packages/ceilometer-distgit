@@ -1,9 +1,10 @@
 compress
 
 /var/log/ceilometer/*.log {
-    rotate 14
+    weekly
+    rotate 4
     size 10M
     missingok
     compress
-    copytruncate
+    minsize 100k
 }
