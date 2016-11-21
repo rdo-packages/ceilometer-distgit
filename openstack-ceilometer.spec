@@ -8,7 +8,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          7.0.0
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -594,6 +594,9 @@ exit 0
 
 
 %changelog
+* Mon Nov 21 2016 Pradeep Kilambi <pkilambi@redhat.com> 1:7.0.0-3
+- update logrotate to prune logs better
+
 * Tue Oct 11 2016 Pradeep Kilambi <pkilambi@redhat.com> 1:7.0.0-2
 - fix obsolete log option to ceilometer-api service file
 
