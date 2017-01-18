@@ -29,6 +29,7 @@ Source18:         %{name}-polling.service
 
 BuildArch:        noarch
 BuildRequires:    intltool
+BuildRequires:    openstack-macros
 BuildRequires:    python-cotyledon
 BuildRequires:    python-sphinx
 BuildRequires:    python-setuptools
