@@ -51,30 +51,36 @@ Summary:          OpenStack ceilometer python libraries
 Group:            Applications/System
 
 Requires:         python-babel
+Requires:         python-cachetools >= 1.1.0
+Requires:         python-debtcollector >= 1.2.0
 Requires:         python-eventlet
+Requires:         python-futurist >= 0.11.0
 Requires:         python-cotyledon
+Requires:         python-dateutil
 Requires:         python-greenlet
 Requires:         python-iso8601
+Requires:         python-keystoneauth1 >= 2.1.0
 Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
 Requires:         python-jsonpath-rw-ext
-Requires:         python-stevedore >= 1.5.0
+Requires:         python-stevedore >= 1.9.0
 Requires:         python-msgpack >= 0.4.0
 Requires:         python-pbr
 Requires:         python-six >= 1.9.0
+Requires:         python-tenacity >= 3.1.0
 
 Requires:         python-sqlalchemy
 Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
-Requires:         python-oslo-config >= 2:3.7.0
+Requires:         python-oslo-config >= 2:3.9.0
 Requires:         PyYAML
 Requires:         python-netaddr
 Requires:         python-oslo-rootwrap
 Requires:         python-oslo-vmware >= 0.6.0
-Requires:         python-requests >= 2.5.2
+Requires:         python-requests >= 2.8.1
 
 Requires:         pysnmp
 Requires:         pytz
@@ -282,7 +288,7 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         python-cinderclient >= 1.6.0
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 1:0.18.0
+Requires:         python-glanceclient >= 1:2.0.0
 Requires:         python-swiftclient >= 2.2.0
 Requires:         libvirt-python
 
