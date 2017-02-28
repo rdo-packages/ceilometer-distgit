@@ -7,7 +7,7 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          7.0.1
+Version:          7.0.2
 Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
@@ -594,6 +594,9 @@ exit 0
 
 
 %changelog
+* Tue Feb 28 2017 Alfredo Moralejo <amoralej@redhat.com> 1:7.0.2-1
+- Update to 7.0.2
+
 * Mon Dec 05 2016 Alfredo Moralejo <amoralej@redhat.com> 1:7.0.1-1
 - Update to 7.0.1
 
