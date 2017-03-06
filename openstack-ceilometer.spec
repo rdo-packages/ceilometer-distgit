@@ -114,7 +114,9 @@ Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
 Requires:         python-oslo-messaging
 Requires:         python-oslo-serialization
 Requires:         python-oslo-utils
+Requires:         python-pecan >= 1.0.0
 Requires:         python-posix_ipc
+Requires:         python-wsme >= 0.8
 
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
@@ -243,8 +245,6 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         python-keystonemiddleware
 Requires:         python-oslo-db
 Requires:         python-pymongo
-Requires:         python-pecan >= 1.0.0
-Requires:         python-wsme >= 0.8
 Requires:         python-paste-deploy
 Requires:         python-ceilometerclient
 Requires:         python-tooz
