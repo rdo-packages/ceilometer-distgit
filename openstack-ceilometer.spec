@@ -166,6 +166,7 @@ Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
+Requires:         python-gnocchiclient
 Requires:         python-tooz
 Requires:         libvirt-python
 
