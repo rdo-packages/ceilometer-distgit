@@ -115,6 +115,7 @@ Requires:         python-oslo-messaging
 Requires:         python-oslo-serialization
 Requires:         python-oslo-utils
 Requires:         python-posix_ipc
+Requires:         python-gnocchiclient
 
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
