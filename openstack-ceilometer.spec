@@ -306,6 +306,7 @@ This package contains the polling service.
 %package -n python-ceilometer-tests
 Summary:        Ceilometer tests
 Requires:       python-ceilometer = %{epoch}:%{version}-%{release}
+Requires:       python-gabbi >= 1.30.0
 
 %description -n python-ceilometer-tests
 OpenStack ceilometer provides services to measure and
