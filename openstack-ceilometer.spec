@@ -397,6 +397,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer
 install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.d
 install -d -m 755 %{buildroot}%{_sysconfdir}/sudoers.d
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
+install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer/meters.d
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 440 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
 install -p -D -m 640 etc/ceilometer/ceilometer.conf %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
@@ -408,8 +409,9 @@ install -p -D -m 640 ceilometer/pipeline/data/event_definitions.yaml %{buildroot
 install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
 install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
 install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
-install -p -D -m 640 ceilometer/meter/data/meters.yaml %{buildroot}%{_sysconfdir}/ceilometer/meters.yaml
 install -p -D -m 640 ceilometer/dispatcher/data/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
+install -p -D -m 640 ceilometer/data/meters.d/meters.yaml %{buildroot}%{_sysconfdir}/ceilometer/meters.d/meters.yaml
+
 
 # Install initscripts for services
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -583,9 +585,10 @@ exit 0
 
 
 %files notification
-%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/meters.yaml
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/event_pipeline.yaml
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/event_definitions.yaml
+%dir %{_sysconfdir}/ceilometer/meters.d
+%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/meters.d/meters.yaml
 %{_bindir}/ceilometer-agent-notification
 %{_unitdir}/%{name}-notification.service
 
