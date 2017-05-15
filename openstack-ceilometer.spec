@@ -125,6 +125,7 @@ Requires(postun): systemd-units
 Requires(pre):    shadow-utils
 
 # Config file generation
+BuildRequires:    python-os-xenapi
 BuildRequires:    python-oslo-config >= 2:3.7.0
 BuildRequires:    python-oslo-concurrency
 BuildRequires:    python-oslo-db
@@ -171,6 +172,7 @@ Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-tooz
 Requires:         libvirt-python
+Requires:         python-os-xenapi
 
 %description compute
 OpenStack ceilometer provides services to measure and
