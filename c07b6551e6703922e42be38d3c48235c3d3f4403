@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa201ad_7c571e03",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 16
+      },
+      "writtenOn": "2017-05-16T17:04:27Z",
+      "side": 1,
+      "message": "Nit: the comment \u0027Config file generation\u0027 is meant for oslo-config",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 34
+      },
+      "revId": "c07b6551e6703922e42be38d3c48235c3d3f4403",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
