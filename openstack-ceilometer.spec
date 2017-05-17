@@ -118,6 +118,7 @@ Requires:         python-pecan >= 1.0.0
 Requires:         python-posix_ipc
 Requires:         python-gnocchiclient
 Requires:         python-wsme >= 0.8
+Requires:         python-os-xenapi
 
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
@@ -172,7 +173,6 @@ Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-tooz
 Requires:         libvirt-python
-Requires:         python-os-xenapi
 
 %description compute
 OpenStack ceilometer provides services to measure and
