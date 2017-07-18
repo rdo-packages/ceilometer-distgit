@@ -34,6 +34,7 @@ BuildRequires:    python-cotyledon
 BuildRequires:    python-sphinx
 BuildRequires:    python-setuptools
 BuildRequires:    python-pbr >= 1.10.0
+BuildRequires:    git
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
 # Required to compile translation files
@@ -325,6 +326,7 @@ Group:            Documentation
 BuildRequires:    python-eventlet
 BuildRequires:    python-sqlalchemy
 BuildRequires:    python-webob
+BuildRequires:    python-openstackdocstheme
 # while not strictly required, quiets the build down when building docs.
 BuildRequires:    python-migrate, python-iso8601
 
@@ -336,7 +338,7 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
-%setup -q -n ceilometer-%{upstream_version}
+%autosetup -n ceilometer-%{upstream_version} -S git
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
 
@@ -382,9 +384,9 @@ export PYTHONPATH="$( pwd ):$PYTHONPATH"
 pushd doc
 
 %if 0%{?with_doc}
-SPHINX_DEBUG=1 sphinx-build -b html source build/html
+%{__python2} setup.py build_sphinx -b html
 # Fix hidden-file-or-dir warnings
-rm -fr build/html/.doctrees build/html/.buildinfo
+rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %endif
 
 popd
