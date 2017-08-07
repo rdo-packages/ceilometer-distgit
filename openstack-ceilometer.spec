@@ -379,7 +379,6 @@ done < %{SOURCE1}
 %py2_entrypoint %{service} %{service}
 
 # docs generation requires everything to be installed first
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
 
 pushd doc
 
