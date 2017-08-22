@@ -69,14 +69,14 @@ Requires:         python-stevedore >= 1.9.0
 Requires:         python-msgpack >= 0.4.0
 Requires:         python-pbr
 Requires:         python-six >= 1.9.0
-Requires:         python-tenacity >= 3.1.0
+Requires:         python-tenacity >= 3.2.1
 
 Requires:         python-sqlalchemy
 Requires:         python-alembic
 Requires:         python-migrate
 
 Requires:         python-webob
-Requires:         python-oslo-config >= 2:3.9.0
+Requires:         python-oslo-config >= 2:3.22.0
 Requires:         PyYAML
 Requires:         python-netaddr
 Requires:         python-oslo-rootwrap
@@ -93,12 +93,14 @@ Requires:         python-werkzeug
 
 Requires:         python-oslo-context
 Requires:         python-oslo-concurrency >= 3.5.0
-Requires:         python-oslo-i18n
-Requires:         python-oslo-log
-Requires:         python-oslo-middleware
-Requires:         python-oslo-policy
-Requires:         python-oslo-service
-Requires:         python-oslo-reports
+Requires:         python-oslo-i18n  >= 2.1.0
+Requires:         python-oslo-log  >= 1.14.0
+Requires:         python-oslo-middleware >= 3.0.0
+Requires:         python-oslo-policy >= 0.5.0
+Requires:         python-oslo-reports >= 0.6.0
+Requires:         python-monotonic
+Requires:         python-futures
+Requires:         python-kafka
 
 %description -n   python-ceilometer
 OpenStack ceilometer provides services to measure and
@@ -112,14 +114,14 @@ Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python-oslo-messaging
-Requires:         python-oslo-serialization
-Requires:         python-oslo-utils
+Requires:         python-oslo-messaging >= 5.12.0
+Requires:         python-oslo-serialization >= 1.10.0
+Requires:         python-oslo-utils >= 3.5.0
 Requires:         python-pecan >= 1.0.0
 Requires:         python-posix_ipc
 Requires:         python-gnocchiclient
 Requires:         python-wsme >= 0.8
-Requires:         python-os-xenapi
+Requires:         python-os-xenapi >= 0.1.1
 
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
@@ -135,9 +137,7 @@ BuildRequires:    python-oslo-log
 BuildRequires:    python-oslo-messaging
 BuildRequires:    python-oslo-policy
 BuildRequires:    python-oslo-reports
-BuildRequires:    python-oslo-service
 BuildRequires:    python-oslo-vmware >= 0.6.0
-BuildRequires:    python-ceilometerclient
 BuildRequires:    python-glanceclient >= 1:2.0.0
 BuildRequires:    python-keystonemiddleware
 BuildRequires:    python-neutronclient
@@ -152,7 +152,7 @@ BuildRequires:    python-tooz
 BuildRequires:    python-werkzeug
 BuildRequires:    python-wsme >= 0.7
 BuildRequires:    python-gnocchiclient
-BuildRequires:    python-cinderclient >= 1.6.0
+BuildRequires:    python-cinderclient >= 1.7.1
 
 
 %description common
@@ -194,7 +194,7 @@ Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-glanceclient >= 1:2.0.0
 Requires:         python-swiftclient
-Requires:         python-neutronclient
+Requires:         python-neutronclient >= 4.2.0
 Requires:         python-tooz
 
 %description central
@@ -246,11 +246,10 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-Requires:         python-keystonemiddleware
-Requires:         python-oslo-db
+Requires:         python-keystonemiddleware >= 4.0.0
+Requires:         python-oslo-db >= 4.1.0
 Requires:         python-pymongo
 Requires:         python-paste-deploy
-Requires:         python-ceilometerclient
 Requires:         python-tooz
 
 %description api
@@ -269,9 +268,9 @@ Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-neutronclient
+Requires:         python-neutronclient >= 4.2.0
 Requires:         python-tooz
-Requires:         python-oslo-rootwrap
+Requires:         python-oslo-rootwrap >= 2.0.0
 Requires:         ipmitool
 
 %description ipmi
@@ -289,7 +288,7 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-Requires:         python-cinderclient >= 1.6.0
+Requires:         python-cinderclient >= 1.7.1
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
 Requires:         python-glanceclient >= 1:2.0.0
