@@ -1,6 +1,7 @@
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
+%global with_mongodb 1
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:             openstack-ceilometer
@@ -214,7 +215,10 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-notification
 
 Requires:         python-oslo-db
+
+%if 0%{with_mongodb}
 Requires:         python-pymongo
+%endif
 
 %description collector
 OpenStack ceilometer provides services to measure and
@@ -247,9 +251,11 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-keystonemiddleware >= 4.0.0
 Requires:         python-oslo-db >= 4.1.0
-Requires:         python-pymongo
 Requires:         python-paste-deploy
 Requires:         python-tooz
+%if 0%{with_mongodb}
+Requires:         python-pymongo
+%endif
 
 %description api
 OpenStack ceilometer provides services to measure and
