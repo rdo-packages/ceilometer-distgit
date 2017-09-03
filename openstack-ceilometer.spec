@@ -3,6 +3,10 @@
 %global pypi_name ceilometer
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
+%global common_desc \
+OpenStack ceilometer provides services to measure and \
+collect metrics from OpenStack components.
+
 Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
@@ -43,9 +47,7 @@ BuildRequires:    python-babel
 BuildRequires:    systemd-units
 
 %description
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
-
+%{common_desc}
 
 %package -n       python-ceilometer
 Summary:          OpenStack ceilometer python libraries
@@ -102,8 +104,7 @@ Requires:         python-monotonic
 Requires:         python-futures
 
 %description -n   python-ceilometer
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the ceilometer python library.
 
@@ -155,8 +156,7 @@ BuildRequires:    python-cinderclient >= 1.7.1
 
 
 %description common
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains components common to all OpenStack
 ceilometer services.
@@ -175,8 +175,7 @@ Requires:         python-tooz
 Requires:         libvirt-python
 
 %description compute
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the ceilometer agent for
 running on OpenStack compute nodes.
@@ -197,8 +196,7 @@ Requires:         python-neutronclient >= 4.2.0
 Requires:         python-tooz
 
 %description central
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the central ceilometer agent.
 
@@ -217,8 +215,7 @@ Requires:         python-oslo-db
 Requires:         python-pymongo
 
 %description collector
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the ceilometer collector service
 which collects metrics from the various agents.
@@ -231,8 +228,7 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 %description notification
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the ceilometer notification agent
 which pushes metrics to the collector service from the
@@ -252,8 +248,7 @@ Requires:         python-paste-deploy
 Requires:         python-tooz
 
 %description api
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the ceilometer API service.
 
@@ -273,8 +268,7 @@ Requires:         python-oslo-rootwrap >= 2.0.0
 Requires:         ipmitool
 
 %description ipmi
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the ipmi agent to be run on OpenStack
 nodes from which IPMI sensor data is to be collected directly,
@@ -310,8 +304,7 @@ Requires:       python-ceilometer = %{epoch}:%{version}-%{release}
 Requires:       python-gabbi >= 1.30.0
 
 %description -n python-ceilometer-tests
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains the Ceilometer test files.
 
@@ -329,8 +322,7 @@ BuildRequires:    python-openstackdocstheme
 BuildRequires:    python-migrate, python-iso8601
 
 %description      doc
-OpenStack ceilometer provides services to measure and
-collect metrics from OpenStack components.
+%{common_desc}
 
 This package contains documentation files for ceilometer.
 %endif
