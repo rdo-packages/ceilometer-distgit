@@ -123,9 +123,7 @@ Requires:         python-gnocchiclient
 Requires:         python-wsme >= 0.8
 Requires:         python-os-xenapi >= 0.1.1
 
-Requires(post):   systemd-units
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
+%{?systemd_requires}
 Requires(pre):    shadow-utils
 
 # Config file generation
