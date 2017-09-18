@@ -114,6 +114,7 @@ Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
+Requires:         python-oslo-db >= 4.1.0
 Requires:         python-oslo-messaging >= 5.12.0
 Requires:         python-oslo-serialization >= 1.10.0
 Requires:         python-oslo-utils >= 3.5.0
@@ -209,7 +210,6 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 # Remove when all reference the notification package explicitly
 Requires:         %{name}-notification
 
-Requires:         python-oslo-db
 Requires:         python-pymongo
 
 %description collector
@@ -240,7 +240,6 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
 Requires:         python-keystonemiddleware >= 4.0.0
-Requires:         python-oslo-db >= 4.1.0
 Requires:         python-pymongo
 Requires:         python-paste-deploy
 Requires:         python-tooz
