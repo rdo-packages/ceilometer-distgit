@@ -1,0 +1,10 @@
+Code-Review+2: hguemar <hguemar@fedoraproject.org>
+Code-Review+2: Javier Peña <jpena@redhat.com>
+Code-Review+1: Yatin Karel <ykarel@redhat.com>
+Workflow+1: hguemar <hguemar@fedoraproject.org>
+Verified+2: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Submitted-by: Jenkins CI <admin@rpmfactory.beta.rdoproject.org>
+Submitted-at: Tue, 19 Sep 2017 10:31:58 +0000
+Reviewed-on: https://review.rdoproject.org/r/9619
+Project: openstack/ceilometer-distgit
+Branch: refs/heads/rpm-master
