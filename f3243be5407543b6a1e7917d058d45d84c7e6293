@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_0de9951a",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2017-09-27T15:11:10Z",
+      "side": 1,
+      "message": "I think you need to remove this pushd and popd in line 377. Gate jobs are not failing because we are not building docs in the dlrn (see witout_doc macro)",
+      "range": {
+        "startLine": 371,
+        "startChar": 0,
+        "endLine": 371,
+        "endChar": 9
+      },
+      "revId": "f3243be5407543b6a1e7917d058d45d84c7e6293",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
