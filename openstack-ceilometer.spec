@@ -365,17 +365,17 @@ done < %{SOURCE1}
 %global service ceilometer
 %py2_entrypoint %{service} %{service}
 
+%if 0%{?with_doc}
 # docs generation requires everything to be installed first
 
 pushd doc
 
-%if 0%{?with_doc}
 %{__python2} setup.py build_sphinx -b html
 # Fix hidden-file-or-dir warnings
 rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
-%endif
 
 popd
+%endif
 
 # Setup directories
 install -d -m 755 %{buildroot}%{_sharedstatedir}/ceilometer
