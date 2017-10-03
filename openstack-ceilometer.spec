@@ -81,7 +81,7 @@ Requires:         python-webob
 Requires:         python-oslo-config >= 2:3.22.0
 Requires:         PyYAML
 Requires:         python-netaddr
-Requires:         python-oslo-rootwrap
+Requires:         python-oslo-rootwrap >= 2.0.0
 Requires:         python-oslo-vmware >= 0.6.0
 Requires:         python-requests >= 2.8.1
 
@@ -123,6 +123,12 @@ Requires:         python-posix_ipc
 Requires:         python-gnocchiclient
 Requires:         python-wsme >= 0.8
 Requires:         python-os-xenapi >= 0.1.1
+Requires:         python-novaclient >= 1:2.29.0
+Requires:         python-keystoneclient >= 1:1.6.0
+Requires:         python-neutronclient >= 4.2.0
+Requires:         python-glanceclient >= 1:2.0.0
+Requires:         python-swiftclient
+Requires:         python-cinderclient >= 1.7.1
 
 %{?systemd_requires}
 Requires(pre):    shadow-utils
@@ -168,9 +174,6 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-tooz
 Requires:         libvirt-python
 
 %description compute
@@ -186,13 +189,6 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
-
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 1:2.0.0
-Requires:         python-swiftclient
-Requires:         python-neutronclient >= 4.2.0
-Requires:         python-tooz
 
 %description central
 %{common_desc}
@@ -242,7 +238,6 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         python-keystonemiddleware >= 4.0.0
 Requires:         python-pymongo
 Requires:         python-paste-deploy
-Requires:         python-tooz
 
 %description api
 %{common_desc}
@@ -257,11 +252,6 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-neutronclient >= 4.2.0
-Requires:         python-tooz
-Requires:         python-oslo-rootwrap >= 2.0.0
 Requires:         ipmitool
 
 %description ipmi
@@ -278,11 +268,6 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-Requires:         python-cinderclient >= 1.7.1
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 1:2.0.0
-Requires:         python-swiftclient >= 2.2.0
 Requires:         libvirt-python
 
 %description polling
