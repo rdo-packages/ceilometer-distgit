@@ -8,7 +8,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          9.0.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -79,7 +79,7 @@ Requires:         python-webob
 Requires:         python-oslo-config >= 2:3.22.0
 Requires:         PyYAML
 Requires:         python-netaddr
-Requires:         python-oslo-rootwrap
+Requires:         python-oslo-rootwrap >= 2.0.0
 Requires:         python-oslo-vmware >= 0.6.0
 Requires:         python-requests >= 2.8.1
 
@@ -121,6 +121,12 @@ Requires:         python-posix_ipc
 Requires:         python-gnocchiclient
 Requires:         python-wsme >= 0.8
 Requires:         python-os-xenapi >= 0.1.1
+Requires:         python-novaclient >= 1:2.29.0
+Requires:         python-keystoneclient >= 1:1.6.0
+Requires:         python-neutronclient >= 4.2.0
+Requires:         python-glanceclient >= 1:2.0.0
+Requires:         python-swiftclient
+Requires:         python-cinderclient >= 1.7.1
 
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
@@ -169,9 +175,6 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-tooz
 Requires:         libvirt-python
 
 %description compute
@@ -188,13 +191,6 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
-
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 1:2.0.0
-Requires:         python-swiftclient
-Requires:         python-neutronclient >= 4.2.0
-Requires:         python-tooz
 
 %description central
 OpenStack ceilometer provides services to measure and
@@ -249,7 +245,6 @@ Requires:         python-keystonemiddleware >= 4.0.0
 Requires:         python-oslo-db >= 4.1.0
 Requires:         python-pymongo
 Requires:         python-paste-deploy
-Requires:         python-tooz
 
 %description api
 OpenStack ceilometer provides services to measure and
@@ -265,11 +260,6 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-neutronclient >= 4.2.0
-Requires:         python-tooz
-Requires:         python-oslo-rootwrap >= 2.0.0
 Requires:         ipmitool
 
 %description ipmi
@@ -287,11 +277,6 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-Requires:         python-cinderclient >= 1.7.1
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-glanceclient >= 1:2.0.0
-Requires:         python-swiftclient >= 2.2.0
 Requires:         libvirt-python
 
 %description polling
@@ -616,6 +601,9 @@ exit 0
 
 
 %changelog
+* Wed Oct 04 2017 Pradeep Kilambi <pkilambi@redhat.com> 1:9.0.1-2
+- Move client dependencies to common sub package
+
 * Tue Sep 12 2017 rdo-trunk <javier.pena@redhat.com> 1:9.0.1-1
 - Update to 9.0.1
 
