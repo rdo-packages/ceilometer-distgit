@@ -115,6 +115,7 @@ Requires:         python-oslo-messaging >= 5.12.0
 Requires:         python-oslo-serialization >= 1.10.0
 Requires:         python-oslo-utils >= 3.5.0
 Requires:         python-posix_ipc
+Requires:         python-tooz
 Requires:         python-gnocchiclient
 Requires:         python-os-xenapi >= 0.1.1
 Requires:         python-novaclient >= 1:2.29.0
