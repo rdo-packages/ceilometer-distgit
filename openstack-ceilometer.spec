@@ -120,6 +120,7 @@ Requires:         python-oslo-serialization >= 1.10.0
 Requires:         python-oslo-utils >= 3.5.0
 Requires:         python-pecan >= 1.0.0
 Requires:         python-posix_ipc
+Requires:         python-tooz
 Requires:         python-gnocchiclient
 Requires:         python-wsme >= 0.8
 Requires:         python-os-xenapi >= 0.1.1
