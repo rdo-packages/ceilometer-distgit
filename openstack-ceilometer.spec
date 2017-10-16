@@ -24,12 +24,11 @@ Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
 
 Source10:         %{name}-api.service
-Source11:         %{name}-collector.service
-Source12:         %{name}-compute.service
-Source13:         %{name}-central.service
-Source16:         %{name}-notification.service
-Source17:         %{name}-ipmi.service
-Source18:         %{name}-polling.service
+Source11:         %{name}-compute.service
+Source12:         %{name}-central.service
+Source13:         %{name}-notification.service
+Source14:         %{name}-ipmi.service
+Source15:         %{name}-polling.service
 
 BuildArch:        noarch
 BuildRequires:    intltool
@@ -113,6 +112,10 @@ This package contains the ceilometer python library.
 Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
+# Collector service has been removed but not replaced
+Provides:         openstack-ceilometer-collector = %{epoch}:%{version}-%{release}
+Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release}
+
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
 Requires:         python-oslo-db >= 4.1.0
 Requires:         python-oslo-messaging >= 5.12.0
@@ -194,25 +197,6 @@ Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 %{common_desc}
 
 This package contains the central ceilometer agent.
-
-
-%package collector
-Summary:          OpenStack ceilometer collector
-Group:            Applications/System
-
-Requires:         %{name}-common = %{epoch}:%{version}-%{release}
-
-# For compat with older provisioning tools.
-# Remove when all reference the notification package explicitly
-Requires:         %{name}-notification
-
-Requires:         python-pymongo
-
-%description collector
-%{common_desc}
-
-This package contains the ceilometer collector service
-which collects metrics from the various agents.
 
 
 %package notification
@@ -381,40 +365,16 @@ install -p -D -m 640 ceilometer/pipeline/data/event_definitions.yaml %{buildroot
 install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
 install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
 install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
-install -p -D -m 640 ceilometer/dispatcher/data/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
+install -p -D -m 640 ceilometer/publisher/data/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 install -p -D -m 640 ceilometer/data/meters.d/meters.yaml %{buildroot}%{_sysconfdir}/ceilometer/meters.d/meters.yaml
 
-
-# Install initscripts for services
-%if 0%{?rhel} && 0%{?rhel} <= 6
-install -p -D -m 755 %{SOURCE10} %{buildroot}%{_initrddir}/%{name}-api
-install -p -D -m 755 %{SOURCE11} %{buildroot}%{_initrddir}/%{name}-collector
-install -p -D -m 755 %{SOURCE12} %{buildroot}%{_initrddir}/%{name}-compute
-install -p -D -m 755 %{SOURCE13} %{buildroot}%{_initrddir}/%{name}-central
-install -p -D -m 755 %{SOURCE16} %{buildroot}%{_initrddir}/%{name}-notification
-install -p -D -m 755 %{SOURCE17} %{buildroot}%{_initrddir}/%{name}-ipmi
-install -p -D -m 755 %{SOURCE18} %{buildroot}%{_initrddir}/%{name}-polling
-
-# Install upstart jobs examples
-install -d -m 755 %{buildroot}%{_datadir}/ceilometer
-install -p -m 644 %{SOURCE100} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE110} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE120} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE130} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE140} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE150} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE160} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE170} %{buildroot}%{_datadir}/ceilometer/
-install -p -m 644 %{SOURCE180} %{buildroot}%{_datadir}/ceilometer/
-%else
+# Install systemd units for services
 install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
-install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-collector.service
-install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-compute.service
-install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-central.service
-install -p -D -m 644 %{SOURCE16} %{buildroot}%{_unitdir}/%{name}-notification.service
-install -p -D -m 644 %{SOURCE17} %{buildroot}%{_unitdir}/%{name}-ipmi.service
-install -p -D -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{name}-polling.service
-%endif
+install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-compute.service
+install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-central.service
+install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-notification.service
+install -p -D -m 644 %{SOURCE14} %{buildroot}%{_unitdir}/%{name}-ipmi.service
+install -p -D -m 644 %{SOURCE15} %{buildroot}%{_unitdir}/%{name}-polling.service
 
 # Install logrotate
 install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -445,9 +405,6 @@ exit 0
 %post compute
 %systemd_post %{name}-compute.service
 
-%post collector
-%systemd_post %{name}-collector.service
-
 %post notification
 %systemd_post %{name}-notification.service
 
@@ -466,9 +423,6 @@ exit 0
 %preun compute
 %systemd_preun %{name}-compute.service
 
-%preun collector
-%systemd_preun %{name}-collector.service
-
 %preun notification
 %systemd_preun %{name}-notification.service
 
@@ -486,9 +440,6 @@ exit 0
 
 %postun compute
 %systemd_postun_with_restart %{name}-compute.service
-
-%postun collector
-%systemd_postun_with_restart %{name}-collector.service
 
 %postun notification
 %systemd_postun_with_restart %{name}-notification.service
@@ -549,11 +500,6 @@ exit 0
 
 %files compute
 %{_unitdir}/%{name}-compute.service
-
-
-%files collector
-%{_bindir}/ceilometer-collector*
-%{_unitdir}/%{name}-collector.service
 
 
 %files notification
