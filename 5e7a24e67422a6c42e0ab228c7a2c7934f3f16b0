@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_81c1bee6",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2017-10-16T12:42:34Z",
+      "side": 1,
+      "message": "REMOVEME",
+      "range": {
+        "startLine": 589,
+        "startChar": 10,
+        "endLine": 589,
+        "endChar": 10
+      },
+      "revId": "5e7a24e67422a6c42e0ab228c7a2c7934f3f16b0",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
