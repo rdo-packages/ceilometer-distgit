@@ -23,7 +23,6 @@ Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
 
-Source10:         %{name}-api.service
 Source11:         %{name}-compute.service
 Source12:         %{name}-central.service
 Source13:         %{name}-notification.service
@@ -58,7 +57,6 @@ Requires:         python-debtcollector >= 1.2.0
 Requires:         python-eventlet
 Requires:         python-futurist >= 0.11.0
 Requires:         python-cotyledon
-Requires:         python-dateutil
 Requires:         python-greenlet
 Requires:         python-iso8601
 Requires:         python-keystoneauth1 >= 2.1.0
@@ -76,7 +74,6 @@ Requires:         python-sqlalchemy
 Requires:         python-alembic
 Requires:         python-migrate
 
-Requires:         python-webob
 Requires:         python-oslo-config >= 2:3.22.0
 Requires:         PyYAML
 Requires:         python-netaddr
@@ -89,15 +86,12 @@ Requires:         pytz
 Requires:         python-croniter
 
 Requires:         python-retrying
-Requires:         python-jsonschema
 Requires:         python-werkzeug
 
 Requires:         python-oslo-context
 Requires:         python-oslo-concurrency >= 3.5.0
 Requires:         python-oslo-i18n  >= 2.1.0
 Requires:         python-oslo-log  >= 1.14.0
-Requires:         python-oslo-middleware >= 3.0.0
-Requires:         python-oslo-policy >= 0.5.0
 Requires:         python-oslo-reports >= 0.6.0
 Requires:         python-monotonic
 Requires:         python-futures
@@ -121,10 +115,8 @@ Requires:         python-oslo-db >= 4.1.0
 Requires:         python-oslo-messaging >= 5.12.0
 Requires:         python-oslo-serialization >= 1.10.0
 Requires:         python-oslo-utils >= 3.5.0
-Requires:         python-pecan >= 1.0.0
 Requires:         python-posix_ipc
 Requires:         python-gnocchiclient
-Requires:         python-wsme >= 0.8
 Requires:         python-os-xenapi >= 0.1.1
 Requires:         python-novaclient >= 1:2.29.0
 Requires:         python-keystoneclient >= 1:1.6.0
@@ -143,7 +135,6 @@ BuildRequires:    python-oslo-concurrency
 BuildRequires:    python-oslo-db
 BuildRequires:    python-oslo-log
 BuildRequires:    python-oslo-messaging
-BuildRequires:    python-oslo-policy
 BuildRequires:    python-oslo-reports
 BuildRequires:    python-oslo-vmware >= 0.6.0
 BuildRequires:    python-glanceclient >= 1:2.0.0
@@ -155,10 +146,8 @@ BuildRequires:    python-croniter
 BuildRequires:    python-jsonpath-rw
 BuildRequires:    python-jsonpath-rw-ext
 BuildRequires:    python-lxml
-BuildRequires:    python-pecan >= 1.0.0
 BuildRequires:    python-tooz
 BuildRequires:    python-werkzeug
-BuildRequires:    python-wsme >= 0.7
 BuildRequires:    python-gnocchiclient
 BuildRequires:    python-cinderclient >= 1.7.1
 
@@ -211,22 +200,6 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 This package contains the ceilometer notification agent
 which pushes metrics to the collector service from the
 various OpenStack services.
-
-
-%package api
-Summary:          OpenStack ceilometer API service
-Group:            Applications/System
-
-Requires:         %{name}-common = %{epoch}:%{version}-%{release}
-
-Requires:         python-keystonemiddleware >= 4.0.0
-Requires:         python-pymongo
-Requires:         python-paste-deploy
-
-%description api
-%{common_desc}
-
-This package contains the ceilometer API service.
 
 
 %package ipmi
@@ -282,7 +255,6 @@ Group:            Documentation
 # Required to build module documents
 BuildRequires:    python-eventlet
 BuildRequires:    python-sqlalchemy
-BuildRequires:    python-webob
 BuildRequires:    python-openstackdocstheme
 # while not strictly required, quiets the build down when building docs.
 BuildRequires:    python-migrate, python-iso8601
@@ -357,19 +329,16 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/ceilometer/meters.d
 install -p -D -m 640 %{SOURCE1} %{buildroot}%{_datadir}/ceilometer/ceilometer-dist.conf
 install -p -D -m 440 %{SOURCE4} %{buildroot}%{_sysconfdir}/sudoers.d/ceilometer
 install -p -D -m 640 etc/ceilometer/ceilometer.conf %{buildroot}%{_sysconfdir}/ceilometer/ceilometer.conf
-install -p -D -m 640 etc/ceilometer/policy.json %{buildroot}%{_sysconfdir}/ceilometer/policy.json
 install -p -D -m 640 ceilometer/pipeline/data/pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/pipeline.yaml
 install -p -D -m 640 etc/ceilometer/polling.yaml %{buildroot}%{_sysconfdir}/ceilometer/polling.yaml
 install -p -D -m 640 ceilometer/pipeline/data/event_pipeline.yaml %{buildroot}%{_sysconfdir}/ceilometer/event_pipeline.yaml
 install -p -D -m 640 ceilometer/pipeline/data/event_definitions.yaml %{buildroot}%{_sysconfdir}/ceilometer/event_definitions.yaml
-install -p -D -m 640 etc/ceilometer/api_paste.ini %{buildroot}%{_sysconfdir}/ceilometer/api_paste.ini
 install -p -D -m 640 etc/ceilometer/rootwrap.conf %{buildroot}%{_sysconfdir}/ceilometer/rootwrap.conf
 install -p -D -m 640 etc/ceilometer/rootwrap.d/ipmi.filters %{buildroot}/%{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
 install -p -D -m 640 ceilometer/publisher/data/gnocchi_resources.yaml %{buildroot}%{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 install -p -D -m 640 ceilometer/data/meters.d/meters.yaml %{buildroot}%{_sysconfdir}/ceilometer/meters.d/meters.yaml
 
 # Install systemd units for services
-install -p -D -m 644 %{SOURCE10} %{buildroot}%{_unitdir}/%{name}-api.service
 install -p -D -m 644 %{SOURCE11} %{buildroot}%{_unitdir}/%{name}-compute.service
 install -p -D -m 644 %{SOURCE12} %{buildroot}%{_unitdir}/%{name}-central.service
 install -p -D -m 644 %{SOURCE13} %{buildroot}%{_unitdir}/%{name}-notification.service
@@ -408,9 +377,6 @@ exit 0
 %post notification
 %systemd_post %{name}-notification.service
 
-%post api
-%systemd_post %{name}-api.service
-
 %post central
 %systemd_post %{name}-central.service
 
@@ -426,9 +392,6 @@ exit 0
 %preun notification
 %systemd_preun %{name}-notification.service
 
-%preun api
-%systemd_preun %{name}-api.service
-
 %preun central
 %systemd_preun %{name}-central.service
 
@@ -443,9 +406,6 @@ exit 0
 
 %postun notification
 %systemd_postun_with_restart %{name}-notification.service
-
-%postun api
-%systemd_postun_with_restart %{name}-api.service
 
 %postun central
 %systemd_postun_with_restart %{name}-central.service
@@ -463,10 +423,8 @@ exit 0
 %dir %{_sysconfdir}/ceilometer
 %attr(-, root, ceilometer) %{_datadir}/ceilometer/ceilometer-dist.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/ceilometer.conf
-%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/policy.json
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/pipeline.yaml
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/polling.yaml
-%config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/api_paste.ini
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 
@@ -509,11 +467,6 @@ exit 0
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/meters.d/meters.yaml
 %{_bindir}/ceilometer-agent-notification
 %{_unitdir}/%{name}-notification.service
-
-
-%files api
-%{_bindir}/ceilometer-api
-%{_unitdir}/%{name}-api.service
 
 
 %files central
