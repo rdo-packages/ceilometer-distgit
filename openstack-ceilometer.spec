@@ -486,3 +486,4 @@ exit 0
 
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack/ceilometer/commit/?id=995abb6341d3f8ea7067b5004bcbfef4f17c9eb3
