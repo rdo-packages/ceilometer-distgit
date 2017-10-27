@@ -1,0 +1,30 @@
+From 5465d5ae21407b4065fd9c51011bfb384eadc1f3 Mon Sep 17 00:00:00 2001
+From: Alfredo Moralejo <amoralej@redhat.com>
+Date: Fri, 27 Oct 2017 19:56:53 +0200
+Subject: [PATCH] Add dummy --skip-metering-database temporarily
+
+We need this for backwards compatibility after [1]
+until we remove the option from all installers.
+
+[1] https://review.openstack.org/#/c/512700
+---
+ ceilometer/cmd/storage.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ceilometer/cmd/storage.py b/ceilometer/cmd/storage.py
+index 70703d39..dc3875f8 100644
+--- a/ceilometer/cmd/storage.py
++++ b/ceilometer/cmd/storage.py
+@@ -26,6 +26,9 @@ LOG = log.getLogger(__name__)
+ def upgrade():
+     conf = cfg.ConfigOpts()
+     conf.register_cli_opts([
++        cfg.BoolOpt('skip-metering-database',
++                    help='Skip metering database upgrade.',
++                    default=False),
+         cfg.BoolOpt('skip-gnocchi-resource-types',
+                     help='Skip gnocchi resource-types upgrade.',
+                     default=False),
+-- 
+2.13.5
+

@@ -29,6 +29,8 @@ Source13:         %{name}-notification.service
 Source14:         %{name}-ipmi.service
 Source15:         %{name}-polling.service
 
+Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
+
 BuildArch:        noarch
 BuildRequires:    intltool
 BuildRequires:    openstack-macros
@@ -70,9 +72,7 @@ Requires:         python-pbr
 Requires:         python-six >= 1.9.0
 Requires:         python-tenacity >= 3.2.1
 
-Requires:         python-sqlalchemy
 Requires:         python-alembic
-Requires:         python-migrate
 
 Requires:         python-oslo-config >= 2:3.22.0
 Requires:         PyYAML
@@ -111,7 +111,6 @@ Provides:         openstack-ceilometer-collector = %{epoch}:%{version}-%{release
 Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release}
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python-oslo-db >= 4.1.0
 Requires:         python-oslo-messaging >= 5.12.0
 Requires:         python-oslo-serialization >= 1.10.0
 Requires:         python-oslo-utils >= 3.5.0
@@ -132,7 +131,6 @@ Requires(pre):    shadow-utils
 BuildRequires:    python-os-xenapi
 BuildRequires:    python-oslo-config >= 2:3.7.0
 BuildRequires:    python-oslo-concurrency
-BuildRequires:    python-oslo-db
 BuildRequires:    python-oslo-log
 BuildRequires:    python-oslo-messaging
 BuildRequires:    python-oslo-reports
@@ -254,10 +252,9 @@ Group:            Documentation
 
 # Required to build module documents
 BuildRequires:    python-eventlet
-BuildRequires:    python-sqlalchemy
 BuildRequires:    python-openstackdocstheme
 # while not strictly required, quiets the build down when building docs.
-BuildRequires:    python-migrate, python-iso8601
+BuildRequires:    python-iso8601
 
 %description      doc
 %{common_desc}
@@ -430,8 +427,6 @@ exit 0
 
 %dir %attr(0750, ceilometer, root) %{_localstatedir}/log/ceilometer
 
-%{_bindir}/ceilometer-db-legacy-clean
-%{_bindir}/ceilometer-expirer
 %{_bindir}/ceilometer-send-sample
 %{_bindir}/ceilometer-upgrade
 
