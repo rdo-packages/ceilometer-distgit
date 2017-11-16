@@ -109,6 +109,8 @@ Group:            Applications/System
 # Collector service has been removed but not replaced
 Provides:         openstack-ceilometer-collector = %{epoch}:%{version}-%{release}
 Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release}
+# api service has been removed
+Obsoletes:        openstack-ceilometer-api
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
 Requires:         python-oslo-messaging >= 5.12.0
