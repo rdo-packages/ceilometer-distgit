@@ -7,7 +7,7 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          9.0.3
+Version:          9.0.4
 Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
@@ -602,6 +602,9 @@ exit 0
 
 
 %changelog
+* Tue Jan 09 2018 RDO <dev@lists.rdoproject.org> 1:9.0.4-1
+- Update to 9.0.4
+
 * Tue Nov 28 2017 RDO <dev@lists.rdoproject.org> 1:9.0.3-1
 - Update to 9.0.3
 
