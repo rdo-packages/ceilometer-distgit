@@ -44,7 +44,7 @@ BuildRequires:    python2-devel
 # Required to compile translation files
 BuildRequires:    python-babel
 
-BuildRequires:    systemd-units
+BuildRequires:    systemd
 
 %description
 %{common_desc}
