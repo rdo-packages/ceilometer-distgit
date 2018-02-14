@@ -34,15 +34,15 @@ Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
 BuildArch:        noarch
 BuildRequires:    intltool
 BuildRequires:    openstack-macros
-BuildRequires:    python-cotyledon
-BuildRequires:    python-sphinx
-BuildRequires:    python-setuptools
-BuildRequires:    python-pbr >= 1.10.0
+BuildRequires:    python2-cotyledon
+BuildRequires:    python2-sphinx
+BuildRequires:    python2-setuptools
+BuildRequires:    python2-pbr >= 1.10.0
 BuildRequires:    git
 BuildRequires:    python-d2to1
 BuildRequires:    python2-devel
 # Required to compile translation files
-BuildRequires:    python-babel
+BuildRequires:    python2-babel
 
 BuildRequires:    systemd
 
@@ -53,48 +53,48 @@ BuildRequires:    systemd
 Summary:          OpenStack ceilometer python libraries
 Group:            Applications/System
 
-Requires:         python-babel
+Requires:         python2-babel
 Requires:         python-cachetools >= 1.1.0
-Requires:         python-debtcollector >= 1.2.0
-Requires:         python-eventlet
-Requires:         python-futurist >= 0.11.0
-Requires:         python-cotyledon
-Requires:         python-greenlet
-Requires:         python-iso8601
-Requires:         python-keystoneauth1 >= 2.1.0
+Requires:         python2-debtcollector >= 1.2.0
+Requires:         python2-eventlet
+Requires:         python2-futurist >= 0.11.0
+Requires:         python2-cotyledon
+Requires:         python2-greenlet
+Requires:         python2-iso8601
+Requires:         python2-keystoneauth1 >= 2.1.0
 Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
 Requires:         python-jsonpath-rw-ext
-Requires:         python-stevedore >= 1.9.0
+Requires:         python2-stevedore >= 1.9.0
 Requires:         python-msgpack >= 0.4.0
-Requires:         python-pbr
-Requires:         python-six >= 1.9.0
-Requires:         python-tenacity >= 3.2.1
+Requires:         python2-pbr
+Requires:         python2-six >= 1.9.0
+Requires:         python2-tenacity >= 3.2.1
 
-Requires:         python-alembic
+Requires:         python2-alembic
 
-Requires:         python-oslo-config >= 2:3.22.0
+Requires:         python2-oslo-config >= 2:3.22.0
 Requires:         PyYAML
-Requires:         python-netaddr
-Requires:         python-oslo-rootwrap >= 2.0.0
-Requires:         python-oslo-vmware >= 0.6.0
-Requires:         python-requests >= 2.8.1
+Requires:         python2-netaddr
+Requires:         python2-oslo-rootwrap >= 2.0.0
+Requires:         python2-oslo-vmware >= 0.6.0
+Requires:         python2-requests >= 2.8.1
 
 Requires:         pysnmp
 Requires:         pytz
-Requires:         python-croniter
+Requires:         python2-croniter
 
 Requires:         python-retrying
 Requires:         python-werkzeug
 
-Requires:         python-oslo-context
-Requires:         python-oslo-concurrency >= 3.5.0
-Requires:         python-oslo-i18n  >= 2.1.0
-Requires:         python-oslo-log  >= 1.14.0
-Requires:         python-oslo-reports >= 0.6.0
+Requires:         python2-oslo-context
+Requires:         python2-oslo-concurrency >= 3.5.0
+Requires:         python2-oslo-i18n  >= 2.1.0
+Requires:         python2-oslo-log  >= 1.14.0
+Requires:         python2-oslo-reports >= 0.6.0
 Requires:         python-monotonic
-Requires:         python-futures
+Requires:         python2-futures
 
 %description -n   python-ceilometer
 %{common_desc}
@@ -113,44 +113,43 @@ Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release
 Obsoletes:        openstack-ceilometer-api
 
 Requires:         python-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python-oslo-messaging >= 5.12.0
-Requires:         python-oslo-serialization >= 1.10.0
-Requires:         python-oslo-utils >= 3.5.0
+Requires:         python2-oslo-messaging >= 5.12.0
+Requires:         python2-oslo-serialization >= 1.10.0
+Requires:         python2-oslo-utils >= 3.5.0
 Requires:         python-posix_ipc
-Requires:         python-tooz
-Requires:         python-gnocchiclient
-Requires:         python-os-xenapi >= 0.1.1
-Requires:         python-novaclient >= 1:2.29.0
-Requires:         python-keystoneclient >= 1:1.6.0
-Requires:         python-neutronclient >= 4.2.0
-Requires:         python-glanceclient >= 1:2.0.0
-Requires:         python-swiftclient
-Requires:         python-cinderclient >= 1.7.1
+Requires:         python2-tooz
+Requires:         python2-gnocchiclient
+Requires:         python2-os-xenapi >= 0.1.1
+Requires:         python2-novaclient >= 1:2.29.0
+Requires:         python2-keystoneclient >= 1:1.6.0
+Requires:         python2-neutronclient >= 4.2.0
+Requires:         python2-glanceclient >= 1:2.0.0
+Requires:         python2-swiftclient
+Requires:         python2-cinderclient >= 1.7.1
 
 %{?systemd_requires}
 Requires(pre):    shadow-utils
 
 # Config file generation
-BuildRequires:    python-os-xenapi
-BuildRequires:    python-oslo-config >= 2:3.7.0
-BuildRequires:    python-oslo-concurrency
-BuildRequires:    python-oslo-log
-BuildRequires:    python-oslo-messaging
-BuildRequires:    python-oslo-reports
-BuildRequires:    python-oslo-vmware >= 0.6.0
-BuildRequires:    python-glanceclient >= 1:2.0.0
-BuildRequires:    python-keystonemiddleware
-BuildRequires:    python-neutronclient
-BuildRequires:    python-novaclient  >= 1:2.29.0
-BuildRequires:    python-swiftclient
-BuildRequires:    python-croniter
+BuildRequires:    python2-os-xenapi
+BuildRequires:    python2-oslo-config >= 2:3.7.0
+BuildRequires:    python2-oslo-concurrency
+BuildRequires:    python2-oslo-log
+BuildRequires:    python2-oslo-messaging
+BuildRequires:    python2-oslo-reports
+BuildRequires:    python2-oslo-vmware >= 0.6.0
+BuildRequires:    python2-glanceclient >= 1:2.0.0
+BuildRequires:    python2-neutronclient
+BuildRequires:    python2-novaclient  >= 1:2.29.0
+BuildRequires:    python2-swiftclient
+BuildRequires:    python2-croniter
 BuildRequires:    python-jsonpath-rw
 BuildRequires:    python-jsonpath-rw-ext
 BuildRequires:    python-lxml
-BuildRequires:    python-tooz
+BuildRequires:    python2-tooz
 BuildRequires:    python-werkzeug
-BuildRequires:    python-gnocchiclient
-BuildRequires:    python-cinderclient >= 1.7.1
+BuildRequires:    python2-gnocchiclient
+BuildRequires:    python2-cinderclient >= 1.7.1
 
 
 %description common
@@ -241,7 +240,7 @@ This package contains the polling service.
 %package -n python-ceilometer-tests
 Summary:        Ceilometer tests
 Requires:       python-ceilometer = %{epoch}:%{version}-%{release}
-Requires:       python-gabbi >= 1.30.0
+Requires:       python2-gabbi >= 1.30.0
 
 %description -n python-ceilometer-tests
 %{common_desc}
@@ -254,10 +253,10 @@ Summary:          Documentation for OpenStack ceilometer
 Group:            Documentation
 
 # Required to build module documents
-BuildRequires:    python-eventlet
-BuildRequires:    python-openstackdocstheme
+BuildRequires:    python2-eventlet
+BuildRequires:    python2-openstackdocstheme
 # while not strictly required, quiets the build down when building docs.
-BuildRequires:    python-iso8601
+BuildRequires:    python2-iso8601
 
 %description      doc
 %{common_desc}
