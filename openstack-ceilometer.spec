@@ -210,7 +210,12 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
+%if %{pyver} == 2
 Requires:         libvirt-python
+%else
+Requires:         python%{pyver}-libvirt
+%endif
+
 
 %description compute
 %{common_desc}
