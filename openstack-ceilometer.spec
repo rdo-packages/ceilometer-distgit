@@ -67,7 +67,6 @@ Group:            Applications/System
 
 Requires:         python%{pyver}-babel
 Requires:         python%{pyver}-cachetools >= 1.1.0
-Requires:         python%{pyver}-debtcollector >= 1.2.0
 Requires:         python%{pyver}-eventlet
 Requires:         python%{pyver}-futurist >= 0.11.0
 Requires:         python%{pyver}-cotyledon
