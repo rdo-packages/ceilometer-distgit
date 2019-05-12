@@ -96,6 +96,7 @@ Requires:         python%{pyver}-oslo-context
 Requires:         python%{pyver}-oslo-concurrency >= 3.5.0
 Requires:         python%{pyver}-oslo-i18n  >= 2.1.0
 Requires:         python%{pyver}-oslo-log  >= 1.14.0
+Requires:         python%{pyver}-oslo-privsep >= 1.32.0
 Requires:         python%{pyver}-oslo-reports >= 0.6.0
 Requires:         python%{pyver}-monotonic
 
@@ -171,6 +172,7 @@ BuildRequires:    python%{pyver}-oslo-config >= 2:3.7.0
 BuildRequires:    python%{pyver}-oslo-concurrency
 BuildRequires:    python%{pyver}-oslo-log
 BuildRequires:    python%{pyver}-oslo-messaging
+BuildRequires:    python%{pyver}-oslo-privsep
 BuildRequires:    python%{pyver}-oslo-reports
 BuildRequires:    python%{pyver}-oslo-vmware >= 0.6.0
 BuildRequires:    python%{pyver}-glanceclient >= 1:2.0.0
