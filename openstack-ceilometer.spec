@@ -98,6 +98,7 @@ Requires:         python%{pyver}-oslo-concurrency >= 3.5.0
 Requires:         python%{pyver}-oslo-i18n  >= 2.1.0
 Requires:         python%{pyver}-oslo-log  >= 1.14.0
 Requires:         python%{pyver}-oslo-reports >= 0.6.0
+Requires:         python%{pyver}-oslo-upgradecheck >= 0.1.1
 Requires:         python%{pyver}-monotonic
 
 # Handle python2 exception
@@ -480,6 +481,7 @@ exit 0
 
 %{_bindir}/ceilometer-send-sample
 %{_bindir}/ceilometer-upgrade
+%{_bindir}/ceilometer-status
 
 %defattr(-, ceilometer, ceilometer, -)
 %dir %{_sharedstatedir}/ceilometer
