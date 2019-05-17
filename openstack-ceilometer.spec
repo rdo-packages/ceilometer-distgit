@@ -537,3 +537,4 @@ exit 0
 * Fri Mar 22 2019 RDO <dev@lists.rdoproject.org> 1:12.0.0-0.1.0rc1
 - Update to 12.0.0.0rc1
 
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack/ceilometer/commit/?id=2e395e05c3073155d6bdb3f8dba1745c1801921f
