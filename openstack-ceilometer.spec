@@ -99,7 +99,6 @@ Requires:         python%{pyver}-oslo-log  >= 3.36.0
 Requires:         python%{pyver}-oslo-privsep >= 1.32.0
 Requires:         python%{pyver}-oslo-reports >= 1.18.0
 Requires:         python%{pyver}-oslo-upgradecheck >= 0.1.1
-Requires:         python%{pyver}-monotonic
 
 # Handle python2 exception
 %if %{pyver} == 2
@@ -111,6 +110,7 @@ Requires:         python-jsonpath-rw
 Requires:         python-msgpack >= 0.5.0
 Requires:         python-retrying
 Requires:         python%{pyver}-futures
+Requires:         python%{pyver}-monotonic
 %else
 Requires:         python%{pyver}-pysnmp
 Requires:         python%{pyver}-PyYAML
