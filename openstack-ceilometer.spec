@@ -66,22 +66,22 @@ Summary:          OpenStack ceilometer python libraries
 Group:            Applications/System
 
 Requires:         python%{pyver}-babel
-Requires:         python%{pyver}-cachetools >= 1.1.0
+Requires:         python%{pyver}-cachetools >= 2.1.0
 Requires:         python%{pyver}-eventlet
-Requires:         python%{pyver}-futurist >= 0.11.0
+Requires:         python%{pyver}-futurist >= 1.8.0
 Requires:         python%{pyver}-cotyledon
 Requires:         python%{pyver}-greenlet
 Requires:         python%{pyver}-iso8601
-Requires:         python%{pyver}-keystoneauth1 >= 2.1.0
+Requires:         python%{pyver}-keystoneauth1 >= 3.9.0
 Requires:         python%{pyver}-jsonpath-rw-ext
-Requires:         python%{pyver}-stevedore >= 1.9.0
+Requires:         python%{pyver}-stevedore >= 1.20.0
 Requires:         python%{pyver}-pbr
 Requires:         python%{pyver}-six >= 1.9.0
-Requires:         python%{pyver}-tenacity >= 3.2.1
+Requires:         python%{pyver}-4.4.0
 
 Requires:         python%{pyver}-alembic
 
-Requires:         python%{pyver}-oslo-config >= 2:3.22.0
+Requires:         python%{pyver}-oslo-config >= 2:5.2.0
 Requires:         python%{pyver}-netaddr
 Requires:         python%{pyver}-oslo-rootwrap >= 2.0.0
 Requires:         python%{pyver}-oslo-vmware >= 0.6.0
@@ -94,10 +94,10 @@ Requires:         python%{pyver}-werkzeug
 
 Requires:         python%{pyver}-oslo-context
 Requires:         python%{pyver}-oslo-concurrency >= 3.5.0
-Requires:         python%{pyver}-oslo-i18n  >= 2.1.0
-Requires:         python%{pyver}-oslo-log  >= 1.14.0
+Requires:         python%{pyver}-oslo-i18n  >= 3.15.3
+Requires:         python%{pyver}-oslo-log  >= 3.36.0
 Requires:         python%{pyver}-oslo-privsep >= 1.32.0
-Requires:         python%{pyver}-oslo-reports >= 0.6.0
+Requires:         python%{pyver}-oslo-reports >= 1.18.0
 Requires:         python%{pyver}-oslo-upgradecheck >= 0.1.1
 Requires:         python%{pyver}-monotonic
 
@@ -108,7 +108,7 @@ Requires:         PyYAML
 Requires:         python-lxml
 Requires:         python-anyjson
 Requires:         python-jsonpath-rw
-Requires:         python-msgpack >= 0.4.0
+Requires:         python-msgpack >= 0.5.0
 Requires:         python-retrying
 Requires:         python%{pyver}-futures
 %else
@@ -117,7 +117,7 @@ Requires:         python%{pyver}-PyYAML
 Requires:         python%{pyver}-lxml
 Requires:         python%{pyver}-anyjson
 Requires:         python%{pyver}-jsonpath-rw
-Requires:         python%{pyver}-msgpack >= 0.4.0
+Requires:         python%{pyver}-msgpack >= 0.5.0
 Requires:         python%{pyver}-retrying
 %endif
 
@@ -139,18 +139,19 @@ Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release
 Obsoletes:        openstack-ceilometer-api
 
 Requires:         python%{pyver}-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python%{pyver}-oslo-messaging >= 5.12.0
+Requires:         python%{pyver}-oslo-messaging >= 6.2.0
 Requires:         python%{pyver}-oslo-serialization >= 1.10.0
-Requires:         python%{pyver}-oslo-utils >= 3.5.0
+Requires:         python%{pyver}-oslo-utils >= 3.37.0
 Requires:         python%{pyver}-tooz
-Requires:         python%{pyver}-gnocchiclient
-Requires:         python%{pyver}-os-xenapi >= 0.1.1
-Requires:         python%{pyver}-novaclient >= 1:2.29.0
-Requires:         python%{pyver}-keystoneclient >= 1:1.6.0
-Requires:         python%{pyver}-neutronclient >= 4.2.0
-Requires:         python%{pyver}-glanceclient >= 1:2.0.0
+Requires:         python%{pyver}-gnocchiclient >= 7.0.0
+Requires:         python%{pyver}-os-xenapi >= 0.3.3
+Requires:         python%{pyver}-novaclient >= 1:9.1.0
+Requires:         python%{pyver}-keystoneclient >= 1:3.15.0
+Requires:         python%{pyver}-neutronclient >= 6.7.0
+Requires:         python%{pyver}-glanceclient >= 1:2.8.0
 Requires:         python%{pyver}-swiftclient
-Requires:         python%{pyver}-cinderclient >= 1.7.1
+Requires:         python%{pyver}-cinderclient >= 3.3.0
+Requires:         python%{pyver}-zaqarclient >= 1.3.0
 
 # Handle python2 exception
 %if %{pyver} == 2
@@ -169,23 +170,24 @@ Requires(pre):    shadow-utils
 
 # Config file generation
 BuildRequires:    python%{pyver}-os-xenapi
-BuildRequires:    python%{pyver}-oslo-config >= 2:3.7.0
+BuildRequires:    python%{pyver}-oslo-config >= 2:5.2.0
 BuildRequires:    python%{pyver}-oslo-concurrency
 BuildRequires:    python%{pyver}-oslo-log
 BuildRequires:    python%{pyver}-oslo-messaging
 BuildRequires:    python%{pyver}-oslo-privsep
 BuildRequires:    python%{pyver}-oslo-reports
 BuildRequires:    python%{pyver}-oslo-vmware >= 0.6.0
-BuildRequires:    python%{pyver}-glanceclient >= 1:2.0.0
+BuildRequires:    python%{pyver}-glanceclient >= 1:2.8.0
 BuildRequires:    python%{pyver}-neutronclient
-BuildRequires:    python%{pyver}-novaclient  >= 1:2.29.0
+BuildRequires:    python%{pyver}-novaclient  >= 1:9.1.0
 BuildRequires:    python%{pyver}-swiftclient
 BuildRequires:    python%{pyver}-croniter
 BuildRequires:    python%{pyver}-jsonpath-rw-ext
 BuildRequires:    python%{pyver}-tooz
 BuildRequires:    python%{pyver}-werkzeug
-BuildRequires:    python%{pyver}-gnocchiclient
-BuildRequires:    python%{pyver}-cinderclient >= 1.7.1
+BuildRequires:    python%{pyver}-gnocchiclient >= 7.0.0
+BuildRequires:    python%{pyver}-cinderclient >= 3.3.0
+BuildRequires:    python%{pyver}-zaqarclient >= 1.3.0
 
 # Handle python2 exception
 %if %{pyver} == 2
