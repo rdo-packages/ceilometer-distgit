@@ -1,3 +1,4 @@
+%global milestone .0rc1
 # Macros for py2/py3 compatibility
 %if 0%{?fedora} || 0%{?rhel} > 7
 %global pyver %{python3_pkgversion}
@@ -23,8 +24,8 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          XXX
-Release:          XXX
+Version:          13.0.0
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -41,6 +42,9 @@ Source13:         %{name}-notification.service
 Source14:         %{name}-ipmi.service
 Source15:         %{name}-polling.service
 
+#
+# patches_base=13.0.0.0rc1
+#
 Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
 
 BuildArch:        noarch
@@ -536,3 +540,6 @@ exit 0
 
 
 %changelog
+* Mon Sep 30 2019 RDO <dev@lists.rdoproject.org> 1:13.0.0-0.1.0rc1
+- Update to 13.0.0.0rc1
+
