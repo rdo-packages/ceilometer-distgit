@@ -191,11 +191,9 @@ BuildRequires:    python%{pyver}-zaqarclient >= 1.3.0
 
 # Handle python2 exception
 %if %{pyver} == 2
-BuildRequires:    python-d2to1
 BuildRequires:    python-jsonpath-rw
 BuildRequires:    python-lxml
 %else
-BuildRequires:    python%{pyver}-d2to1
 BuildRequires:    python%{pyver}-jsonpath-rw
 BuildRequires:    python%{pyver}-lxml
 %endif
