@@ -1,0 +1,8 @@
+Code-Review+2: Yatin Karel <ykarel@redhat.com>
+Verified+2: Yatin Karel <ykarel@redhat.com>
+Workflow+1: Yatin Karel <ykarel@redhat.com>
+Submitted-by: Yatin Karel <ykarel@redhat.com>
+Submitted-at: Mon, 24 Feb 2020 11:49:26 +0000
+Reviewed-on: https://review.rdoproject.org/r/25277
+Project: openstack/ceilometer-distgit
+Branch: refs/heads/rpm-master
