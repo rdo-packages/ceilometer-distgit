@@ -1,15 +1,3 @@
-# Macros for py2/py3 compatibility
-%if 0%{?fedora} || 0%{?rhel} > 7
-%global pyver %{python3_pkgversion}
-%else
-%global pyver 2
-%endif
-
-%global pyver_bin python%{pyver}
-%global pyver_sitelib %python%{pyver}_sitelib
-%global pyver_install %py%{pyver}_install
-%global pyver_build %py%{pyver}_build
-# End of macros for py2/py3 compatibility
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -46,83 +34,72 @@ Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
 BuildArch:        noarch
 BuildRequires:    intltool
 BuildRequires:    openstack-macros
-BuildRequires:    python%{pyver}-cotyledon
-BuildRequires:    python%{pyver}-sphinx
-BuildRequires:    python%{pyver}-setuptools
-BuildRequires:    python%{pyver}-pbr >= 1.10.0
+BuildRequires:    python3-cotyledon
+BuildRequires:    python3-sphinx
+BuildRequires:    python3-setuptools
+BuildRequires:    python3-pbr >= 1.10.0
 BuildRequires:    git
-BuildRequires:    python%{pyver}-devel
+BuildRequires:    python3-devel
 # Required to compile translation files
-BuildRequires:    python%{pyver}-babel
+BuildRequires:    python3-babel
 
 BuildRequires:    systemd
 
 %description
 %{common_desc}
 
-%package -n       python%{pyver}-ceilometer
+%package -n       python3-ceilometer
 Summary:          OpenStack ceilometer python libraries
-%{?python_provide:%python_provide python%{pyver}-ceilometer}
+%{?python_provide:%python_provide python3-ceilometer}
 Group:            Applications/System
 
-Requires:         python%{pyver}-babel
-Requires:         python%{pyver}-cachetools >= 2.1.0
-Requires:         python%{pyver}-eventlet
-Requires:         python%{pyver}-futurist >= 1.8.0
-Requires:         python%{pyver}-cotyledon
-Requires:         python%{pyver}-greenlet
-Requires:         python%{pyver}-iso8601
-Requires:         python%{pyver}-keystoneauth1 >= 3.9.0
-Requires:         python%{pyver}-jsonpath-rw-ext
-Requires:         python%{pyver}-stevedore >= 1.20.0
-Requires:         python%{pyver}-pbr
-Requires:         python%{pyver}-six >= 1.9.0
-Requires:         python%{pyver}-tenacity >= 4.4.0
+Requires:         python3-babel
+Requires:         python3-cachetools >= 2.1.0
+Requires:         python3-eventlet
+Requires:         python3-futurist >= 1.8.0
+Requires:         python3-cotyledon
+Requires:         python3-greenlet
+Requires:         python3-iso8601
+Requires:         python3-keystoneauth1 >= 3.9.0
+Requires:         python3-jsonpath-rw-ext
+Requires:         python3-stevedore >= 1.20.0
+Requires:         python3-pbr
+Requires:         python3-six >= 1.9.0
+Requires:         python3-tenacity >= 4.4.0
 
-Requires:         python%{pyver}-alembic
+Requires:         python3-alembic
 
-Requires:         python%{pyver}-oslo-config >= 2:5.2.0
-Requires:         python%{pyver}-netaddr
-Requires:         python%{pyver}-oslo-rootwrap >= 2.0.0
-Requires:         python%{pyver}-oslo-vmware >= 0.6.0
-Requires:         python%{pyver}-requests >= 2.8.1
+Requires:         python3-oslo-config >= 2:5.2.0
+Requires:         python3-netaddr
+Requires:         python3-oslo-rootwrap >= 2.0.0
+Requires:         python3-oslo-vmware >= 0.6.0
+Requires:         python3-requests >= 2.8.1
 
-Requires:         python%{pyver}-pytz
-Requires:         python%{pyver}-croniter
+Requires:         python3-pytz
+Requires:         python3-croniter
 
-Requires:         python%{pyver}-werkzeug
+Requires:         python3-werkzeug
 
-Requires:         python%{pyver}-oslo-context
-Requires:         python%{pyver}-oslo-concurrency >= 3.5.0
-Requires:         python%{pyver}-oslo-i18n  >= 3.15.3
-Requires:         python%{pyver}-oslo-log  >= 3.36.0
-Requires:         python%{pyver}-oslo-privsep >= 1.32.0
-Requires:         python%{pyver}-oslo-reports >= 1.18.0
-Requires:         python%{pyver}-oslo-upgradecheck >= 0.1.1
+Requires:         python3-oslo-context
+Requires:         python3-oslo-concurrency >= 3.26.0
+Requires:         python3-oslo-i18n  >= 3.15.3
+Requires:         python3-oslo-log  >= 3.36.0
+Requires:         python3-oslo-privsep >= 1.32.0
+Requires:         python3-oslo-reports >= 1.18.0
+Requires:         python3-oslo-upgradecheck >= 0.1.1
+Requires:         python3-oslo-cache >= 1.26.0
+Requires:         python3-monascaclient >= 1.12.0
 
-# Handle python2 exception
-%if %{pyver} == 2
-Requires:         pysnmp
-Requires:         PyYAML
-Requires:         python-lxml
-Requires:         python-anyjson
-Requires:         python-jsonpath-rw
-Requires:         python-msgpack >= 0.5.0
-Requires:         python-retrying
-Requires:         python%{pyver}-futures
-Requires:         python%{pyver}-monotonic
-%else
-Requires:         python%{pyver}-pysnmp
-Requires:         python%{pyver}-PyYAML
-Requires:         python%{pyver}-lxml
-Requires:         python%{pyver}-anyjson
-Requires:         python%{pyver}-jsonpath-rw
-Requires:         python%{pyver}-msgpack >= 0.5.0
-Requires:         python%{pyver}-retrying
-%endif
+Requires:         python3-pysnmp
+Requires:         python3-PyYAML
+Requires:         python3-lxml
+Requires:         python3-anyjson
+Requires:         python3-jsonpath-rw
+Requires:         python3-msgpack >= 0.5.0
+Requires:         python3-retrying
 
 
-%description -n   python%{pyver}-ceilometer
+%description -n   python3-ceilometer
 %{common_desc}
 
 This package contains the ceilometer python library.
@@ -138,27 +115,21 @@ Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release
 # api service has been removed
 Obsoletes:        openstack-ceilometer-api
 
-Requires:         python%{pyver}-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python%{pyver}-oslo-messaging >= 6.2.0
-Requires:         python%{pyver}-oslo-serialization >= 1.10.0
-Requires:         python%{pyver}-oslo-utils >= 3.37.0
-Requires:         python%{pyver}-tooz
-Requires:         python%{pyver}-gnocchiclient >= 7.0.0
-Requires:         python%{pyver}-os-xenapi >= 0.3.3
-Requires:         python%{pyver}-novaclient >= 1:9.1.0
-Requires:         python%{pyver}-keystoneclient >= 1:3.15.0
-Requires:         python%{pyver}-neutronclient >= 6.7.0
-Requires:         python%{pyver}-glanceclient >= 1:2.8.0
-Requires:         python%{pyver}-swiftclient
-Requires:         python%{pyver}-cinderclient >= 3.3.0
-Requires:         python%{pyver}-zaqarclient >= 1.3.0
+Requires:         python3-ceilometer = %{epoch}:%{version}-%{release}
+Requires:         python3-oslo-messaging >= 6.2.0
+Requires:         python3-oslo-utils >= 3.37.0
+Requires:         python3-tooz
+Requires:         python3-gnocchiclient >= 7.0.0
+Requires:         python3-os-xenapi >= 0.3.3
+Requires:         python3-novaclient >= 1:9.1.0
+Requires:         python3-keystoneclient >= 1:3.15.0
+Requires:         python3-neutronclient >= 6.7.0
+Requires:         python3-glanceclient >= 1:2.8.0
+Requires:         python3-swiftclient
+Requires:         python3-cinderclient >= 3.3.0
+Requires:         python3-zaqarclient >= 1.3.0
 
-# Handle python2 exception
-%if %{pyver} == 2
-Requires:         python-posix_ipc
-%else
-Requires:         python%{pyver}-posix_ipc
-%endif
+Requires:         python3-posix_ipc
 
 
 %if 0%{?rhel} && 0%{?rhel} < 8
@@ -169,34 +140,28 @@ Requires:         python%{pyver}-posix_ipc
 Requires(pre):    shadow-utils
 
 # Config file generation
-BuildRequires:    python%{pyver}-os-xenapi
-BuildRequires:    python%{pyver}-oslo-config >= 2:5.2.0
-BuildRequires:    python%{pyver}-oslo-concurrency
-BuildRequires:    python%{pyver}-oslo-log
-BuildRequires:    python%{pyver}-oslo-messaging
-BuildRequires:    python%{pyver}-oslo-privsep
-BuildRequires:    python%{pyver}-oslo-reports
-BuildRequires:    python%{pyver}-oslo-vmware >= 0.6.0
-BuildRequires:    python%{pyver}-glanceclient >= 1:2.8.0
-BuildRequires:    python%{pyver}-neutronclient
-BuildRequires:    python%{pyver}-novaclient  >= 1:9.1.0
-BuildRequires:    python%{pyver}-swiftclient
-BuildRequires:    python%{pyver}-croniter
-BuildRequires:    python%{pyver}-jsonpath-rw-ext
-BuildRequires:    python%{pyver}-tooz
-BuildRequires:    python%{pyver}-werkzeug
-BuildRequires:    python%{pyver}-gnocchiclient >= 7.0.0
-BuildRequires:    python%{pyver}-cinderclient >= 3.3.0
-BuildRequires:    python%{pyver}-zaqarclient >= 1.3.0
+BuildRequires:    python3-os-xenapi
+BuildRequires:    python3-oslo-config >= 2:5.2.0
+BuildRequires:    python3-oslo-concurrency
+BuildRequires:    python3-oslo-log
+BuildRequires:    python3-oslo-messaging
+BuildRequires:    python3-oslo-privsep
+BuildRequires:    python3-oslo-reports
+BuildRequires:    python3-oslo-vmware >= 0.6.0
+BuildRequires:    python3-glanceclient >= 1:2.8.0
+BuildRequires:    python3-neutronclient
+BuildRequires:    python3-novaclient  >= 1:9.1.0
+BuildRequires:    python3-swiftclient
+BuildRequires:    python3-croniter
+BuildRequires:    python3-jsonpath-rw-ext
+BuildRequires:    python3-tooz
+BuildRequires:    python3-werkzeug
+BuildRequires:    python3-gnocchiclient >= 7.0.0
+BuildRequires:    python3-cinderclient >= 3.3.0
+BuildRequires:    python3-zaqarclient >= 1.3.0
 
-# Handle python2 exception
-%if %{pyver} == 2
-BuildRequires:    python-jsonpath-rw
-BuildRequires:    python-lxml
-%else
-BuildRequires:    python%{pyver}-jsonpath-rw
-BuildRequires:    python%{pyver}-lxml
-%endif
+BuildRequires:    python3-jsonpath-rw
+BuildRequires:    python3-lxml
 
 %description common
 %{common_desc}
@@ -212,11 +177,7 @@ Group:            Applications/System
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
-%if %{pyver} == 2
-Requires:         libvirt-python
-%else
-Requires:         python%{pyver}-libvirt
-%endif
+Requires:         python3-libvirt
 
 
 %description compute
@@ -276,11 +237,7 @@ Group:            Applications/System
 
 Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 
-%if %{pyver} == 2
-Requires:         libvirt-python
-%else
-Requires:         python%{pyver}-libvirt
-%endif
+Requires:         python3-libvirt
 
 %description polling
 Ceilometer aims to deliver a unique point of contact for billing systems to
@@ -292,13 +249,13 @@ independent of the overall system.
 
 This package contains the polling service.
 
-%package -n python%{pyver}-ceilometer-tests
+%package -n python3-ceilometer-tests
 Summary:        Ceilometer tests
-%{?python_provide:%python_provide python%{pyver}-ceilometer-tests}
-Requires:       python%{pyver}-ceilometer = %{epoch}:%{version}-%{release}
-Requires:       python%{pyver}-gabbi >= 1.30.0
+%{?python_provide:%python_provide python3-ceilometer-tests}
+Requires:       python3-ceilometer = %{epoch}:%{version}-%{release}
+Requires:       python3-gabbi >= 1.30.0
 
-%description -n python%{pyver}-ceilometer-tests
+%description -n python3-ceilometer-tests
 %{common_desc}
 
 This package contains the Ceilometer test files.
@@ -309,10 +266,10 @@ Summary:          Documentation for OpenStack ceilometer
 Group:            Documentation
 
 # Required to build module documents
-BuildRequires:    python%{pyver}-eventlet
-BuildRequires:    python%{pyver}-openstackdocstheme
+BuildRequires:    python3-eventlet
+BuildRequires:    python3-openstackdocstheme
 # while not strictly required, quiets the build down when building docs.
-BuildRequires:    python%{pyver}-iso8601
+BuildRequires:    python3-iso8601
 
 %description      doc
 %{common_desc}
@@ -336,12 +293,12 @@ sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 
 %build
 # Generate config file
-PYTHONPATH=. oslo-config-generator-%{pyver} --config-file=etc/ceilometer/ceilometer-config-generator.conf
+PYTHONPATH=. oslo-config-generator-3 --config-file=etc/ceilometer/ceilometer-config-generator.conf
 
-%{pyver_build}
+%{py3_build}
 
 # Generate i18n files
-%{pyver_bin} setup.py compile_catalog -d build/lib/%{pypi_name}/locale
+%{__python3} setup.py compile_catalog -d build/lib/%{pypi_name}/locale
 
 # Programmatically update defaults in sample config
 # which is installed at /etc/ceilometer/ceilometer.conf
@@ -354,12 +311,12 @@ while read name eq value; do
 done < %{SOURCE1}
 
 %install
-%{pyver_install}
+%{py3_install}
 
 %if 0%{?with_doc}
 # docs generation requires everything to be installed first
 
-%{pyver_build}
+%{py3_build}
 # Fix hidden-file-or-dir warnings
 rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 
@@ -400,9 +357,9 @@ install -p -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Install i18n .mo files (.po and .pot are not required)
 install -d -m 755 %{buildroot}%{_datadir}
-rm -f %{buildroot}%{pyver_sitelib}/%{pypi_name}/locale/*/LC_*/%{pypi_name}*po
-rm -f %{buildroot}%{pyver_sitelib}/%{pypi_name}/locale/*pot
-mv %{buildroot}%{pyver_sitelib}/%{pypi_name}/locale %{buildroot}%{_datadir}/locale
+rm -f %{buildroot}%{python3_sitelib}/%{pypi_name}/locale/*/LC_*/%{pypi_name}*po
+rm -f %{buildroot}%{python3_sitelib}/%{pypi_name}/locale/*pot
+mv %{buildroot}%{python3_sitelib}/%{pypi_name}/locale %{buildroot}%{_datadir}/locale
 
 # Find language files
 %find_lang %{pypi_name} --all-name
@@ -489,14 +446,14 @@ exit 0
 %dir %{_sharedstatedir}/ceilometer/tmp
 
 
-%files -n python%{pyver}-ceilometer
-%{pyver_sitelib}/ceilometer
-%{pyver_sitelib}/ceilometer-*.egg-info
-%exclude %{pyver_sitelib}/ceilometer/tests
+%files -n python3-ceilometer
+%{python3_sitelib}/ceilometer
+%{python3_sitelib}/ceilometer-*.egg-info
+%exclude %{python3_sitelib}/ceilometer/tests
 
-%files -n python%{pyver}-ceilometer-tests
+%files -n python3-ceilometer-tests
 %license LICENSE
-%{pyver_sitelib}/ceilometer/tests
+%{python3_sitelib}/ceilometer/tests
 
 %if 0%{?with_doc}
 %files doc
