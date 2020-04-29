@@ -1,3 +1,4 @@
+%global milestone .0rc1
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -11,8 +12,8 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          XXX
-Release:          XXX
+Version:          14.0.0
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -29,6 +30,9 @@ Source13:         %{name}-notification.service
 Source14:         %{name}-ipmi.service
 Source15:         %{name}-polling.service
 
+#
+# patches_base=14.0.0.0rc1
+#
 Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
 
 BuildArch:        noarch
@@ -470,4 +474,7 @@ exit 0
 
 
 %changelog
+* Wed Apr 29 2020 RDO <dev@lists.rdoproject.org> 1:14.0.0-0.1.0rc1
+- Update to 14.0.0.0rc1
+
 
