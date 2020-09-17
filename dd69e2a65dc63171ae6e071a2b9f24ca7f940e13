@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fddea3d2_4eb7a433",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2020-09-17T08:25:44Z",
+      "side": 0,
+      "message": "actually tooz is still required:\n\nhttps://github.com/openstack/ceilometer/blob/master/requirements.txt#L35, let\u0027s keep it.",
+      "range": {
+        "startLine": 105,
+        "startChar": 26,
+        "endLine": 105,
+        "endChar": 30
+      },
+      "revId": "dd69e2a65dc63171ae6e071a2b9f24ca7f940e13",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
