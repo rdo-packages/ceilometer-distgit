@@ -1,4 +1,6 @@
 %global milestone .0rc1
+%{!?sources_gpg: %{!?dlrn:%global sources_gpg 1} }
+%global sources_gpg_sign 0x2426b928085a020d8a90d0d879ab7008d0896c8a
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -13,7 +15,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          15.0.0
-Release:          0.1%{?milestone}%{?dist}
+Release:          0.2%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -29,6 +31,11 @@ Source12:         %{name}-central.service
 Source13:         %{name}-notification.service
 Source14:         %{name}-ipmi.service
 Source15:         %{name}-polling.service
+# Required for tarball sources verification
+%if 0%{?sources_gpg} == 1
+Source101:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz.asc
+Source102:        https://releases.openstack.org/_static/%{sources_gpg_sign}.txt
+%endif
 
 #
 # patches_base=15.0.0.0rc1
@@ -36,6 +43,11 @@ Source15:         %{name}-polling.service
 Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
 
 BuildArch:        noarch
+
+# Required for tarball sources verification
+%if 0%{?sources_gpg} == 1
+BuildRequires:  /usr/bin/gpgv2
+%endif
 BuildRequires:    intltool
 BuildRequires:    openstack-macros
 BuildRequires:    python3-cotyledon
@@ -261,6 +273,10 @@ This package contains documentation files for ceilometer.
 %endif
 
 %prep
+# Required for tarball sources verification
+%if 0%{?sources_gpg} == 1
+%{gpgverify}  --keyring=%{SOURCE102} --signature=%{SOURCE101} --data=%{SOURCE0}
+%endif
 %autosetup -n ceilometer-%{upstream_version} -S git
 
 find . \( -name .gitignore -o -name .placeholder \) -delete
@@ -474,6 +490,9 @@ exit 0
 
 
 %changelog
+* Wed Oct 14 2020 Joel Capitao <jcapitao@redhat.com> 1:15.0.0-0.2.0rc1
+- Enable sources tarball validation using GPG signature.
+
 * Thu Sep 24 2020 RDO <dev@lists.rdoproject.org> 1:15.0.0-0.1.0rc1
 - Update to 15.0.0.0rc1
 
