@@ -50,7 +50,7 @@ BuildRequires:    python3-cotyledon
 BuildRequires:    python3-sphinx
 BuildRequires:    python3-setuptools
 BuildRequires:    python3-pbr >= 1.10.0
-BuildRequires:    git
+BuildRequires:    git-core
 BuildRequires:    python3-devel
 # Required to compile translation files
 BuildRequires:    python3-babel
