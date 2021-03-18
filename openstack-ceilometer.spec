@@ -69,13 +69,12 @@ Requires:         python3-cachetools >= 2.1.0
 Requires:         python3-eventlet
 Requires:         python3-futurist >= 1.8.0
 Requires:         python3-cotyledon
-Requires:         python3-keystoneauth1 >= 3.9.0
+Requires:         python3-keystoneauth1 >= 3.18.0
 Requires:         python3-jsonpath-rw-ext
 Requires:         python3-stevedore >= 1.20.0
 Requires:         python3-pbr
-Requires:         python3-six >= 1.9.0
 Requires:         python3-tenacity >= 4.12.0
-Requires:         python3-oslo-config >= 2:5.2.0
+Requires:         python3-oslo-config >= 2:6.0.0
 Requires:         python3-netaddr
 Requires:         python3-oslo-rootwrap >= 2.0.0
 Requires:         python3-oslo-vmware >= 0.6.0
@@ -89,10 +88,11 @@ Requires:         python3-oslo-upgradecheck >= 0.1.1
 Requires:         python3-oslo-cache >= 1.26.0
 Requires:         python3-monascaclient >= 1.12.0
 Requires:         python3-pysnmp
-Requires:         python3-PyYAML
+Requires:         python3-yaml >= 5.1
 Requires:         python3-lxml
 Requires:         python3-jsonpath-rw
-Requires:         python3-msgpack >= 0.5.0
+Requires:         python3-msgpack >= 0.5.2
+Requires:         python3-monotonic >= 0.6
 
 
 %description -n   python3-ceilometer
@@ -118,7 +118,7 @@ Requires:         python3-tooz
 Requires:         python3-gnocchiclient >= 7.0.0
 Requires:         python3-os-xenapi >= 0.3.3
 Requires:         python3-novaclient >= 1:9.1.0
-Requires:         python3-keystoneclient >= 1:3.15.0
+Requires:         python3-keystoneclient >= 1:3.18.0
 Requires:         python3-neutronclient >= 6.7.0
 Requires:         python3-glanceclient >= 1:2.8.0
 Requires:         python3-swiftclient
@@ -134,7 +134,7 @@ Requires(pre):    shadow-utils
 
 # Config file generation
 BuildRequires:    python3-os-xenapi
-BuildRequires:    python3-oslo-config >= 2:5.2.0
+BuildRequires:    python3-oslo-config >= 2:6.0.0
 BuildRequires:    python3-oslo-concurrency
 BuildRequires:    python3-oslo-log
 BuildRequires:    python3-oslo-messaging
@@ -153,6 +153,7 @@ BuildRequires:    python3-zaqarclient >= 1.3.0
 
 BuildRequires:    python3-jsonpath-rw
 BuildRequires:    python3-lxml
+BuildRequires:    python3-monotonic >= 0.6
 
 %description common
 %{common_desc}
