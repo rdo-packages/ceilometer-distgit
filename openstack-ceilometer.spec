@@ -92,7 +92,6 @@ Requires:         python3-yaml >= 5.1
 Requires:         python3-lxml
 Requires:         python3-jsonpath-rw
 Requires:         python3-msgpack >= 0.5.2
-Requires:         python3-monotonic >= 0.6
 
 
 %description -n   python3-ceilometer
@@ -153,7 +152,6 @@ BuildRequires:    python3-zaqarclient >= 1.3.0
 
 BuildRequires:    python3-jsonpath-rw
 BuildRequires:    python3-lxml
-BuildRequires:    python3-monotonic >= 0.6
 
 %description common
 %{common_desc}
