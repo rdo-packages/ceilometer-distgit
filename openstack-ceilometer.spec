@@ -73,7 +73,7 @@ Requires:         python3-keystoneauth1 >= 3.18.0
 Requires:         python3-jsonpath-rw-ext
 Requires:         python3-stevedore >= 1.20.0
 Requires:         python3-pbr
-Requires:         python3-tenacity >= 4.12.0
+Requires:         python3-tenacity >= 6.2.0
 Requires:         python3-oslo-config >= 2:6.0.0
 Requires:         python3-netaddr
 Requires:         python3-oslo-rootwrap >= 2.0.0
@@ -115,7 +115,6 @@ Requires:         python3-oslo-messaging >= 8.0.0
 Requires:         python3-oslo-utils >= 3.37.0
 Requires:         python3-tooz
 Requires:         python3-gnocchiclient >= 7.0.0
-Requires:         python3-os-xenapi >= 0.3.3
 Requires:         python3-novaclient >= 1:9.1.0
 Requires:         python3-keystoneclient >= 1:3.18.0
 Requires:         python3-neutronclient >= 6.7.0
@@ -132,7 +131,6 @@ Requires:         python3-zaqarclient >= 1.3.0
 Requires(pre):    shadow-utils
 
 # Config file generation
-BuildRequires:    python3-os-xenapi
 BuildRequires:    python3-oslo-config >= 2:6.0.0
 BuildRequires:    python3-oslo-concurrency
 BuildRequires:    python3-oslo-log
