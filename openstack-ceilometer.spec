@@ -74,12 +74,12 @@ Requires:         python3-jsonpath-rw-ext
 Requires:         python3-stevedore >= 1.20.0
 Requires:         python3-pbr
 Requires:         python3-tenacity >= 6.2.0
-Requires:         python3-oslo-config >= 2:6.0.0
+Requires:         python3-oslo-config >= 2:8.6.0
 Requires:         python3-netaddr
 Requires:         python3-oslo-rootwrap >= 2.0.0
 Requires:         python3-oslo-vmware >= 0.6.0
-Requires:         python3-requests >= 2.8.1
-Requires:         python3-oslo-concurrency >= 3.26.0
+Requires:         python3-requests >= 2.25.1
+Requires:         python3-oslo-concurrency >= 3.29.0
 Requires:         python3-oslo-i18n  >= 3.15.3
 Requires:         python3-oslo-log  >= 3.36.0
 Requires:         python3-oslo-privsep >= 1.32.0
@@ -111,8 +111,8 @@ Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release
 Obsoletes:        openstack-ceilometer-api
 
 Requires:         python3-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python3-oslo-messaging >= 8.0.0
-Requires:         python3-oslo-utils >= 3.37.0
+Requires:         python3-oslo-messaging >= 10.3.0
+Requires:         python3-oslo-utils >= 4.7.0
 Requires:         python3-tooz
 Requires:         python3-gnocchiclient >= 7.0.0
 Requires:         python3-novaclient >= 1:9.1.0
@@ -131,7 +131,7 @@ Requires:         python3-zaqarclient >= 1.3.0
 Requires(pre):    shadow-utils
 
 # Config file generation
-BuildRequires:    python3-oslo-config >= 2:6.0.0
+BuildRequires:    python3-oslo-config >= 2:8.6.0
 BuildRequires:    python3-oslo-concurrency
 BuildRequires:    python3-oslo-log
 BuildRequires:    python3-oslo-messaging
