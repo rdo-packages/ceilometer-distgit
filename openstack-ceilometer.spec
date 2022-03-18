@@ -73,7 +73,7 @@ Requires:         python3-keystoneauth1 >= 3.18.0
 Requires:         python3-jsonpath-rw-ext
 Requires:         python3-stevedore >= 1.20.0
 Requires:         python3-pbr
-Requires:         python3-tenacity >= 6.2.0
+Requires:         python3-tenacity >= 6.3.1
 Requires:         python3-oslo-config >= 2:8.6.0
 Requires:         python3-netaddr
 Requires:         python3-oslo-rootwrap >= 2.0.0
