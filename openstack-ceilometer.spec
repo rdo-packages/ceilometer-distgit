@@ -87,7 +87,6 @@ Requires:         python3-oslo-reports >= 1.18.0
 Requires:         python3-oslo-upgradecheck >= 0.1.1
 Requires:         python3-oslo-cache >= 1.26.0
 Requires:         python3-monascaclient >= 1.12.0
-Requires:         python3-pysnmp
 Requires:         python3-yaml >= 5.1
 Requires:         python3-lxml
 Requires:         python3-jsonpath-rw
