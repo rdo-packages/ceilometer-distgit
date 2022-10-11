@@ -52,6 +52,7 @@ BuildRequires:    python3-setuptools
 BuildRequires:    python3-pbr >= 1.10.0
 BuildRequires:    git-core
 BuildRequires:    python3-devel
+BuildRequires:    python3-xmltodict
 # Required to compile translation files
 BuildRequires:    python3-babel
 
@@ -91,6 +92,7 @@ Requires:         python3-yaml >= 5.1
 Requires:         python3-lxml
 Requires:         python3-jsonpath-rw
 Requires:         python3-msgpack >= 0.5.2
+Requires:         python3-xmltodict
 
 
 %description -n   python3-ceilometer
