@@ -52,6 +52,7 @@ BuildRequires:    python3-setuptools
 BuildRequires:    python3-pbr >= 1.10.0
 BuildRequires:    git-core
 BuildRequires:    python3-devel
+BuildRequires:    python3-xmltodict
 # Required to compile translation files
 BuildRequires:    python3-babel
 
