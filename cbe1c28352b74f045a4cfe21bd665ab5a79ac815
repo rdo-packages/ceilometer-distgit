@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d609e913_2cc9dc83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2022-10-11T15:28:49Z",
+      "side": 1,
+      "message": "We need to add it as runtime requirement too. See error log in ci job:\n\nhttps://logserver.rdoproject.org/12/45612/2/check/weirdo-dlrn-master-packstack-scenario003-centos9/0752a50/logs/weirdo-project/logs/latest/manifests/38.102.83.148_controller.pp.log.txt.gz\n\n\n\n",
+      "revId": "cbe1c28352b74f045a4cfe21bd665ab5a79ac815",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
