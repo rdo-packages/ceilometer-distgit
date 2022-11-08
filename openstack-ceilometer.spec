@@ -378,7 +378,7 @@ exit 0
 %systemd_post %{name}-central.service
 
 %post ipmi
-%systemd_post %{name}-alarm-ipmi.service
+%systemd_post %{name}-ipmi.service
 
 %post polling
 %systemd_post %{name}-polling.service
