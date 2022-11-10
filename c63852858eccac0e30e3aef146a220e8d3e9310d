@@ -1,0 +1,9 @@
+Code-Review+1: Martin Mágr <mmagr@redhat.com>
+Code-Review+2: Matthias Runge <mrunge@matthias-runge.de>
+Workflow+1: Matthias Runge <mrunge@matthias-runge.de>
+Verified+2: Zuul CI <zuul@review.rdoproject.org>
+Submitted-by: Zuul CI <zuul@review.rdoproject.org>
+Submitted-at: Thu, 10 Nov 2022 12:25:47 +0000
+Reviewed-on: https://review.rdoproject.org/r/c/openstack/ceilometer-distgit/+/46030
+Project: openstack/ceilometer-distgit
+Branch: refs/heads/rpm-master
