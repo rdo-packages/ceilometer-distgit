@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02026c76_29e10df3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2022-11-10T21:27:03Z",
+      "side": 1,
+      "message": "After all of the cherry picks for the removal of the Obsolete configuration for ceilometer-api (which was removed many many moons ago), then I\u0027ll start cherry picking this back to Train as well.",
+      "revId": "0ca6404b00408ceb5ce96c967ad01787d889b292",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
