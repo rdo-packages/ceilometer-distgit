@@ -130,6 +130,7 @@ Requires:         python3-zaqarclient >= 1.3.0
 Requires(pre):    shadow-utils
 
 # Config file generation
+BuildRequires:    python3-oslo-cache
 BuildRequires:    python3-oslo-config >= 2:8.6.0
 BuildRequires:    python3-oslo-concurrency
 BuildRequires:    python3-oslo-log
