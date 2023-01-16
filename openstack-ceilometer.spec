@@ -132,6 +132,7 @@ Requires(pre):    shadow-utils
 
 # Config file generation
 BuildRequires:    python3-os-xenapi
+BuildRequires:    python3-oslo-cache
 BuildRequires:    python3-oslo-config >= 2:6.0.0
 BuildRequires:    python3-oslo-concurrency
 BuildRequires:    python3-oslo-log
