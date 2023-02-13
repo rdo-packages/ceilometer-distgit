@@ -426,9 +426,11 @@ exit 0
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/polling.yaml
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/gnocchi_resources.yaml
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%{_sysconfdir}/sudoers.d/ceilometer
 
 %dir %attr(0750, ceilometer, root) %{_localstatedir}/log/ceilometer
 
+%{_bindir}/ceilometer-rootwrap
 %{_bindir}/ceilometer-send-sample
 %{_bindir}/ceilometer-upgrade
 %{_bindir}/ceilometer-status
@@ -473,8 +475,6 @@ exit 0
 %files ipmi
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/rootwrap.conf
 %config(noreplace) %attr(-, root, ceilometer) %{_sysconfdir}/ceilometer/rootwrap.d/ipmi.filters
-%{_bindir}/ceilometer-rootwrap
-%{_sysconfdir}/sudoers.d/ceilometer
 %{_unitdir}/%{name}-ipmi.service
 
 %files polling
