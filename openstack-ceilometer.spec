@@ -494,3 +494,4 @@ exit 0
 - Update to 16.0.0.0rc1
 
 
+# REMOVEME: error caused by commit https://opendev.org/openstack/ceilometer/commit/f7aab07bc57becb60970ba29430f3c42a9d5444e
