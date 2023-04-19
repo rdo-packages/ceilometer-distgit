@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e2916a_da4c3e8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 785
+      },
+      "writtenOn": "2023-04-19T10:42:44Z",
+      "side": 1,
+      "message": "Thank you for merging the previous 2 cherry-picks.",
+      "revId": "6642b07b09ffbcf94d61da9939d45d6c7b36b7eb",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
