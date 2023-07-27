@@ -4,6 +4,12 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+# we are excluding some BRs from automatic generator
+%global excluded_brs doc8 bandit pre-commit hacking flake8-import-order requests-aws oslo.messaging
+# Exclude sphinx from BRs if docs are disabled
+%if ! 0%{?with_doc}
+%global excluded_brs %{excluded_brs} sphinx openstackdocstheme
+%endif
 
 %global common_desc \
 OpenStack ceilometer provides services to measure and \
@@ -18,7 +24,7 @@ Release:          XXX
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
-License:          ASL 2.0
+License:          Apache-2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
 Source1:          %{pypi_name}-dist.conf
@@ -46,16 +52,9 @@ BuildRequires:  /usr/bin/gpgv2
 %endif
 BuildRequires:    intltool
 BuildRequires:    openstack-macros
-BuildRequires:    python3-cotyledon
-BuildRequires:    python3-sphinx
-BuildRequires:    python3-setuptools
-BuildRequires:    python3-pbr >= 1.10.0
 BuildRequires:    git-core
 BuildRequires:    python3-devel
-BuildRequires:    python3-xmltodict
-# Required to compile translation files
-BuildRequires:    python3-babel
-
+BuildRequires:    pyproject-rpm-macros
 BuildRequires:    systemd
 
 %description
@@ -63,37 +62,10 @@ BuildRequires:    systemd
 
 %package -n       python3-ceilometer
 Summary:          OpenStack ceilometer python libraries
-%{?python_provide:%python_provide python3-ceilometer}
 Group:            Applications/System
 
-Requires:         python3-cachetools >= 2.1.0
-Requires:         python3-eventlet
-Requires:         python3-futurist >= 1.8.0
-Requires:         python3-cotyledon
-Requires:         python3-keystoneauth1 >= 3.18.0
-Requires:         python3-jsonpath-rw-ext
-Requires:         python3-stevedore >= 1.20.0
-Requires:         python3-pbr
-Requires:         python3-tenacity >= 6.3.1
-Requires:         python3-oslo-config >= 2:8.6.0
-Requires:         python3-netaddr
-Requires:         python3-oslo-rootwrap >= 2.0.0
+# oslo-vmware is optional requirement maintained for backward compatibility.
 Requires:         python3-oslo-vmware >= 0.6.0
-Requires:         python3-requests >= 2.25.1
-Requires:         python3-oslo-concurrency >= 3.29.0
-Requires:         python3-oslo-i18n  >= 3.15.3
-Requires:         python3-oslo-log  >= 3.36.0
-Requires:         python3-oslo-privsep >= 1.32.0
-Requires:         python3-oslo-reports >= 1.18.0
-Requires:         python3-oslo-upgradecheck >= 0.1.1
-Requires:         python3-oslo-cache >= 1.26.0
-Requires:         python3-monascaclient >= 1.12.0
-Requires:         python3-yaml >= 5.1
-Requires:         python3-lxml
-Requires:         python3-jsonpath-rw
-Requires:         python3-msgpack >= 0.5.2
-Requires:         python3-xmltodict
-
 
 %description -n   python3-ceilometer
 %{common_desc}
@@ -110,46 +82,9 @@ Provides:         openstack-ceilometer-collector = %{epoch}:%{version}-%{release
 Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release}
 
 Requires:         python3-ceilometer = %{epoch}:%{version}-%{release}
-Requires:         python3-oslo-messaging >= 10.3.0
-Requires:         python3-oslo-utils >= 4.7.0
-Requires:         python3-tooz
-Requires:         python3-gnocchiclient >= 7.0.0
-Requires:         python3-novaclient >= 1:9.1.0
-Requires:         python3-keystoneclient >= 1:3.18.0
-Requires:         python3-neutronclient >= 6.7.0
-Requires:         python3-glanceclient >= 1:2.8.0
-Requires:         python3-swiftclient
-Requires:         python3-cinderclient >= 3.3.0
-Requires:         python3-zaqarclient >= 1.3.0
-
-%if 0%{?rhel} && 0%{?rhel} < 8
-%{?systemd_requires}
-%else
-%{?systemd_ordering} # does not exist on EL7
-%endif
 Requires(pre):    shadow-utils
 
-# Config file generation
-BuildRequires:    python3-oslo-cache
-BuildRequires:    python3-oslo-config >= 2:8.6.0
-BuildRequires:    python3-oslo-concurrency
-BuildRequires:    python3-oslo-log
-BuildRequires:    python3-oslo-messaging
-BuildRequires:    python3-oslo-privsep
-BuildRequires:    python3-oslo-reports
-BuildRequires:    python3-oslo-vmware >= 0.6.0
-BuildRequires:    python3-glanceclient >= 1:2.8.0
-BuildRequires:    python3-neutronclient
-BuildRequires:    python3-novaclient  >= 1:9.1.0
-BuildRequires:    python3-swiftclient
-BuildRequires:    python3-jsonpath-rw-ext
-BuildRequires:    python3-tooz
-BuildRequires:    python3-gnocchiclient >= 7.0.0
-BuildRequires:    python3-cinderclient >= 3.3.0
-BuildRequires:    python3-zaqarclient >= 1.3.0
-
-BuildRequires:    python3-jsonpath-rw
-BuildRequires:    python3-lxml
+%{?systemd_ordering}
 
 %description common
 %{common_desc}
@@ -166,7 +101,6 @@ Requires:         %{name}-common = %{epoch}:%{version}-%{release}
 Requires:         %{name}-polling = %{epoch}:%{version}-%{release}
 
 Requires:         python3-libvirt
-
 
 %description compute
 %{common_desc}
@@ -239,7 +173,6 @@ This package contains the polling service.
 
 %package -n python3-ceilometer-tests
 Summary:        Ceilometer tests
-%{?python_provide:%python_provide python3-ceilometer-tests}
 Requires:       python3-ceilometer = %{epoch}:%{version}-%{release}
 Requires:       python3-gabbi >= 1.30.0
 
@@ -252,12 +185,6 @@ This package contains the Ceilometer test files.
 %package doc
 Summary:          Documentation for OpenStack ceilometer
 Group:            Documentation
-
-# Required to build module documents
-BuildRequires:    python3-eventlet
-BuildRequires:    python3-openstackdocstheme
-# while not strictly required, quiets the build down when building docs.
-BuildRequires:    python3-iso8601
 
 %description      doc
 %{common_desc}
@@ -279,19 +206,47 @@ find ceilometer -name \*.py -exec sed -i '/\/usr\/bin\/env python/{d;q}' {} +
 # TODO: Have the following handle multi line entries
 sed -i '/setup_requires/d; /install_requires/d; /dependency_links/d' setup.py
 
-# Remove the requirements file so that pbr hooks don't add it
-# to distutils requires_dist config
-%py_req_cleanup
+
+sed -i /^[[:space:]]*-c{env:.*_CONSTRAINTS_FILE.*/d tox.ini
+sed -i "s/^deps = -c{env:.*_CONSTRAINTS_FILE.*/deps =/" tox.ini
+sed -i /^minversion.*/d tox.ini
+sed -i /^requires.*virtualenv.*/d tox.ini
+
+# until we have xmltodict >=0.13.0
+
+sed -i 's/xmltodict.*/xmltodict/g' requirements.txt
+
+# Exclude some bad-known BRs
+for pkg in %{excluded_brs}; do
+  for reqfile in doc/requirements.txt test-requirements.txt; do
+    if [ -f $reqfile ]; then
+      sed -i /^${pkg}.*/d $reqfile
+    fi
+  done
+done
+
+# Automatic BR generation
+%generate_buildrequires
+%if 0%{?with_doc}
+  %pyproject_buildrequires -t -e %{default_toxenv},docs
+%else
+  %pyproject_buildrequires -t -e %{default_toxenv}
+%endif
 
 %build
-# Generate config file
-PYTHONPATH=. oslo-config-generator --config-file=etc/ceilometer/ceilometer-config-generator.conf
+%pyproject_wheel
 
-%{py3_build}
+%install
+%pyproject_install
 
 # Generate i18n files
-%{__python3} setup.py compile_catalog -d build/lib/%{pypi_name}/locale --domain ceilometer
+%{__python3} setup.py compile_catalog -d %{buildroot}%{python3_sitelib}/%{pypi_name}/locale --domain ceilometer
 
+# Generate config file
+PYTHONPATH="%{buildroot}/%{python3_sitelib}" oslo-config-generator --config-file=etc/ceilometer/ceilometer-config-generator.conf
+
+# delete value for meter_definitions_dirs which is wrongly detected
+sed -i 's/#meter_definitions_dirs.*/#meter_definitions_dirs =/g' etc/ceilometer/ceilometer.conf
 # Programmatically update defaults in sample config
 # which is installed at /etc/ceilometer/ceilometer.conf
 # TODO: Make this more robust
@@ -302,16 +257,11 @@ while read name eq value; do
   sed -i "0,/^# *$name=/{s!^# *$name=.*!#$name=$value!}" etc/ceilometer/ceilometer.conf
 done < %{SOURCE1}
 
-%install
-%{py3_install}
-
 %if 0%{?with_doc}
 # docs generation requires everything to be installed first
-
-%{py3_build}
+%tox -e docs
 # Fix hidden-file-or-dir warnings
 rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
-
 %endif
 
 # Setup directories
@@ -442,7 +392,7 @@ exit 0
 
 %files -n python3-ceilometer
 %{python3_sitelib}/ceilometer
-%{python3_sitelib}/ceilometer-*.egg-info
+%{python3_sitelib}/ceilometer-*.dist-info
 %exclude %{python3_sitelib}/ceilometer/tests
 
 %files -n python3-ceilometer-tests
