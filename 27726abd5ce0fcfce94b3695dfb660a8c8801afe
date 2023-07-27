@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd8b19ac_87dea2c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2023-07-27T10:05:15Z",
+      "side": 1,
+      "message": "i\u0027m updating xmltodict to 0.13.0 in fedora",
+      "revId": "27726abd5ce0fcfce94b3695dfb660a8c8801afe",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
