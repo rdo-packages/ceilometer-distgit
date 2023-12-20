@@ -239,9 +239,6 @@ done
 %install
 %pyproject_install
 
-# Generate i18n files
-%{__python3} setup.py compile_catalog -d %{buildroot}%{python3_sitelib}/%{pypi_name}/locale --domain ceilometer
-
 # Generate config file
 PYTHONPATH="%{buildroot}/%{python3_sitelib}" oslo-config-generator --config-file=etc/ceilometer/ceilometer-config-generator.conf
 
