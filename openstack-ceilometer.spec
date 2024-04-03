@@ -1,4 +1,3 @@
-%global milestone .0rc1
 %{!?sources_gpg: %{!?dlrn:%global sources_gpg 1} }
 %global sources_gpg_sign 0x2ef3fe0ec2b075ab7458b5f8b702b20b13df2318
 %global _without_doc 1
@@ -21,7 +20,7 @@ Name:             openstack-ceilometer
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
 Version:          22.0.0
-Release:          0.1%{?milestone}%{?dist}
+Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
@@ -43,8 +42,6 @@ Source101:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{ups
 Source102:        https://releases.openstack.org/_static/%{sources_gpg_sign}.txt
 %endif
 
-#
-# patches_base=22.0.0.0rc1
 #
 Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
 
@@ -438,6 +435,9 @@ exit 0
 
 
 %changelog
+* Wed Apr 03 2024 RDO <dev@lists.rdoproject.org> 1:22.0.0-1
+- Update to 22.0.0
+
 * Fri Mar 15 2024 RDO <dev@lists.rdoproject.org> 1:22.0.0-0.1.0rc1
 - Update to 22.0.0.0rc1
 
