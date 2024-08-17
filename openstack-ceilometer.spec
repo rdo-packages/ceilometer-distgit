@@ -42,8 +42,6 @@ Source101:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{ups
 Source102:        https://releases.openstack.org/_static/%{sources_gpg_sign}.txt
 %endif
 
-Patch0001:        0001-Add-dummy-skip-metering-database-temporarily.patch
-
 BuildArch:        noarch
 
 # Required for tarball sources verification
