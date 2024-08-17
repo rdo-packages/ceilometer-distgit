@@ -77,10 +77,6 @@ This package contains the ceilometer python library.
 Summary:          Components common to all OpenStack ceilometer services
 Group:            Applications/System
 
-# Collector service has been removed but not replaced
-Provides:         openstack-ceilometer-collector = %{epoch}:%{version}-%{release}
-Obsoletes:        openstack-ceilometer-collector < %{epoch}:%{version}-%{release}
-
 Requires:         python3-ceilometer = %{epoch}:%{version}-%{release}
 Requires(pre):    shadow-utils
 
