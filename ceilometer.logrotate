@@ -7,4 +7,5 @@ compress
     missingok
     compress
     minsize 100k
+    copytruncate
 }
