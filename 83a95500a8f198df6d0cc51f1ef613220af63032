@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22474d16_c1e9db45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 635
+      },
+      "writtenOn": "2024-09-23T12:36:13Z",
+      "side": 1,
+      "message": "I guess we need to disable auto-discovery of setuptools",
+      "revId": "83a95500a8f198df6d0cc51f1ef613220af63032",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
