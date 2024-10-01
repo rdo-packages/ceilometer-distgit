@@ -16,6 +16,24 @@
       "message": "It seems prometheus-client is not available in RDO(or CentOS)",
       "revId": "e0c36350cc9277dbea93f4696d5d32afd1106f3b",
       "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d7d775a_8a811c56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 682
+      },
+      "writtenOn": "2024-10-01T15:51:15Z",
+      "side": 1,
+      "message": "Correction:\nThe package IS available but does not meet the min version requirement.\n\npython-prometheus_client-0.19.0-2.el9s",
+      "parentUuid": "e2f62f7a_d5db849a",
+      "revId": "e0c36350cc9277dbea93f4696d5d32afd1106f3b",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
     }
   ]
 }
