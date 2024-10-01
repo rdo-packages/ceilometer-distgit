@@ -34,6 +34,24 @@
       "parentUuid": "e2f62f7a_d5db849a",
       "revId": "e0c36350cc9277dbea93f4696d5d32afd1106f3b",
       "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b0a18c_8c09e116",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 635
+      },
+      "writtenOn": "2024-10-01T16:15:19Z",
+      "side": 1,
+      "message": "I proposed a patch to update it [1]\n\n[1] https://review.rdoproject.org/r/c/deps/python-prometheus_client/+/54841",
+      "parentUuid": "7d7d775a_8a811c56",
+      "revId": "e0c36350cc9277dbea93f4696d5d32afd1106f3b",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
     }
   ]
 }
