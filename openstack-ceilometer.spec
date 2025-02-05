@@ -62,9 +62,6 @@ BuildRequires:    systemd
 Summary:          OpenStack ceilometer python libraries
 Group:            Applications/System
 
-# oslo-vmware is optional requirement maintained for backward compatibility.
-Requires:         python3-oslo-vmware >= 0.6.0
-
 %description -n   python3-ceilometer
 %{common_desc}
 
