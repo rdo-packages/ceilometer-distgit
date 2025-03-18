@@ -212,6 +212,9 @@ for pkg in %{excluded_brs}; do
   done
 done
 
+# Issue with setuptools auto-discovery
+echo -e "[options]\\npackages = ceilometer" >> setup.cfg
+
 # Automatic BR generation
 %generate_buildrequires
 %if 0%{?with_doc}
