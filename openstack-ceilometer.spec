@@ -1,5 +1,6 @@
+%global milestone .0rc1
 %{!?sources_gpg: %{!?dlrn:%global sources_gpg 1} }
-%global sources_gpg_sign 0x2426b928085a020d8a90d0d879ab7008d0896c8a
+%global sources_gpg_sign 0x22284f69d9eccdf3df7819791c711af193ff8e54
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -19,14 +20,18 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          XXX
-Release:          XXX
+Version:          24.0.0
+Release:          0.1%{?milestone}%{?dist}
 Summary:          OpenStack measurement collection service
 
 Group:            Applications/System
 License:          Apache-2.0
 URL:              https://wiki.openstack.org/wiki/Ceilometer
 Source0:          https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{upstream_version}.tar.gz
+#
+# patches_base=24.0.0.0rc1
+#
+
 Source1:          %{pypi_name}-dist.conf
 Source2:          %{pypi_name}.logrotate
 Source4:          ceilometer-rootwrap-sudoers
@@ -211,6 +216,9 @@ for pkg in %{excluded_brs}; do
     fi
   done
 done
+
+# Issue with setuptools auto-discovery
+echo -e "[options]\\npackages = ceilometer" >> setup.cfg
 
 # Automatic BR generation
 %generate_buildrequires
@@ -420,3 +428,6 @@ exit 0
 
 
 %changelog
+* Tue Mar 18 2025 RDO <dev@lists.rdoproject.org> 1:24.0.0-0.1.0rc1
+- Update to 24.0.0.0rc1
+
