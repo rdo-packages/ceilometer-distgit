@@ -4,6 +4,8 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+# we are excluding some runtime reqs from automatic generator
+%global excluded_reqs requests-aws
 # we are excluding some BRs from automatic generator
 %global excluded_brs doc8 bandit pre-commit hacking flake8-import-order requests-aws oslo.messaging
 # Exclude sphinx from BRs if docs are disabled
@@ -210,6 +212,11 @@ for pkg in %{excluded_brs}; do
       sed -i /^${pkg}.*/d $reqfile
     fi
   done
+done
+
+# Exclude some unneeded runtime reqs
+for pkg in %{excluded_reqs}; do
+  sed -i /^${pkg}.*/d requirements.txt
 done
 
 # Issue with setuptools auto-discovery
