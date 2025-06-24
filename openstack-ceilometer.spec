@@ -4,6 +4,8 @@
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+# we are excluding some runtime reqs from automatic generator
+%global excluded_reqs requests-aws
 # we are excluding some BRs from automatic generator
 %global excluded_brs doc8 bandit pre-commit hacking flake8-import-order requests-aws oslo.messaging
 # Exclude sphinx from BRs if docs are disabled
@@ -212,6 +214,11 @@ for pkg in %{excluded_brs}; do
   done
 done
 
+# Exclude some unneeded runtime reqs
+for pkg in %{excluded_reqs}; do
+  sed -i /^${pkg}.*/d requirements.txt
+done
+
 # Issue with setuptools auto-discovery
 echo -e "[options]\\npackages = ceilometer" >> setup.cfg
 
@@ -228,9 +235,6 @@ echo -e "[options]\\npackages = ceilometer" >> setup.cfg
 
 %install
 %pyproject_install
-
-# Generate i18n files
-%{__python3} setup.py compile_catalog -d %{buildroot}%{python3_sitelib}/%{pypi_name}/locale --domain ceilometer
 
 # Generate config file
 PYTHONPATH="%{buildroot}/%{python3_sitelib}" oslo-config-generator --config-file=etc/ceilometer/ceilometer-config-generator.conf
@@ -292,9 +296,6 @@ install -d -m 755 %{buildroot}%{_datadir}
 rm -f %{buildroot}%{python3_sitelib}/%{pypi_name}/locale/*/LC_*/%{pypi_name}*po
 rm -f %{buildroot}%{python3_sitelib}/%{pypi_name}/locale/*pot
 mv %{buildroot}%{python3_sitelib}/%{pypi_name}/locale %{buildroot}%{_datadir}/locale
-
-# Find language files
-%find_lang %{pypi_name} --all-name
 
 # Remove unneeded in production stuff
 rm -f %{buildroot}/usr/share/doc/ceilometer/README*
