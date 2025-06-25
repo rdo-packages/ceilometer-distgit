@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22ec9497_46f39958",
+        "filename": "openstack-ceilometer.spec",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 128
+      },
+      "writtenOn": "2025-06-25T09:02:03Z",
+      "side": 0,
+      "message": "I still see new translation have been added to the ceilometer repo since then https://review.opendev.org/q/project:openstack/ceilometer+file:locale and project is using i18n\n\nI\u0027d say that the fact that the babel configuration was removed does not imply that compile_catalog is not required, see https://docs.openstack.org/i18n/latest/project_setup.html#python-projects, only that compile_catalog can be executed without via pbr. My understanding is that translation only works if proper .mo exist.\n\nThis compile_catalog only requires to add python3-babel as a BuildRequires explicitely in line 57.\n\nSaid this, If maintainers prefer to just remove translation compiled files, wfm.",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 111
+      },
+      "revId": "af6cc52ec0e940fce95989ddd1dc3ea94823c263",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
