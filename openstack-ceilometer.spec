@@ -1,5 +1,5 @@
 %{!?sources_gpg: %{!?dlrn:%global sources_gpg 1} }
-%global sources_gpg_sign 0xf8675126e2411e7748dd46662fc2093e4682645f
+%global sources_gpg_sign 0x22284f69d9eccdf3df7819791c711af193ff8e54
 %global _without_doc 1
 %global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 %global pypi_name ceilometer
@@ -19,7 +19,7 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          23.0.0
+Version:          23.0.1
 Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
@@ -432,6 +432,9 @@ exit 0
 
 
 %changelog
+* Thu Sep 04 2025 RDO <dev@lists.rdoproject.org> 1:23.0.1-1
+- Update to 23.0.1
+
 * Wed Oct 02 2024 RDO <dev@lists.rdoproject.org> 1:23.0.0-1
 - Update to 23.0.0
 
