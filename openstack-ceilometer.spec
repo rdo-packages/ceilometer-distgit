@@ -5,9 +5,9 @@
 %global pypi_name ceilometer
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 # we are excluding some runtime reqs from automatic generator
-%global excluded_reqs requests-aws
+%global excluded_reqs awscurl
 # we are excluding some BRs from automatic generator
-%global excluded_brs doc8 bandit pre-commit hacking flake8-import-order requests-aws oslo.messaging
+%global excluded_brs doc8 bandit pre-commit hacking flake8-import-order oslo.messaging awscurl
 # Exclude sphinx from BRs if docs are disabled
 %if ! 0%{?with_doc}
 %global excluded_brs %{excluded_brs} sphinx openstackdocstheme
