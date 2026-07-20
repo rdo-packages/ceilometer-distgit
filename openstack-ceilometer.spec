@@ -19,7 +19,7 @@ Name:             openstack-ceilometer
 # Liberty semver reset
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:            1
-Version:          24.0.0
+Version:          24.0.2
 Release:          1%{?dist}
 Summary:          OpenStack measurement collection service
 
@@ -425,6 +425,9 @@ exit 0
 
 
 %changelog
+* Mon Jul 20 2026 RDO <dev@lists.rdoproject.org> 1:24.0.2-1
+- Update to 24.0.2
+
 * Wed Apr 02 2025 RDO <dev@lists.rdoproject.org> 1:24.0.0-1
 - Update to 24.0.0
 
